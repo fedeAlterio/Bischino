@@ -24,10 +24,6 @@ namespace Bischino.Controllers
     {
         private static readonly BlockingSet<RoomManager> RoomManagers = new BlockingSet<RoomManager>();
 
-        static RoomsController()
-        {
-            WebSocketHandler.Connected += WebSocketHandler_Connected;
-        }
 
         public RoomsController(IOwnedModelCollectionService<Room> collectionService) : base(collectionService)
         {
@@ -35,23 +31,6 @@ namespace Bischino.Controllers
             var options = new CreateIndexOptions { ExpireAfter = TimeSpan.FromHours(1) };
             var createIndexModel = new CreateIndexModel<Room>(index, options);
             MongoService.MongoCollection.Indexes.CreateOne(createIndexModel);
-        }
-
-        private static async void WebSocketHandler_Connected(object sender, ConnectedSocketEventArgs socketEventArgs)
-        {
-            /*
-            try
-            {
-                var client = socketEventArgs.Socket;
-                var roomQuery = await client.GetAsync<RoomQuery>();
-                var roomManager = GetRoomManager(roomQuery.RoomName);
-                roomManager.NewSocket(socketEventArgs, roomQuery);
-                await roomManager.NotifyAll();
-            }
-            catch (Exception e)
-            {
-            }
-            */
         }
 
         [ValidateModel]
@@ -63,12 +42,15 @@ namespace Bischino.Controllers
             if (room.Name.Any(char.IsWhiteSpace))
                 return BadRequest(new ValuedResponse{Message = "Please insert a valid room name"});
 
+            if (RoomManagers.GetAll(rm => rm.RoomName.Equals(room.Name)).Count > 0)
+                return BadRequest("Another room with the same name is playing a game");
+
             room.PendingPlayers = new List<string>();
             room.IsMatchStarted = false;
             room.IsFull = false;
             room.CreationDate = DateTime.Now;
             var ret = await CreateModel(room);
-            var roomLock = new RoomManager(room.Name);
+            var roomLock = GetRoomManager(room.Name);
             RoomManagers.Add(roomLock);
             return ret;
         }
@@ -98,15 +80,18 @@ namespace Bischino.Controllers
         }
 
 
-        public async Task<IActionResult> GetJoinedPLayers([FromBody] string roomName)
+        public async Task<IActionResult> GetJoinedPLayers([FromBody] RoomQuery roomQuery)
         {
             try
-            {
-               var room = await MongoService.MongoCollection.Aggregate()
-                    .Match(room => room.Name.Equals(roomName))
-                    .FirstAsync();
-               var joinedPlayers = room.PendingPlayers;
-               return Ok(new ValuedResponse(joinedPlayers));
+            { 
+                var room = await MongoService.MongoCollection.Aggregate()
+                    .Match(room => room.Name.Equals(roomQuery.RoomName))
+                    .FirstAsync(); 
+                var joinedPlayers = room.PendingPlayers;
+
+                var roomManager = GetRoomManager(roomQuery.RoomName); 
+                roomManager.NotifyPing(roomQuery.PlayerName);
+                return Ok(new ValuedResponse(joinedPlayers));
             }
             catch (Exception e)
             {
@@ -187,6 +172,8 @@ namespace Bischino.Controllers
                     //var res = MongoService.MongoCollection.UpdateOne(room => room.Name.Equals(roomQuery.RoomName), updateDefinition);
                     MongoService.MongoCollection.ReplaceOne(dbRoom => dbRoom.Name.Equals(room.Name), room);
                 }
+
+                roomLock.NotifyPing(roomQuery.PlayerName);
                 return Ok();
             }
             catch (Exception e)
@@ -338,16 +325,44 @@ namespace Bischino.Controllers
         }
 
 
-        private static RoomManager GetRoomManager(string roomName, bool createIfDoesNotExist = true)
+        private RoomManager GetRoomManager(string roomName, bool createIfDoesNotExist = true)
         {
-            var roomLock = RoomManagers.GetAll(rLock => rLock.RoomName == roomName).FirstOrDefault();
-            if(roomLock is null)
+            var roomManager = RoomManagers.GetAll(rLock => rLock.RoomName == roomName).FirstOrDefault();
+            if(roomManager is null)
                 if (createIfDoesNotExist)
-                    RoomManagers.Add(roomLock = new RoomManager(roomName));
+                {
+                    RoomManagers.Add(roomManager = new RoomManager(roomName));
+                    roomManager.WaitingRoomDisconnectedPlayer += RoomManager_WaitingRoomDisconnectedPlayer;
+                }
                 else
                     throw new Exception("RoomLock does not exist");
 
-            return roomLock;
+            return roomManager;
+        }
+
+        private  void RoomManager_WaitingRoomDisconnectedPlayer(object sender, RoomQuery roomQuery)
+        {
+            try
+            {
+                var roomName = roomQuery.RoomName;
+                var roomLock = GetRoomManager(roomName, true);
+                lock (roomLock.Lock)
+                {
+                    var room = MongoService.MongoCollection.Find(dbRoom => dbRoom.Name.Equals(roomName)).First();
+                    room.PendingPlayers.Remove(roomQuery.PlayerName);
+                    room.IsFull = false;
+                    //var updateDefinition = new UpdateDefinitionBuilder<Room>().AddToSet(room => room.PendingPlayers, roomQuery.PlayerName);
+                    //var res = MongoService.MongoCollection.UpdateOne(room => room.Name.Equals(roomQuery.RoomName), updateDefinition);
+                    if(!room.PendingPlayers.Any())
+                       MongoService.MongoCollection.DeleteOne(dbRoom => dbRoom.Name.Equals(room.Name));
+                    else
+                        MongoService.MongoCollection.ReplaceOne(dbRoom => dbRoom.Name.Equals(room.Name), room);
+                }
+            }
+            catch (Exception e)
+            {
+                
+            }
         }
     }
 }

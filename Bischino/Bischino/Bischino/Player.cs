@@ -14,6 +14,7 @@ namespace Bischino.Bischino
         public event EventHandler HasLostEvent;
         public event EventHandler PlayerWinEvent;  
 
+        private const int FirstTurnCardCount = 5;
         private readonly GameManager _gameManager;
         private IList<int> _possibleBets;
 
@@ -79,7 +80,7 @@ namespace Bischino.Bischino
             WinBet = null;
             TotLost = 0;
             PhaseWin = 0;
-            StartCardsCount = 5;
+            StartCardsCount = FirstTurnCardCount;
             Dropped = null;
             DropCardViewModel = null;
             BetViewModel = null;

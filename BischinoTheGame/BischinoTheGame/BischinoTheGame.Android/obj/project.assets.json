@@ -5562,11 +5562,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\fedea\\source\\repos\\BischinoTheGame\\BischinoTheGame\\BischinoTheGame.Android\\BischinoTheGame.Android.csproj",
+      "projectUniqueName": "C:\\repo\\Bischino\\BischinoTheGame\\BischinoTheGame\\BischinoTheGame.Android\\BischinoTheGame.Android.csproj",
       "projectName": "BischinoTheGame.Android",
-      "projectPath": "C:\\Users\\fedea\\source\\repos\\BischinoTheGame\\BischinoTheGame\\BischinoTheGame.Android\\BischinoTheGame.Android.csproj",
+      "projectPath": "C:\\repo\\Bischino\\BischinoTheGame\\BischinoTheGame\\BischinoTheGame.Android\\BischinoTheGame.Android.csproj",
       "packagesPath": "C:\\Users\\fedea\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\fedea\\source\\repos\\BischinoTheGame\\BischinoTheGame\\BischinoTheGame.Android\\obj\\",
+      "outputPath": "C:\\repo\\Bischino\\BischinoTheGame\\BischinoTheGame\\BischinoTheGame.Android\\obj\\",
       "projectStyle": "PackageReference",
       "skipContentFileWrite": true,
       "fallbackFolders": [
@@ -5587,8 +5587,8 @@
       "frameworks": {
         "monoandroid90": {
           "projectReferences": {
-            "C:\\Users\\fedea\\source\\repos\\BischinoTheGame\\BischinoTheGame\\BischinoTheGame\\BischinoTheGame.csproj": {
-              "projectPath": "C:\\Users\\fedea\\source\\repos\\BischinoTheGame\\BischinoTheGame\\BischinoTheGame\\BischinoTheGame.csproj"
+            "C:\\repo\\Bischino\\BischinoTheGame\\BischinoTheGame\\BischinoTheGame\\BischinoTheGame.csproj": {
+              "projectPath": "C:\\repo\\Bischino\\BischinoTheGame\\BischinoTheGame\\BischinoTheGame\\BischinoTheGame.csproj"
             }
           }
         }

@@ -29,12 +29,16 @@ namespace BischinoTheGame.Navigation.RoomNavigation
         public async Task NotifyNameSelected(Player player)
         {
             LoggedPlayer = player;
+            await ToRoomList();
+        }
+
+        private async Task ToRoomList()
+        {
             var vm = new RoomsListViewModel();
-            var page = new RoomsListPage {BindingContext = vm};
+            var page = new RoomsListPage { BindingContext = vm };
             await Navigation.PushAsync(page);
             Navigation.RemovePage(Navigation.NavigationStack.First());
         }
-
         public async Task ShowRoomCreationPopup()
         {
             var vm = new RoomCreationViewModel();
@@ -109,6 +113,12 @@ namespace BischinoTheGame.Navigation.RoomNavigation
             var vm = new FilterPopupViewModel(query);
             var popup = new FilterPopup {BindingContext = vm};
             await PopupNavigation.Instance.PushAsync(popup);
+        }
+
+        public async Task BackToRoomList()
+        {
+            await PopupNavigation.Instance.PopAllAsync();
+            await ToRoomList();
         }
     }
 }

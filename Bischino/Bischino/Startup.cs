@@ -71,8 +71,6 @@ namespace Bischino
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseAuthentication();
-            app.UseWebSockets();
-            app.UseMiddleware<WebSocketHandler>();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

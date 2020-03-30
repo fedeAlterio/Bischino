@@ -8359,11 +8359,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\fedea\\source\\repos\\Bischino\\Bischino\\Bischino.csproj",
+      "projectUniqueName": "C:\\repo\\Bischino\\Bischino\\Bischino\\Bischino.csproj",
       "projectName": "Bischino",
-      "projectPath": "C:\\Users\\fedea\\source\\repos\\Bischino\\Bischino\\Bischino.csproj",
+      "projectPath": "C:\\repo\\Bischino\\Bischino\\Bischino\\Bischino.csproj",
       "packagesPath": "C:\\Users\\fedea\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\fedea\\source\\repos\\Bischino\\Bischino\\obj\\",
+      "outputPath": "C:\\repo\\Bischino\\Bischino\\Bischino\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Microsoft\\Xamarin\\NuGet\\",

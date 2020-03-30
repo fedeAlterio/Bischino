@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
 using System.Threading.Tasks;
+using BischinoTheGame.Controller.Communication.Queries;
 using BischinoTheGame.Model;
 using BischinoTheGame.ViewModel.PageViewModels;
 using Rooms.Controller;
@@ -32,6 +33,8 @@ namespace BischinoTheGame.ViewModel
 
 
         private bool _isHost;
+        private Player _player;
+
         public bool IsHost
         {
             get => _isHost;
@@ -44,6 +47,7 @@ namespace BischinoTheGame.ViewModel
             Room = room;
             _isHost = isHost;
             StartPolling();
+            _player = AppController.Navigation.RoomNavigation.LoggedPlayer;
             if(isHost)
                 StartMatchCommand = new Command(_ => StartMatch(), _ => CanStart());
         }
@@ -95,7 +99,8 @@ namespace BischinoTheGame.ViewModel
 
         private async Task LoadPlayers()
         {
-            var joinedPlayers = await AppController.RoomsHandler.GetJoinedPLayers(_room.Name);
+            var roomQuery = new RoomQuery {PlayerName = _player.Name, RoomName = _room.Name};
+            var joinedPlayers = await AppController.RoomsHandler.GetJoinedPLayers(roomQuery);
             JoinedPlayers.Clear();
             foreach(var player in joinedPlayers)
                 JoinedPlayers.Add(player);

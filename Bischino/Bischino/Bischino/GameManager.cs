@@ -7,6 +7,7 @@ namespace Bischino.Bischino
 {
     public class GameManager
     {
+        public event EventHandler<Player> CurrentPlayerChangedEvent;
         public string RoomName { get; }
         public event EventHandler GameStartedEvent;
         public event EventHandler PhaseEndedEvent;
@@ -16,9 +17,20 @@ namespace Bischino.Bischino
         public bool TurnEnded { get; private set; }
         public bool PhaseEnded { get; set; }
         public bool GameEnded { get; private set; }
-        public Player CurrentPlayer { get; private set; }
         public Player PhaseStarter { get; set; }
         public Player TurnStarter { get; set; }
+
+
+        private Player _currentPlayer;
+        public Player CurrentPlayer
+        {
+            get => _currentPlayer;
+            private set
+            {
+                _currentPlayer = value;
+                CurrentPlayerChangedEvent?.Invoke(this, _currentPlayer);
+            }
+        }
 
         private List<Player> _players;
         public IReadOnlyList<Player> Players => _players;

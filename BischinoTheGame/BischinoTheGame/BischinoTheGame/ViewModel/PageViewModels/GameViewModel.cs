@@ -80,7 +80,6 @@ namespace BischinoTheGame.ViewModel.PageViewModels
             DropCommand = new Command<Card>(Drop, _=> CanDrop());
             AsyncInitialization();
             AppController.RoomsHandler.MatchSnapshotUpdated += HandleSnapshot;
-            Polling();
         }
 
         private async void AsyncInitialization()
@@ -114,18 +113,15 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         public void BetCompleted()
         {
             IsBetPhase = false;
-            Polling();
         }
 
         public void PaoloSent()
         {
             IsDropPhase = false;
-            Polling();
         }
         public void LastPhaseCompleted()
         {
             IsLastPhase = false;
-            Polling();
         }
 
         private async void Drop(Card card)
@@ -142,7 +138,6 @@ namespace BischinoTheGame.ViewModel.PageViewModels
                     var query = new RoomQuery<string> { PlayerName = Player.Name, RoomName = _room.Name, Data = card.Name};
                     await AppController.RoomsHandler.DropCard(query);
                     IsDropPhase = false;
-                    Polling();
                 }
                 catch (Exception e)
                 {
@@ -153,30 +148,19 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         }
 
 
-        private async void Polling()
-        {
-            /*
-            while (PollingEnabled)
-            {
-                try
-                {
-                    var snapshot = await AppController.RoomsHandler.GetMatchSnapshot(_roomQuery);
-                    await HandleSnapshot(snapshot);
-                    await Task.Delay(500);
-                }
-                catch { }
-            }
-            */
-        }
-
-
         private async void HandleSnapshot(object sender, MatchSnapshot matchSnapshot)
         {
             MatchSnapshot = matchSnapshot;
             if(NewMatchSnapshot is { })
                 await NewMatchSnapshot?.Invoke();
 
-            if (_matchSnapshot.Player.Cards.Count != PlayerCards.Count && (_matchSnapshot.Player.Cards.Count != 1 || _matchSnapshot.Player.DropCardViewModel is {}))
+            if (matchSnapshot.DisconnectedPlayer is { })
+            {
+                await OnPlayerDisconnected(matchSnapshot.DisconnectedPlayer);
+                return;
+            }
+
+            if (_matchSnapshot.Player.Cards.Count != PlayerCards.Count && (_matchSnapshot.Player.StartCardsCount !=1 || _matchSnapshot.Player.DropCardViewModel is {}))
             {
                 PlayerCards.Clear();
                 foreach (var card in _matchSnapshot.Player.Cards)
@@ -209,6 +193,17 @@ namespace BischinoTheGame.ViewModel.PageViewModels
                 }
 
             HandleTurn(matchSnapshot.PlayerTurn);
+        }
+
+
+
+        private async Task OnPlayerDisconnected(string playerName)
+        {
+            IsPageEnabled = false;
+            await AppController.Navigation.DisplayAlert("Timeout",
+                $"The player {playerName} is idled, going back to room list");
+            await AppController.Navigation.RoomNavigation.BackToRoomList();
+            IsPageEnabled = true;
         }
 
         private void HandleTurn(PrivatePlayer playerTurn)

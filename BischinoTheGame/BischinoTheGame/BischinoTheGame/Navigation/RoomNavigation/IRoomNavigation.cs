@@ -24,5 +24,6 @@ namespace BischinoTheGame.Navigation.RoomNavigation
         Task ToLastPhase(string roomName, string playerName, LastPhaseViewModel lastPhaseVM);
         Task NotifyLastPhaseCompleted();
         Task ToFilterPopup(RoomSearchQuery query);
+        Task BackToRoomList();
     }
 }

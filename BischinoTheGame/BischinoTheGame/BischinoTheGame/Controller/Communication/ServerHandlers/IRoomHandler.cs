@@ -14,7 +14,7 @@ namespace BischinoTheGame.Controller.Communication.ServerHandlers
         Task Create(Room room);
         Task<IList<Room>> GetRooms(RoomSearchQuery query);
         Task Join(RoomQuery roomQuery);
-        Task<IList<string>> GetJoinedPLayers(string roomName);
+        Task<IList<string>> GetJoinedPLayers(RoomQuery roomQuery);
         Task<bool> IsMatchStarted(string roomName);
         Task Start(string roomName);
         Task<MatchSnapshot> GetMatchSnapshot(RoomQuery roomQuery);

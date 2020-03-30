@@ -64,6 +64,15 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         }
 
 
+
+        private string _disconnectedPlayer;
+        public string DisconnectedPlayer
+        {
+            get => _disconnectedPlayer;
+            set => SetProperty(ref _disconnectedPlayer, value);
+        }
+
+
         public string Host { get; set; }
     }
 }

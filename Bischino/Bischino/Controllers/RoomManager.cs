@@ -7,17 +7,26 @@ using System.Threading;
 using System.Threading.Tasks;
 using Bischino.Bischino;
 using Bischino.Controllers.Extensions;
+using Bischino.Helpers;
 using Bischino.Model;
 
 namespace Bischino.Controllers
 {
     public class RoomManager
     {
+        public event EventHandler<RoomQuery> WaitingRoomDisconnectedPlayer;
+        private const int InGameTimeout = 5 * 1000; //ms
+        private const int WaitingRoomTimeout = 5 * 1000; //ms
         public readonly object Lock = new object();
         public string RoomName { get; }
         public GameManager GameManager { get; private set; }
         public bool IsGameStarted { get; private set; }
         public DateTime? StartTime { get; private set; } = DateTime.Now;
+
+        private ConcurrentDictionary<string, TimeoutTimer<string>> _pendingPlayersTimerDictionary = new ConcurrentDictionary<string, TimeoutTimer<string>>();
+        private TimeoutTimer<Player> InGameTimer;
+
+        private Player _currentPlayer;
 
         private readonly Dictionary<string, MatchSnapshotWrapper> _snapshotDictionary = new Dictionary<string, MatchSnapshotWrapper>();
 
@@ -28,17 +37,40 @@ namespace Bischino.Controllers
         }
 
 
+        public void NotifyPing(string playerName)
+        {
+            if(_pendingPlayersTimerDictionary.TryGetValue(playerName, out var timer))
+                timer.Reset();
+            else
+            {
+                timer = new TimeoutTimer<string>(WaitingRoomTimeout, playerName);
+                timer.TimeoutEvent += (_, player) => WaitingRoomDisconnectedPlayer?.Invoke(this, new RoomQuery{PlayerName = playerName, RoomName = RoomName});
+                if(_pendingPlayersTimerDictionary.TryAdd(playerName, timer))
+                    timer.Start();
+            }
+        }
+
+
+
+        public void StopWaitingRoomTimers()
+        {
+            foreach (var (_, timer) in _pendingPlayersTimerDictionary)
+                timer.Stop();
+            _pendingPlayersTimerDictionary = null;
+        }
+
         public void NewSubscriber(string playerName)
         {
             var snapshotWrapper = new MatchSnapshotWrapper();
             _snapshotDictionary.TryAdd(playerName, snapshotWrapper);
         }
 
-        public void NotifyAll()
+        public void NotifyAll(string disconnectedPlayer = null)
         {
             foreach (var (playerName, snapshotWrapper) in _snapshotDictionary)
             {
                 var snapshot = GameManager.GetSnapshot(playerName);
+                snapshot.DisconnectedPlayer = disconnectedPlayer;
                 snapshotWrapper.NotifyNew(snapshot);
             }
         }
@@ -50,10 +82,23 @@ namespace Bischino.Controllers
             if(IsGameStarted)
                 throw new Exception("Match already started");
 
+            StopWaitingRoomTimers();
             IsGameStarted = true;
             StartTime = DateTime.Now;
             GameManager = new GameManager(roomName, roomPendingPlayers);
+            GameManager.CurrentPlayerChangedEvent += GameManager_CurrentPlayerChangedEvent;
             GameManager.StartGame();
+        }
+
+        private void GameManager_CurrentPlayerChangedEvent(object sender, Player player)
+        {
+            if (_currentPlayer == player)
+                return;
+            _currentPlayer = player;
+            InGameTimer?.Stop();
+            InGameTimer = new TimeoutTimer<Player>(InGameTimeout, player);
+            InGameTimer.TimeoutEvent += (_, p) => NotifyAll(p.Name);
+            InGameTimer.Start();
         }
     }
 }

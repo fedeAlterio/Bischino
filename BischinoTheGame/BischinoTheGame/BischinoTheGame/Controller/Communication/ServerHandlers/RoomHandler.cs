@@ -40,9 +40,9 @@ namespace BischinoTheGame.Controller.Communication.ServerHandlers
             await Post(roomQuery);
         }
 
-        public Task<IList<string>> GetJoinedPLayers(string roomName)
+        public Task<IList<string>> GetJoinedPLayers(RoomQuery roomQuery)
         {
-            var ret = Get<IList<string>>(roomName);
+            var ret = Get<IList<string>>(roomQuery);
             return ret;
         }
 

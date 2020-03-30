@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\fedea\\source\\repos\\BischinoTheGame\\BischinoTheGame\\BischinoTheGame.iOS\\BischinoTheGame.iOS.csproj": {}
+    "C:\\repo\\Bischino\\BischinoTheGame\\BischinoTheGame\\BischinoTheGame.iOS\\BischinoTheGame.iOS.csproj": {}
   },
   "projects": {
-    "C:\\Users\\fedea\\source\\repos\\BischinoTheGame\\BischinoTheGame\\BischinoTheGame.iOS\\BischinoTheGame.iOS.csproj": {
+    "C:\\repo\\Bischino\\BischinoTheGame\\BischinoTheGame\\BischinoTheGame.iOS\\BischinoTheGame.iOS.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\fedea\\source\\repos\\BischinoTheGame\\BischinoTheGame\\BischinoTheGame.iOS\\BischinoTheGame.iOS.csproj",
+        "projectUniqueName": "C:\\repo\\Bischino\\BischinoTheGame\\BischinoTheGame\\BischinoTheGame.iOS\\BischinoTheGame.iOS.csproj",
         "projectName": "BischinoTheGame.iOS",
-        "projectPath": "C:\\Users\\fedea\\source\\repos\\BischinoTheGame\\BischinoTheGame\\BischinoTheGame.iOS\\BischinoTheGame.iOS.csproj",
+        "projectPath": "C:\\repo\\Bischino\\BischinoTheGame\\BischinoTheGame\\BischinoTheGame.iOS\\BischinoTheGame.iOS.csproj",
         "packagesPath": "C:\\Users\\fedea\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\fedea\\source\\repos\\BischinoTheGame\\BischinoTheGame\\BischinoTheGame.iOS\\obj\\",
+        "outputPath": "C:\\repo\\Bischino\\BischinoTheGame\\BischinoTheGame\\BischinoTheGame.iOS\\obj\\",
         "projectStyle": "PackageReference",
         "skipContentFileWrite": true,
         "fallbackFolders": [
@@ -32,8 +32,8 @@
         "frameworks": {
           "xamarinios10": {
             "projectReferences": {
-              "C:\\Users\\fedea\\source\\repos\\BischinoTheGame\\BischinoTheGame\\BischinoTheGame\\BischinoTheGame.csproj": {
-                "projectPath": "C:\\Users\\fedea\\source\\repos\\BischinoTheGame\\BischinoTheGame\\BischinoTheGame\\BischinoTheGame.csproj"
+              "C:\\repo\\Bischino\\BischinoTheGame\\BischinoTheGame\\BischinoTheGame\\BischinoTheGame.csproj": {
+                "projectPath": "C:\\repo\\Bischino\\BischinoTheGame\\BischinoTheGame\\BischinoTheGame\\BischinoTheGame.csproj"
               }
             }
           }
@@ -73,14 +73,14 @@
         }
       }
     },
-    "C:\\Users\\fedea\\source\\repos\\BischinoTheGame\\BischinoTheGame\\BischinoTheGame\\BischinoTheGame.csproj": {
+    "C:\\repo\\Bischino\\BischinoTheGame\\BischinoTheGame\\BischinoTheGame\\BischinoTheGame.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\fedea\\source\\repos\\BischinoTheGame\\BischinoTheGame\\BischinoTheGame\\BischinoTheGame.csproj",
+        "projectUniqueName": "C:\\repo\\Bischino\\BischinoTheGame\\BischinoTheGame\\BischinoTheGame\\BischinoTheGame.csproj",
         "projectName": "BischinoTheGame",
-        "projectPath": "C:\\Users\\fedea\\source\\repos\\BischinoTheGame\\BischinoTheGame\\BischinoTheGame\\BischinoTheGame.csproj",
+        "projectPath": "C:\\repo\\Bischino\\BischinoTheGame\\BischinoTheGame\\BischinoTheGame\\BischinoTheGame.csproj",
         "packagesPath": "C:\\Users\\fedea\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\fedea\\source\\repos\\BischinoTheGame\\BischinoTheGame\\BischinoTheGame\\obj\\",
+        "outputPath": "C:\\repo\\Bischino\\BischinoTheGame\\BischinoTheGame\\BischinoTheGame\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\",

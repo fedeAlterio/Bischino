@@ -21,7 +21,7 @@ namespace BischinoTheGame.Controller.Communication.ServerHandlers
         static ServerHandler()
         {
            RestServerUri = new UriBuilder(@"https://bischino20200324045818.azurewebsites.net").Uri; 
-          // RestServerUri = new UriBuilder(@"https://10.0.2.2:5001").Uri;
+          //RestServerUri = new UriBuilder(@"https://10.0.2.2:5001").Uri;
            // ServerUri = new UriBuilder(@"https://192.168.1.66").Uri;
 
           // WebSocketServerUri = new Uri(@"ws://bischino20200324045818.azurewebsites.net/sock");
