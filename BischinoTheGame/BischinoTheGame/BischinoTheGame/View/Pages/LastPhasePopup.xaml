@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+             mc:Ignorable="d"
+             x:Class="BischinoTheGame.View.Pages.LastPhasePopup">
+    <Frame CornerRadius="20" WidthRequest="400" HorizontalOptions="Center" VerticalOptions="Center"  HeightRequest="250" BackgroundColor="{StaticResource BackgroundBlack}" >
+        <Grid RowSpacing="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="40"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" TextColor="White" FontSize="20"
+                   Text="Other players cards"/>
+            <CollectionView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" IsEnabled="{Binding IsPageEnabled}" ItemsSource="{Binding LastPhaseViewModel.Cards}" HorizontalOptions="Center" Footer="">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Span="1"
+                                     VerticalItemSpacing="15" 
+                                     Orientation="Horizontal"
+                                     HorizontalItemSpacing="15"/>
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Image Source="{Binding IconName}"/>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <ImageButton IsVisible="{Binding LastPhaseViewModel.CanBetWin}" Grid.Row="2" Grid.Column="0" HorizontalOptions="Center" BackgroundColor="{StaticResource BackgroundBlack}" CornerRadius="30" Padding="3"
+                         Source="thumbup" Command="{Binding WinBetCommand}"/>
+
+            <ImageButton IsVisible="{Binding LastPhaseViewModel.CanBetLose}" Grid.Row="2" Grid.Column="1" HorizontalOptions="Center" BackgroundColor="{StaticResource BackgroundBlack}" CornerRadius="30" Padding="3"
+                         Source="thumbdown" Command="{Binding LoseBetCommand}"/>
+        </Grid>
+    </Frame>
+</pages:PopupPage>

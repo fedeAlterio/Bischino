@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Application xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:view="clr-namespace:Rooms.View;assembly=BischinoTheGame"
+             mc:Ignorable="d"
+             x:Class="BischinoTheGame.App">
+    <Application.Resources>
+        <ResourceDictionary Source="View/Styles/Colors.xaml"/>
+        <ResourceDictionary Source="View/Styles/Styles.xaml"/>
+        <view:NegateConditionConverter x:Key="NegationConverter"/>
+    </Application.Resources>
+</Application>

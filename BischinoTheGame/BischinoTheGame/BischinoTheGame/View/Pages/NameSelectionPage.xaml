@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             BackgroundColor="{StaticResource BackgroundBlack}"
+             NavigationPage.HasNavigationBar="False"
+             x:Class="BischinoTheGame.NameSelectionPage">
+
+    <StackLayout IsEnabled="{Binding IsPageEnabled}" HorizontalOptions="Center" VerticalOptions="Center" Spacing="10" WidthRequest="200">
+        <Label TextColor="White"  FontSize="25" Text="Username"/>
+        <Entry TextColor="White" FontSize="20" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Center" PlaceholderColor="Gray" WidthRequest="200"
+               Placeholder="Arturo" Text="{Binding Player.Name}"/>
+        <Button HorizontalOptions="Center" Margin="0,20" TextColor="White" BackgroundColor="{StaticResource GoodBlue}" CornerRadius="20"
+                Text="Next" Command="{Binding NextCommand}"/>
+    </StackLayout>
+
+</ContentPage>

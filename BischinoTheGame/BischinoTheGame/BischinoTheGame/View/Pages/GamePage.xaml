@@ -1,0 +1,190 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:pages="clr-namespace:BischinoTheGame.View.Pages;assembly=BischinoTheGame"
+             mc:Ignorable="d"
+             BackgroundImageSource="wood"
+             NavigationPage.HasNavigationBar="False"
+             x:Class="BischinoTheGame.View.Pages.GamePage">
+    <Grid IsEnabled="{Binding IsPageEnabled}" Margin="10,10,10 ,0" ColumnSpacing="10">
+        <Grid.Resources>
+            <pages:CardToPaoloColorConverter x:Key="CardToPaoloColorConverter"/>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="110"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <CollectionView x:Name="OtherPlayersCollectionView" IsEnabled="True" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,20,0,0" VerticalOptions="End" HorizontalOptions="Center" 
+                        ItemsSource="{Binding MatchSnapshot.OtherPlayers}" >
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Span="1" 
+                                 VerticalItemSpacing="15" 
+                                 Orientation="Horizontal"
+                                 HorizontalItemSpacing="15"/>
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame Margin="0" Padding="0" CornerRadius="20" BackgroundColor="{StaticResource GoodGray}">
+                        <Grid Padding="10" RowSpacing="6">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="18"/>
+                                <RowDefinition Height="16"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" HorizontalOptions="Center" TextColor="{StaticResource GoodBlue}" FontSize="15" 
+                                   Text="{Binding Name}"/>
+                            
+                            <Label Grid.Row="1" Grid.Column="0" HorizontalOptions="Center" FontSize="15" TextColor="White"
+                                   Text="{Binding WinBet}"/>
+                            <Label Grid.Row="2" Grid.Column="0" HorizontalOptions="Center" FontSize="12" TextColor="White"
+                                   Text="Bet"/>
+
+                            <Label Grid.Row="1" Grid.Column="1" HorizontalOptions="Center" FontSize="15" TextColor="White"
+                                   Text="{Binding TotLost}"/>
+                            <Label Grid.Row="2" Grid.Column="1" HorizontalOptions="Center" FontSize="12" TextColor="White"
+                                   Text="Lives"/>
+
+                            <Label Grid.Row="1" Grid.Column="2" HorizontalOptions="Center" FontSize="15" TextColor="White"
+                                   Text="{Binding PhaseWin}"/>
+                            <Label Grid.Row="2" Grid.Column="2" HorizontalOptions="Center" FontSize="12" TextColor="White"
+                                   Text="Win"/>
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+
+
+
+        <Frame Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,0,20,0" Padding="0" CornerRadius="20" WidthRequest="120" HorizontalOptions="End" HeightRequest="100" VerticalOptions="Center" BackgroundColor="{StaticResource GoodGray}">
+            <Grid Padding="10" RowSpacing="6">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="18"/>
+                    <RowDefinition Height="16"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" HorizontalOptions="Center" TextColor="Peru" FontSize="15" 
+                       Text="{Binding MatchSnapshot.PlayerTurn.Name}"/>
+
+                <Label Grid.Row="1" Grid.Column="0" HorizontalOptions="Center" FontSize="15" TextColor="White"
+                       Text="{Binding MatchSnapshot.PlayerTurn.WinBet}"/>
+                <Label Grid.Row="2" Grid.Column="0" HorizontalOptions="Center" FontSize="12" TextColor="White"
+                       Text="Bet"/>
+
+                <Label Grid.Row="1" Grid.Column="1" HorizontalOptions="Center" FontSize="15" TextColor="White"
+                       Text="{Binding MatchSnapshot.PlayerTurn.TotLost}"/>
+                <Label Grid.Row="2" Grid.Column="1" HorizontalOptions="Center" FontSize="12" TextColor="White"
+                       Text="Lives"/>
+
+                <Label Grid.Row="1" Grid.Column="2" HorizontalOptions="Center" FontSize="15" TextColor="White"
+                       Text="{Binding MatchSnapshot.PlayerTurn.PhaseWin}"/>
+                <Label Grid.Row="2" Grid.Column="2" HorizontalOptions="Center" FontSize="12" TextColor="White"
+                       Text="Win"/>
+
+            </Grid>
+        </Frame>
+
+
+
+
+        <CollectionView x:Name="DroppedCardsCollectionView" Margin="0,4,0,4" Grid.Row="1"  Grid.Column="0" Grid.ColumnSpan="3"  VerticalOptions="FillAndExpand" HorizontalOptions="Center" 
+                       WidthRequest="75"  ItemsSource="{Binding DroppedCards}" >
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Span="1" 
+                                 VerticalItemSpacing="15" 
+                                 Orientation="Horizontal"
+                                 HorizontalItemSpacing="15"/>
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="20"/>
+                        </Grid.RowDefinitions>
+                        <Image Grid.Row="0" Source="{Binding IconName}" />
+                        <Label Grid.Row="1"  TextColor="{StaticResource GoodWhite}" FontSize="16"  HorizontalOptions="Center"
+                               Text="{Binding Owner}"/>
+                        <BoxView Grid.Row="0" HorizontalOptions="Center" VerticalOptions="Center" Margin="0,0,0,4" Opacity="0.4"
+                                 Color="{Binding Converter={StaticResource CardToPaoloColorConverter}}" CornerRadius="30" Scale="1.25"/>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <Grid Grid.Row="2" Grid.Column="0"  HorizontalOptions="Center" ColumnSpacing="20" RowSpacing="0" VerticalOptions="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Row="0" Grid.Column="0" TextColor="{StaticResource GoodWhite}" FontSize="40" HorizontalOptions="Center"
+                   Text="{Binding MatchSnapshot.Player.WinBet}"/>
+            <Label Grid.Row="1" Grid.Column="0" TextColor="{StaticResource GoodWhite}" FontSize="15" HorizontalOptions="Center"
+                   Text="Your Bet"/>
+
+            <Label Grid.Row="0" Grid.Column="1" TextColor="{StaticResource GoodWhite}" FontSize="40" HorizontalOptions="Center"
+                   Text="{Binding MatchSnapshot.Player.TotLost}"/>
+            <Label Grid.Row="1" Grid.Column="1" TextColor="{StaticResource GoodWhite}" FontSize="15" HorizontalOptions="Center"
+                   Text="Lives"/>
+        </Grid>
+        <StackLayout Grid.Row="2" Grid.Column="2" Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="Center" Spacing="2">
+            <Label TextColor="{StaticResource GoodWhite}" FontSize="40" HorizontalOptions="Center"
+                   Text="{Binding MatchSnapshot.Player.PhaseWin}"/>
+            <Label TextColor="{StaticResource GoodWhite}" FontSize="15" HorizontalOptions="Center"
+                   Text="Current Win"/>
+
+        </StackLayout>
+
+        <CollectionView x:Name="PlayerCollectionView" Grid.Row="2" Grid.Column="1" HorizontalOptions="Center" WidthRequest="330" VerticalOptions="End"
+                            ItemsSource="{Binding PlayerCards}">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Span="1" 
+                                     Orientation="Horizontal"
+                                     HorizontalItemSpacing="2"/>
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate >
+                        <Frame HorizontalOptions="FillAndExpand" Padding="0" Margin="0" BackgroundColor="Transparent">
+                            <ImageButton  HeightRequest="120" BackgroundColor="Transparent" Opacity="1" Clicked="ImageButton_OnClicked"
+                                Source="{Binding IconName}" IsEnabled="{Binding BindingContext.IsDropPhase, Source={x:Reference PlayerCollectionView}}"
+                                HorizontalOptions="FillAndExpand"
+                                Command="{Binding BindingContext.DropCommand, Source={x:Reference PlayerCollectionView}}"
+                                CommandParameter="{Binding}" />
+                        </Frame>
+                        
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+
+        <ContentView x:Name="YourTurnContentView" IsVisible="False" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Grid.RowSpan="3" BackgroundColor="{StaticResource GoodBlue}" Margin="-10,-10, -10,0">
+            <Label HorizontalOptions="Center" VerticalOptions="Center" TextColor="White" FontSize="60"
+                   Text="Your Turn!"/>
+        </ContentView>
+
+    </Grid>
+</ContentPage>

@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             NavigationPage.HasNavigationBar="False"
+             BackgroundColor="{StaticResource BackgroundBlack}"
+             x:Class="BischinoTheGame.View.Pages.WaitingRoomPage">
+    <ContentPage.Content>
+        <Grid IsEnabled="{Binding IsPageEnabled}" Margin="20,40" HorizontalOptions="Center" VerticalOptions="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" TextColor="White" FontSize="30" 
+                   Text="{Binding Room.Name}"/>
+            <Label Grid.Row="1" TextColor="White" FontSize="20" Margin="0,20,0,0"
+                   Text="Joined players"/>
+            <CollectionView Grid.Row="2" x:Name="CollectionView"  IsEnabled="{Binding IsPageEnabled}" ItemsSource="{Binding JoinedPlayers}"
+                            Margin="0,10,0,0">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Span="1" 
+                                     VerticalItemSpacing="15" 
+                                     Orientation="Vertical"
+                                     HorizontalItemSpacing="15"/>
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout BackgroundColor="{StaticResource GoodGray}" HorizontalOptions="Center" Padding="15, 10">
+                            <Label TextColor="White" FontSize="20" 
+                                   Text="{Binding}"/>
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            <Button IsVisible="{Binding IsHost}" Grid.Row="3"  BackgroundColor="{StaticResource GoodBlue}" TextColor="White" HorizontalOptions="Center" CornerRadius="20"
+                    Text="Start" Command="{Binding StartMatchCommand}"/>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

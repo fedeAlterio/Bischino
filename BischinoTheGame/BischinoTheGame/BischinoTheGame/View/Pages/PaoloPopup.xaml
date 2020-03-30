@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+             mc:Ignorable="d"
+             x:Class="BischinoTheGame.View.Pages.PaoloPopup">
+
+    <Frame CornerRadius="20" WidthRequest="200" HorizontalOptions="Center" VerticalOptions="Center" HeightRequest="200" BackgroundColor="{StaticResource GoodGray}" >
+        <StackLayout IsEnabled="{Binding IsPageEnabled}" HorizontalOptions="Center" VerticalOptions="Center" Spacing="30">
+            <Button BackgroundColor="Red"
+                    Text="MAX" Command="{Binding MaxCommand}"/>
+            <Button BackgroundColor="Aqua"
+                    Text="MIN" Command="{Binding MinCommand}"/>
+        </StackLayout>
+    </Frame>
+</pages:PopupPage>

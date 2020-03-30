@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                    mc:Ignorable="d">
+
+    <Color x:Key="AccentColor">LightBlue</Color>
+    <Color x:Key="DarkDarGrey">#2f3640</Color>
+    <Color x:Key="GoodBlue">#1976D2</Color>
+    <Color x:Key="GoodGray">#212121</Color>
+    <Color x:Key="BackgroundBlack">#121212</Color>
+    <Color x:Key="SeparatorColor">#616161</Color>
+    <Color x:Key="ThemeColor">#12151c</Color>
+    <Color x:Key="GoodPink">#ad1457</Color>
+    <Color x:Key="PopupText">Black</Color>
+    <Color x:Key="GoodWhite">#fafafa</Color>
+</ResourceDictionary>

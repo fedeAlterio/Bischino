@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+             mc:Ignorable="d"
+             x:Class="BischinoTheGame.View.Pages.BetPopup">
+    <Frame CornerRadius="20" WidthRequest="200" HorizontalOptions="Center" VerticalOptions="Center"  HeightRequest="200" BackgroundColor="{StaticResource BackgroundBlack}" >
+        <StackLayout Spacing="10">
+            <Label TextColor="White" FontSize="20"
+                   Text="Make a bet"/>
+            <CollectionView x:Name="BetCollectionView" IsEnabled="{Binding IsPageEnabled}" ItemsSource="{Binding BetViewModel.PossibleBets}" HorizontalOptions="Center">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Span="3"
+                                     VerticalItemSpacing="15" 
+                                     Orientation="Vertical"
+                                     HorizontalItemSpacing="15"/>
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Button TextColor="White" BackgroundColor="{StaticResource BackgroundBlack}" CornerRadius="100" FontSize="30"
+                                Text="{Binding}" Command="{Binding BindingContext.BetCommand, Source={x:Reference BetCollectionView}}" CommandParameter="{Binding}"/>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </StackLayout>
+    </Frame>
+</pages:PopupPage>
