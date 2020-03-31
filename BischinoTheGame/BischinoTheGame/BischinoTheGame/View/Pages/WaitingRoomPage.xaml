@@ -8,6 +8,7 @@
              BackgroundColor="{StaticResource BackgroundBlack}"
              x:Class="BischinoTheGame.View.Pages.WaitingRoomPage">
     <ContentPage.Content>
+        
         <Grid IsEnabled="{Binding IsPageEnabled}" Margin="20,40" HorizontalOptions="Center" VerticalOptions="Center">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -19,6 +20,8 @@
                    Text="{Binding Room.Name}"/>
             <Label Grid.Row="1" TextColor="White" FontSize="20" Margin="0,20,0,0"
                    Text="Joined players"/>
+            <Button Grid.Row="0" HorizontalOptions="End" Margin="0,0,20,0" TextColor="White" BackgroundColor="{StaticResource GoodGray}" CornerRadius="20"
+                    Text="Exit" Command="{Binding UnJoinCommand}"/>
             <CollectionView Grid.Row="2" x:Name="CollectionView"  IsEnabled="{Binding IsPageEnabled}" ItemsSource="{Binding JoinedPlayers}"
                             Margin="0,10,0,0">
                 <CollectionView.ItemsLayout>

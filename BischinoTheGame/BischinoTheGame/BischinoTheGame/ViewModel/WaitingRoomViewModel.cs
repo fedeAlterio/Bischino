@@ -13,6 +13,10 @@ namespace BischinoTheGame.ViewModel
 {
     public class WaitingRoomViewModel : PageViewModel
     {
+        private Player _player;
+        private RoomQuery _roomQuery;
+
+
         private Room _room;
         public Room Room
         {
@@ -32,8 +36,15 @@ namespace BischinoTheGame.ViewModel
         }
 
 
+        private Command _unJoinCommand;
+        public Command UnJoinCommand
+        {
+            get => _unJoinCommand;
+            set => SetProperty(ref _unJoinCommand, value);
+        }
+
+
         private bool _isHost;
-        private Player _player;
 
         public bool IsHost
         {
@@ -42,14 +53,29 @@ namespace BischinoTheGame.ViewModel
         }
 
 
-        public WaitingRoomViewModel(Room room, bool isHost)
+        public WaitingRoomViewModel(Room room)
         {
             Room = room;
-            _isHost = isHost;
-            StartPolling();
             _player = AppController.Navigation.RoomNavigation.LoggedPlayer;
-            if(isHost)
-                StartMatchCommand = new Command(_ => StartMatch(), _ => CanStart());
+            _roomQuery = new RoomQuery {PlayerName = _player.Name, RoomName = _room.Name};
+            StartMatchCommand = new Command(_ => StartMatch(), _ => CanStart());
+            UnJoinCommand = new Command(_ => UnJoin());
+            StartPolling();
+        }
+
+        private async void UnJoin()
+        {
+            IsPageEnabled = false;
+            try
+            {
+                await AppController.RoomsHandler.UnJoin(_roomQuery);
+                await AppController.Navigation.RoomNavigation.BackToRoomList();
+            }
+            catch (Exception e)
+            {
+                await AppController.Navigation.DisplayAlert(ErrorTitle, e.Message);
+            }
+            IsPageEnabled = true;
         }
 
         private bool CanStart()
@@ -99,9 +125,10 @@ namespace BischinoTheGame.ViewModel
 
         private async Task LoadPlayers()
         {
-            var roomQuery = new RoomQuery {PlayerName = _player.Name, RoomName = _room.Name};
-            var joinedPlayers = await AppController.RoomsHandler.GetJoinedPLayers(roomQuery);
+            var joinedPlayers = await AppController.RoomsHandler.GetJoinedPLayers(_roomQuery);
             JoinedPlayers.Clear();
+            if (_player.Name == joinedPlayers[0])
+                IsHost = true;
             foreach(var player in joinedPlayers)
                 JoinedPlayers.Add(player);
         }

@@ -49,12 +49,12 @@ namespace BischinoTheGame.Navigation.RoomNavigation
         public async Task NotifyRoomCreated(Room room)
         {
             await PopupNavigation.Instance.PopAsync();
-            await NotifyRoomJoined(room, true);
+            await NotifyRoomJoined(room);
         }
 
-        public async Task NotifyRoomJoined(Room room, bool isHost)
+        public async Task NotifyRoomJoined(Room room)
         {
-            var vm = new WaitingRoomViewModel(room, isHost);
+            var vm = new WaitingRoomViewModel(room);
             var page = new WaitingRoomPage {BindingContext = vm};
             await Navigation.PushAsync(page);
             Navigation.RemovePage(Navigation.NavigationStack.First());
@@ -110,15 +110,23 @@ namespace BischinoTheGame.Navigation.RoomNavigation
 
         public async Task ToFilterPopup(RoomSearchQuery query)
         {
-            var vm = new FilterPopupViewModel(query);
+            var vm = new FilterPopupViewModel(query);   
             var popup = new FilterPopup {BindingContext = vm};
             await PopupNavigation.Instance.PushAsync(popup);
         }
 
         public async Task BackToRoomList()
         {
-            await PopupNavigation.Instance.PopAllAsync();
+            if(PopupNavigation.Instance.PopupStack.Count > 0)
+                await PopupNavigation.Instance.PopAllAsync();
             await ToRoomList();
+        }
+
+        public async Task ToWinnersPopup(MatchSnapshot matchSnapshot)
+        {
+            var vm = new WinnersPopupViewModel(matchSnapshot);
+            var popup = new WinnersPopup {BindingContext = vm};
+            await PopupNavigation.Instance.PushAsync(popup);
         }
     }
 }

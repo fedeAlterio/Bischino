@@ -15,7 +15,7 @@ namespace BischinoTheGame.Navigation.RoomNavigation
         Task NotifyNameSelected(Player player);
         Task ShowRoomCreationPopup();
         Task NotifyRoomCreated(Room room);
-        Task NotifyRoomJoined(Room room, bool isHost);
+        Task NotifyRoomJoined(Room room);
         Task NotifyMatchStarted(Room room);
         Task ToPaoloPopup(string roomName, string playerName);
         Task NotifyPaoloSent();
@@ -25,5 +25,6 @@ namespace BischinoTheGame.Navigation.RoomNavigation
         Task NotifyLastPhaseCompleted();
         Task ToFilterPopup(RoomSearchQuery query);
         Task BackToRoomList();
+        Task ToWinnersPopup(MatchSnapshot matchSnapshot);
     }
 }

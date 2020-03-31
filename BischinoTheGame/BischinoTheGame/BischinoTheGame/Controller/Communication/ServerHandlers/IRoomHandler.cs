@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using BischinoTheGame.Controller.Communication.Queries;
 using BischinoTheGame.Model;
@@ -17,12 +18,14 @@ namespace BischinoTheGame.Controller.Communication.ServerHandlers
         Task<IList<string>> GetJoinedPLayers(RoomQuery roomQuery);
         Task<bool> IsMatchStarted(string roomName);
         Task Start(string roomName);
-        Task<MatchSnapshot> GetMatchSnapshot(RoomQuery roomQuery);
+        Task<MatchSnapshot> GetMatchSnapshot(RoomQuery roomQuery, CancellationToken token);
         Task MakeABet(RoomQuery roomQuery);
         Task DropCard(RoomQuery<string> roomQuery);
         Task NextTurn(RoomQuery roomQuery);
         Task NextPhase(RoomQuery roomQuery);
         Task DropPaolo(RoomQuery<bool> paoloQuery);
-        void SubscribeMatchSnapshotUpdates(RoomQuery roomQuery);   
+        Task UnJoin(RoomQuery roomQuery);
+        void SubscribeMatchSnapshotUpdates(RoomQuery roomQuery);
+        void UnsubscribeMatchSnapshotUpdates();
     }
 }

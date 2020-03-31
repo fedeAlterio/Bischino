@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,7 +8,8 @@ namespace Bischino.Bischino
 {
     public class GameManager
     {
-        public event EventHandler<Player> CurrentPlayerChangedEvent;
+        public event EventHandler<Player> CurrentPlayerChanged;
+        public event EventHandler<IList<Player>> EndOfMatch;
         public string RoomName { get; }
         public event EventHandler GameStartedEvent;
         public event EventHandler PhaseEndedEvent;
@@ -19,7 +21,7 @@ namespace Bischino.Bischino
         public bool GameEnded { get; private set; }
         public Player PhaseStarter { get; set; }
         public Player TurnStarter { get; set; }
-
+        public IList<Player> Winners { get; set; }
 
         private Player _currentPlayer;
         public Player CurrentPlayer
@@ -28,7 +30,7 @@ namespace Bischino.Bischino
             private set
             {
                 _currentPlayer = value;
-                CurrentPlayerChangedEvent?.Invoke(this, _currentPlayer);
+                CurrentPlayerChanged?.Invoke(this, _currentPlayer);
             }
         }
 
@@ -80,6 +82,7 @@ namespace Bischino.Bischino
         public void StartGame()
         {
             _playingPlayers = new List<Player>(Players);
+            Winners = null;
             TurnStarter = _playingPlayers[0];
             PhaseStarter = TurnStarter;
             CurrentPlayer = PhaseStarter;
@@ -146,7 +149,11 @@ namespace Bischino.Bischino
 
         private void ToGameEnd()
         {
-
+            var minLost = _players.Min(p => p.TotLost);
+            var winnersEnum = from p in _players where p.TotLost == minLost select p;
+            var winners = winnersEnum.ToList();
+            Winners = winners;
+            EndOfMatch?.Invoke(this, winners);
         }
 
 
@@ -187,6 +194,10 @@ namespace Bischino.Bischino
                 throw new Exception("Player does not exist");
 
             var otherPlayers = (from p in Players where p.Name != playerName select PrivatePlayer.FromPlayer(p)).ToList();
+            IList<PrivatePlayer> winners = null;
+            if (Winners is {})
+                winners = (from p in Winners select PrivatePlayer.FromPlayer(p)).ToList();
+
             var ret = new MatchSnapshot
             {
                 Player = player,
@@ -196,7 +207,8 @@ namespace Bischino.Bischino
                 IsEndTurn = TurnEnded,
                 IsMatchEnded = GameEnded,
                 IsPhaseEnded = PhaseEnded,
-                PlayerTurn = PrivatePlayer.FromPlayer(CurrentPlayer)
+                PlayerTurn = PrivatePlayer.FromPlayer(CurrentPlayer),
+                Winners = winners
             };
             return ret;
         }

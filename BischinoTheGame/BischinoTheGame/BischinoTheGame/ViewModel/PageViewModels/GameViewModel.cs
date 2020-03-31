@@ -15,13 +15,14 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         public event EventHandler DroppedCardsUpdated;
         public event EventHandler PlayerCardsUpdated;
         public event EventHandler YourTurn;
-        public event EventHandler StartPolling;
         public event Func<Task> NewMatchSnapshot;
 
         private readonly Room _room;
-        private RoomQuery _roomQuery;
+        private readonly RoomQuery _roomQuery;
+
 
         private MatchSnapshot _matchSnapshot;
+
         public MatchSnapshot MatchSnapshot
         {
             get => _matchSnapshot;
@@ -30,6 +31,7 @@ namespace BischinoTheGame.ViewModel.PageViewModels
 
 
         private bool _isDropPhase;
+
         public bool IsDropPhase
         {
             get => _isDropPhase;
@@ -38,6 +40,7 @@ namespace BischinoTheGame.ViewModel.PageViewModels
 
 
         private bool _isBetPhase;
+
         public bool IsBetPhase
         {
             get => _isBetPhase;
@@ -49,20 +52,21 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         }
 
 
-
         private bool _isLastPhase;
+
         public bool IsLastPhase
         {
             get => _isLastPhase;
             set
             {
-                if(SetProperty(ref _isLastPhase, value) && value)
-                    ToLastPase();
+                if (SetProperty(ref _isLastPhase, value) && value)
+                    ToLastPhase();
             }
         }
 
 
         private Command<Card> _dropCommand;
+
         public Command<Card> DropCommand
         {
             get => _dropCommand;
@@ -74,31 +78,20 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         public ObservableCollection<Card> DroppedCards { get; set; } = new ObservableCollection<Card>();
 
         public GameViewModel(Room room)
-        {   
+        {
             _room = room;
             _roomQuery = new RoomQuery {PlayerName = Player.Name, RoomName = _room.Name};
-            DropCommand = new Command<Card>(Drop, _=> CanDrop());
-            AsyncInitialization();
+            DropCommand = new Command<Card>(Drop, _ => CanDrop());
             AppController.RoomsHandler.MatchSnapshotUpdated += HandleSnapshot;
-        }
-
-        private async void AsyncInitialization()
-        {
-            try
-            {
-                AppController.RoomsHandler.SubscribeMatchSnapshotUpdates(_roomQuery);
-            }
-            catch (Exception e)
-            {
-                await AppController.Navigation.DisplayAlert(ErrorTitle, e.Message);
-            }
+            AppController.RoomsHandler.SubscribeMatchSnapshotUpdates(_roomQuery);
         }
 
 
-        private async void ToLastPase()
+        private async void ToLastPhase()
         {
             IsPageEnabled = false;
-            await AppController.Navigation.RoomNavigation.ToLastPhase(_room.Name, Player.Name, MatchSnapshot.Player.LastPhaseViewModel);
+            await AppController.Navigation.RoomNavigation.ToLastPhase(_room.Name, Player.Name,
+                MatchSnapshot.Player.LastPhaseViewModel);
             IsPageEnabled = true;
         }
 
@@ -106,7 +99,8 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         private async void ToBetPhase()
         {
             IsPageEnabled = false;
-            await AppController.Navigation.RoomNavigation.ToBetPopup(_room.Name, Player.Name, _matchSnapshot.Player.BetViewModel);
+            await AppController.Navigation.RoomNavigation.ToBetPopup(_room.Name, Player.Name,
+                _matchSnapshot.Player.BetViewModel);
             IsPageEnabled = true;
         }
 
@@ -119,6 +113,7 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         {
             IsDropPhase = false;
         }
+
         public void LastPhaseCompleted()
         {
             IsLastPhase = false;
@@ -135,7 +130,8 @@ namespace BischinoTheGame.ViewModel.PageViewModels
             else
                 try
                 {
-                    var query = new RoomQuery<string> { PlayerName = Player.Name, RoomName = _room.Name, Data = card.Name};
+                    var query = new RoomQuery<string>
+                        {PlayerName = Player.Name, RoomName = _room.Name, Data = card.Name};
                     await AppController.RoomsHandler.DropCard(query);
                     IsDropPhase = false;
                 }
@@ -148,11 +144,50 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         }
 
 
+        private void UpdatePlayerCards()
+        {
+            if (_matchSnapshot.Player.Cards.Count == PlayerCards.Count ||
+                (_matchSnapshot.Player.StartCardsCount == 1 && _matchSnapshot.Player.DropCardViewModel == null))
+                return;
+
+            PlayerCards.Clear();
+            foreach (var card in _matchSnapshot.Player.Cards)
+                PlayerCards.Add(card);
+            PlayerCardsUpdated?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void UpdateDroppedCards()
+        {
+            if (_matchSnapshot.DroppedCards.Count == DroppedCards.Count)
+                return;
+
+            DroppedCards.Clear();
+            foreach (var card in _matchSnapshot.DroppedCards)
+                DroppedCards.Add(card);
+            DroppedCardsUpdated?.Invoke(this, EventArgs.Empty);
+        }
+
+
+        private async Task OnEndPhase()
+        {
+            await Task.Delay(3000);
+            await AppController.RoomsHandler.NextPhase(_roomQuery);
+        }
+
+        private async Task OnEndTurn()
+        {
+            await Task.Delay(3000);
+            await AppController.RoomsHandler.NextTurn(_roomQuery);
+        }
+
         private async void HandleSnapshot(object sender, MatchSnapshot matchSnapshot)
         {
             MatchSnapshot = matchSnapshot;
-            if(NewMatchSnapshot is { })
-                await NewMatchSnapshot?.Invoke();
+            if (NewMatchSnapshot == null)
+                return;
+
+
+            await NewMatchSnapshot?.Invoke();
 
             if (matchSnapshot.DisconnectedPlayer is { })
             {
@@ -160,46 +195,39 @@ namespace BischinoTheGame.ViewModel.PageViewModels
                 return;
             }
 
-            if (_matchSnapshot.Player.Cards.Count != PlayerCards.Count && (_matchSnapshot.Player.StartCardsCount !=1 || _matchSnapshot.Player.DropCardViewModel is {}))
-            {
-                PlayerCards.Clear();
-                foreach (var card in _matchSnapshot.Player.Cards)
-                    PlayerCards.Add(card);
-                PlayerCardsUpdated?.Invoke(this, EventArgs.Empty);
-            }
+            UpdatePlayerCards();
+            UpdateDroppedCards();
 
-            if (_matchSnapshot.DroppedCards.Count != DroppedCards.Count)
-            {
-                DroppedCards.Clear();
-                foreach (var card in _matchSnapshot.DroppedCards)
-                    DroppedCards.Add(card);
-                DroppedCardsUpdated?.Invoke(this, EventArgs.Empty);
-            }
             IsBetPhase = matchSnapshot.Player.BetViewModel is {};
             IsDropPhase = matchSnapshot.Player.DropCardViewModel is { };
             IsLastPhase = matchSnapshot.Player.LastPhaseViewModel is {};
             DropCommand.ChangeCanExecute();
 
-            if(matchSnapshot.Host == Player.Name)
-                if (matchSnapshot.IsEndTurn)
-                {
-                    await Task.Delay(3000);
-                    await AppController.RoomsHandler.NextTurn(_roomQuery);
-                }
-                else if (matchSnapshot.IsPhaseEnded)
-                {
-                    await Task.Delay(3000);
-                    await AppController.RoomsHandler.NextPhase(_roomQuery);
-                }
-
             HandleTurn(matchSnapshot.PlayerTurn);
+
+            if (matchSnapshot.Host == Player.Name)
+                if (matchSnapshot.IsEndTurn)
+                    await OnEndTurn();
+                else if (matchSnapshot.IsPhaseEnded)
+                    await OnEndPhase();
+
+            if (matchSnapshot.Winners is { })
+                await OnWinnersPhase();
         }
 
-
+        private async Task OnWinnersPhase()
+        {
+            IsPageEnabled = false;
+            UnsubscribeFromEvents();
+            await Task.Delay(3000);
+            await AppController.Navigation.RoomNavigation.ToWinnersPopup(MatchSnapshot);
+            IsPageEnabled = true;
+        }
 
         private async Task OnPlayerDisconnected(string playerName)
         {
             IsPageEnabled = false;
+            UnsubscribeFromEvents();
             await AppController.Navigation.DisplayAlert("Timeout",
                 $"The player {playerName} is idled, going back to room list");
             await AppController.Navigation.RoomNavigation.BackToRoomList();
@@ -209,14 +237,19 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         private void HandleTurn(PrivatePlayer playerTurn)
         {
             if (playerTurn.Name == Player.Name)
-                if(MatchSnapshot.Player.DropCardViewModel is { })
+                if (MatchSnapshot.Player.DropCardViewModel is { })
                     YourTurn?.Invoke(this, EventArgs.Empty);
         }
 
 
+        private void UnsubscribeFromEvents()
+        {
+            AppController.RoomsHandler.UnsubscribeMatchSnapshotUpdates();
+            AppController.RoomsHandler.MatchSnapshotUpdated -= HandleSnapshot;
+        }
+
         private Player Player { get; } = AppController.Navigation.RoomNavigation.LoggedPlayer;
 
-        private bool PollingEnabled => !IsBetPhase && !IsDropPhase && !IsLastPhase;
         private bool CanDrop() => IsDropPhase;
     }
 }

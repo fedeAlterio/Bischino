@@ -15,8 +15,8 @@ namespace Bischino.Controllers
     public class RoomManager
     {
         public event EventHandler<RoomQuery> WaitingRoomDisconnectedPlayer;
-        private const int InGameTimeout = 5 * 1000; //ms
-        private const int WaitingRoomTimeout = 5 * 1000; //ms
+        private const int InGameTimeout = 120 * 1000; //ms
+        private const int WaitingRoomTimeout = 7 * 1000; //ms
         public readonly object Lock = new object();
         public string RoomName { get; }
         public GameManager GameManager { get; private set; }
@@ -37,10 +37,14 @@ namespace Bischino.Controllers
         }
 
 
-        public void NotifyPing(string playerName)
+
+        public void NotifyToBePinged(string playerName, bool resetPing = true)
         {
             if(_pendingPlayersTimerDictionary.TryGetValue(playerName, out var timer))
-                timer.Reset();
+            {
+                if (resetPing)
+                    timer.Reset();
+            }
             else
             {
                 timer = new TimeoutTimer<string>(WaitingRoomTimeout, playerName);
@@ -86,8 +90,14 @@ namespace Bischino.Controllers
             IsGameStarted = true;
             StartTime = DateTime.Now;
             GameManager = new GameManager(roomName, roomPendingPlayers);
-            GameManager.CurrentPlayerChangedEvent += GameManager_CurrentPlayerChangedEvent;
+            GameManager.CurrentPlayerChanged += GameManager_CurrentPlayerChangedEvent;
+            GameManager.EndOfMatch += GameManager_EndOfMatch;
             GameManager.StartGame();
+        }
+
+        private void GameManager_EndOfMatch(object sender, IList<Player> e)
+        {
+            InGameTimer?.Stop();
         }
 
         private void GameManager_CurrentPlayerChangedEvent(object sender, Player player)

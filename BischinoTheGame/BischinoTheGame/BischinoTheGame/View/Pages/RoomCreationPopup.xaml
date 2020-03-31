@@ -23,9 +23,9 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" TextColor="{StaticResource GoodWhite}" FontSize="30" 
+            <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" TextColor="{StaticResource GoodWhite}" FontSize="26" 
                    Text="{Binding Room.Name}"/>
-            <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" TextColor="{StaticResource GoodWhite}" FontSize="30" 
+            <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" TextColor="{StaticResource GoodWhite}" FontSize="26" 
                    Text="Room Name" IsVisible="{Binding Room.Name, Converter={StaticResource RoomNameValueConverter}}"/>
 
 

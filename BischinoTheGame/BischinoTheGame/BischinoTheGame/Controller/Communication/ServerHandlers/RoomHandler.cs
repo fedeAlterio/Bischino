@@ -15,101 +15,76 @@ namespace BischinoTheGame.Controller.Communication.ServerHandlers
     {
         public event EventHandler<MatchSnapshot> MatchSnapshotUpdated;
 
-        private static RoomHandler _roomHandler;    
+        private static RoomHandler _roomHandler;
+        private CancellationTokenSource _updateTokenSource;
         public static RoomHandler Instance => _roomHandler ??= new RoomHandler();
         protected override string BaseUrl { get; } = "rooms/";
 
-        public RoomHandler()
-        {
 
-        }
+        public Task Create(Room room)
+            => Post(room);
 
-        public async Task Create(Room room)
-        {
-            await Post(room);
-        }
+        public Task<IList<Room>> GetRooms(RoomSearchQuery query) 
+            => Get<IList<Room>>(query);
 
-        public async Task<IList<Room>> GetRooms(RoomSearchQuery query)
-        {
-            var ret = await Get<IList<Room>>(query);
-            return ret;
-        }
+        public Task Join(RoomQuery roomQuery) 
+            => Post(roomQuery);
 
-        public async Task Join(RoomQuery roomQuery)
-        {
-            await Post(roomQuery);
-        }
+        public Task<IList<string>> GetJoinedPLayers(RoomQuery roomQuery) 
+            => Get<IList<string>>(roomQuery);
 
-        public Task<IList<string>> GetJoinedPLayers(RoomQuery roomQuery)
-        {
-            var ret = Get<IList<string>>(roomQuery);
-            return ret;
-        }
+        public Task<bool> IsMatchStarted(string roomName) 
+            => Get<bool>(roomName);
 
-        public Task<bool> IsMatchStarted(string roomName)
-        {
-            var ret = Get<bool>(roomName);
-            return ret;
-        }
+        public Task Start(string roomName)
+            => Post(roomName);
 
-        public async Task Start(string roomName)
-        {
-            await Post(roomName);
-        }
+        public Task<MatchSnapshot> GetMatchSnapshot(RoomQuery roomQuery, CancellationToken token)
+            => Get<MatchSnapshot>(roomQuery);
 
-        public Task<MatchSnapshot> GetMatchSnapshot(RoomQuery roomQuery)
-        {
-            var ret = Get<MatchSnapshot>(roomQuery);
-            return ret;
-        }
+        public Task MakeABet(RoomQuery roomQuery) 
+            => Post(roomQuery);
 
-        public async Task MakeABet(RoomQuery roomQuery)
-        {
-            await Post(roomQuery);
-        }
+        public Task DropCard(RoomQuery<string> roomQuery)
+            => Post(roomQuery);
 
-        public async Task DropCard(RoomQuery<string> roomQuery)
-        {
-            await Post(roomQuery);
-        }
+        public Task NextTurn(RoomQuery roomQuery) 
+            => Post(roomQuery);
 
-        public async Task NextTurn(RoomQuery roomQuery)
-        {
-            await Post(roomQuery);
-        }
+        public Task NextPhase(RoomQuery roomQuery) 
+            => Post(roomQuery);
+        
+        public Task DropPaolo(RoomQuery<bool> paoloQuery) 
+            => Post(paoloQuery);
 
-        public async Task NextPhase(RoomQuery roomQuery)
-        {
-            await Post(roomQuery);
-        }
+        public Task UnJoin(RoomQuery roomQuery)
+            => Post(roomQuery);
 
         public void SubscribeMatchSnapshotUpdates(RoomQuery roomQuery)
         {
-            //await WebSocket.ConnectAsync(WebSocketServerUri, CancellationToken.None);
-            //await WebSocket.SendAsync(roomQuery);
-            GetSnapshotRoutine(roomQuery);
+            _updateTokenSource = new CancellationTokenSource();
+            GetSnapshotRoutine(roomQuery, _updateTokenSource.Token);
         }
 
-        private async void GetSnapshotRoutine(RoomQuery roomQuery)
+        public void UnsubscribeMatchSnapshotUpdates()
+            => _updateTokenSource?.Cancel();
+
+        private async void GetSnapshotRoutine(RoomQuery roomQuery, CancellationToken token)
         {
-            while (true)
+            while (!_updateTokenSource.IsCancellationRequested)
             {
                 try
                 {
-                   var snapshot = await GetMatchSnapshot(roomQuery);
+                    var snapshot = await GetMatchSnapshot(roomQuery, token);
                     MatchSnapshotUpdated?.Invoke(this, snapshot);
                 }
-                catch (Exception e)
+                catch (TaskCanceledException) when (token.IsCancellationRequested)
                 {
                 }
+                catch { }
+            }
             }
 
-            throw new Exception("Socket closed");
-        }
 
-        public async Task DropPaolo(RoomQuery<bool> paoloQuery)
-        {
-            await Post(paoloQuery);
-        }
     }
 }

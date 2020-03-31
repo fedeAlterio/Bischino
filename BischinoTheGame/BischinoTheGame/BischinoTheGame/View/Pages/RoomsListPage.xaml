@@ -8,73 +8,75 @@
              BackgroundColor="{StaticResource BackgroundBlack}"
              x:Class="BischinoTheGame.View.Pages.RoomsListPage">
     <ContentPage.Content>
-        <Grid IsEnabled="{Binding IsPageEnabled}">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="70"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <Button Padding="0" BackgroundColor="{StaticResource BackgroundBlack}" Grid.Row="0" Grid.Column="1" Margin="0,40,0,0" FontSize="22" TextColor="White" HorizontalOptions="Center"
-                        Text="Filter" Command="{Binding ShowFiltersCommand}"/>
-            <ContentView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Margin="20, 10" WidthRequest="360" HorizontalOptions="Center">
-                <RefreshView IsRefreshing="{Binding IsBusy}" Command="{Binding RefreshCommand}">
-                    <CollectionView SelectedItem="{Binding SelectedRoom}" ItemsSource="{Binding Rooms}" SelectionMode="Single" SelectionChangedCommand="{Binding VisualizeRoomCommand}" SelectionChangedCommandParameter="{Binding Source={RelativeSource Self}, Path=SelectedItem}" RemainingItemsThreshold="3" RemainingItemsThresholdReachedCommand="{Binding EndOfListCommand}">
-                        <CollectionView.ItemsLayout>
-                            <GridItemsLayout Span="1" 
-                                         VerticalItemSpacing="15" 
-                                         Orientation="Vertical"
-                                         HorizontalItemSpacing="15"/>
-                        </CollectionView.ItemsLayout>
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate>
-                                <Grid BackgroundColor="{StaticResource GoodGray}" ColumnSpacing="20" HorizontalOptions="Center" VerticalOptions="Center" HeightRequest="230" Padding="15, 10">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="*"/>
-                                    </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
+            <Grid IsEnabled="{Binding IsPageEnabled}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="70"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button Padding="0" BackgroundColor="{StaticResource BackgroundBlack}" Grid.Row="0" Grid.Column="1" Margin="0,40,0,0" FontSize="22" TextColor="White" HorizontalOptions="Center"
+                            Text="Filter" Command="{Binding ShowFiltersCommand}"/>
+                <ContentView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Margin="20, 10" WidthRequest="360" HorizontalOptions="Center">
+                    <RefreshView IsRefreshing="{Binding IsBusy}" Command="{Binding RefreshCommand}">
+                        <CollectionView SelectedItem="{Binding SelectedRoom}" ItemsSource="{Binding Rooms}" SelectionMode="Single" SelectionChangedCommand="{Binding VisualizeRoomCommand}" SelectionChangedCommandParameter="{Binding Source={RelativeSource Self}, Path=SelectedItem}" RemainingItemsThreshold="3" RemainingItemsThresholdReachedCommand="{Binding EndOfListCommand}">
+                            <CollectionView.ItemsLayout>
+                                <GridItemsLayout Span="1" 
+                                             VerticalItemSpacing="15" 
+                                             Orientation="Vertical"
+                                             HorizontalItemSpacing="15"/>
+                            </CollectionView.ItemsLayout>
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Frame CornerRadius="20" Padding="0" Margin="0" BackgroundColor="{StaticResource GoodGray}">
+                                        <Grid BackgroundColor="{StaticResource GoodGray}" ColumnSpacing="20" HorizontalOptions="Center" VerticalOptions="Center" HeightRequest="230" Padding="15, 10">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="*"/>
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
 
-                                    <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" TextColor="White" FontSize="33" HorizontalOptions="Center" VerticalOptions="Center"
-                                           Text="{Binding Name}"/>
-                                    <StackLayout Grid.Row="1" Grid.Column="0" HorizontalOptions="Center" VerticalOptions="Center" Orientation="Horizontal" Spacing="10"
-                                                 Margin="0,25,0,0">
-                                        <Label TextColor="White" FontSize="20"
-                                               Text="Min players"/>
-                                        <Label TextColor="White" FontSize="20"
-                                               Text="{Binding MinPlayers}"/>
-                                    </StackLayout>
+                                            <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" TextColor="White" FontSize="33" HorizontalOptions="Center" VerticalOptions="Center"
+                                                   Text="{Binding Name}"/>
+                                            <StackLayout Grid.Row="1" Grid.Column="0" HorizontalOptions="Center" VerticalOptions="Center" Orientation="Horizontal" Spacing="10"
+                                                         Margin="0,25,0,0">
+                                                <Label TextColor="White" FontSize="20"
+                                                       Text="Min players"/>
+                                                <Label TextColor="White" FontSize="20"
+                                                       Text="{Binding MinPlayers}"/>
+                                            </StackLayout>
 
-                                    <StackLayout Grid.Row="1" Grid.Column="1" HorizontalOptions="Center" VerticalOptions="Center" Orientation="Horizontal" Spacing="10"
-                                                 Margin="0,25,0,0">
-                                        <Label TextColor="White" FontSize="20"
-                                               Text="Max players"/>
-                                        <Label TextColor="White" FontSize="20"
-                                               Text="{Binding MaxPlayers}"/>
-                                    </StackLayout>
+                                            <StackLayout Grid.Row="1" Grid.Column="1" HorizontalOptions="Center" VerticalOptions="Center" Orientation="Horizontal" Spacing="10"
+                                                         Margin="0,25,0,0">
+                                                <Label TextColor="White" FontSize="20"
+                                                       Text="Max players"/>
+                                                <Label TextColor="White" FontSize="20"
+                                                       Text="{Binding MaxPlayers}"/>
+                                            </StackLayout>
 
-                                    <StackLayout Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" HorizontalOptions="Center" VerticalOptions="Center" Orientation="Horizontal" Spacing="10">
-                                        <Image HeightRequest="30"
-                                               Source="people"/>
-                                        <Label TextColor="White" FontSize="20"
-                                               Text="{Binding PendingPlayers.Count}"/>
-                                    </StackLayout>
-                                </Grid>
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
-                </RefreshView>
-            </ContentView>
+                                            <StackLayout Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" HorizontalOptions="Center" VerticalOptions="Center" Orientation="Horizontal" Spacing="10">
+                                                <Image HeightRequest="30"
+                                                       Source="people"/>
+                                                <Label TextColor="White" FontSize="20"
+                                                       Text="{Binding PendingPlayers.Count}"/>
+                                            </StackLayout>
+                                         </Grid>
+                                     </Frame>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </RefreshView>
+                </ContentView>
 
-            <ImageButton Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Grid.ColumnSpan="3" HorizontalOptions="End" VerticalOptions="End" BackgroundColor="Transparent" Margin="0,0,20,20" HeightRequest="80"
-                         Source="add" Command="{Binding CreateRoomCommand}"/>
-        </Grid>
+                <ImageButton Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Grid.ColumnSpan="3" HorizontalOptions="End" VerticalOptions="End" BackgroundColor="Transparent" Margin="0,0,20,20" HeightRequest="80"
+                             Source="add" Command="{Binding CreateRoomCommand}"/>
+            </Grid>
     </ContentPage.Content>
 </ContentPage>

@@ -30,8 +30,7 @@ namespace BischinoTheGame.View.Pages
             _viewModel = BindingContext as GameViewModel;
             _viewModel.PlayerCardsUpdated += _viewModel_PlayerCardsUpdated;
             _viewModel.DroppedCardsUpdated += _viewModel_DroppedCardsUpdated;
-            _viewModel.YourTurn += _viewModel_YourTurnEventHandler;
-            _viewModel.StartPolling += _viewModel_StartPolling;
+            _viewModel.YourTurn += _viewModel_YourTurnEventHandler; 
             _viewModel.NewMatchSnapshot += _viewModel_NewMatchSnapshot;
         }
 
@@ -43,10 +42,6 @@ namespace BischinoTheGame.View.Pages
                 _clickedImageButton.Scale = 1;
                 DeletingCardAnimation = null;
             }
-        }
-
-        private void _viewModel_StartPolling(object sender, EventArgs e)
-        {
         }
 
         protected override void OnDisappearing()
@@ -66,20 +61,20 @@ namespace BischinoTheGame.View.Pages
 
         private void _viewModel_DroppedCardsUpdated(object sender, EventArgs e)
         {
-            var Cards = _viewModel.DroppedCards;
+            var cards = _viewModel.DroppedCards;
             var start = DroppedCardsCollectionView.WidthRequest;
             var height = DroppedCardsCollectionView.Height;
             var width = height * Card.ratio + 4;
             var spacing = width * 0.4;
-            new Animation(val => DroppedCardsCollectionView.WidthRequest = val, start, width * Cards.Count + spacing * (Cards.Count-1),
+            new Animation(val => DroppedCardsCollectionView.WidthRequest = val, start, width * cards.Count + spacing * (cards.Count-1),
                 Easing.CubicOut).Commit(this, "droppedScale", 32U, 600U);
         }
 
         private void _viewModel_PlayerCardsUpdated(object sender, EventArgs e)
         {
-            var Cards = _viewModel.PlayerCards;
+            var cards = _viewModel.PlayerCards;
             var start = PlayerCollectionView.WidthRequest;
-            new Animation(val => PlayerCollectionView.WidthRequest = val, start, PlayerCardWidth * Cards.Count,
+            new Animation(val => PlayerCollectionView.WidthRequest = val, start, PlayerCardWidth * cards.Count,
                 Easing.CubicOut).Commit(this, "playerScale", 32U, 600U);
         }
 

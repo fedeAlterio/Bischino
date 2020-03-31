@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+             mc:Ignorable="d"
+             x:Class="BischinoTheGame.View.Pages.WinnersPopup">
+    <Frame CornerRadius="20" WidthRequest="240" HorizontalOptions="Center" VerticalOptions="Start" Margin="0,70,0,0"  HeightRequest="230" BackgroundColor="{StaticResource BackgroundBlack}" >
+        <StackLayout>
+            <Label TextColor="White" FontSize="25"
+                   Text="Winners"/>
+            <CollectionView Margin="20,10,0,0"
+                IsEnabled="{Binding IsPageEnabled}" ItemsSource="{Binding MatchSnapshot.Winners}" HorizontalOptions="Center" Footer="">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Span="1"
+                                     VerticalItemSpacing="15" 
+                                     Orientation="Vertical"
+                                     HorizontalItemSpacing="15"/>
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Label TextColor="White" FontSize="17"
+                               Text="{Binding Name}"/>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            <Button IsEnabled="{Binding IsPageEnabled}"
+                Text="Ok" TextColor="White" FontSize="17" BackgroundColor="{StaticResource GoodBlue}" CornerRadius="20"
+                Command="{Binding OkCommand}"/>
+        </StackLayout>
+    </Frame>
+</pages:PopupPage>

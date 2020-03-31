@@ -73,6 +73,13 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         }
 
 
+        private IList<PrivatePlayer> _winners;
+        public IList<PrivatePlayer> Winners
+        {
+            get => _winners;
+            set => SetProperty(ref _winners, value);
+        }
+
         public string Host { get; set; }
     }
 }

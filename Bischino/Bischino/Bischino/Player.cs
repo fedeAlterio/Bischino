@@ -14,7 +14,7 @@ namespace Bischino.Bischino
         public event EventHandler HasLostEvent;
         public event EventHandler PlayerWinEvent;  
 
-        private const int FirstTurnCardCount = 5;
+        private const int FirstTurnCardCount = 2;
         private readonly GameManager _gameManager;
         private IList<int> _possibleBets;
 

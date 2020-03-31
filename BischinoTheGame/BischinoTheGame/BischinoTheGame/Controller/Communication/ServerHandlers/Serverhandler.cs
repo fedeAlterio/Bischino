@@ -5,6 +5,7 @@ using System.Net.Http.Headers;
 using System.Net.WebSockets;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using BischinoTheGame.Controller.Communication.Exceptions;
 using BischinoTheGame.ViewModel.PageViewModels;
@@ -22,10 +23,6 @@ namespace BischinoTheGame.Controller.Communication.ServerHandlers
         {
            RestServerUri = new UriBuilder(@"https://bischino20200324045818.azurewebsites.net").Uri; 
           //RestServerUri = new UriBuilder(@"https://10.0.2.2:5001").Uri;
-           // ServerUri = new UriBuilder(@"https://192.168.1.66").Uri;
-
-          // WebSocketServerUri = new Uri(@"ws://bischino20200324045818.azurewebsites.net/sock");
-          // WebSocketServerUri = new Uri(@"ws://10.0.2.2:5000/ws");
         }
 
         public static HttpClient GetClient()
@@ -46,14 +43,18 @@ namespace BischinoTheGame.Controller.Communication.ServerHandlers
             return client;
         }
 
-        protected static async Task PostWithUri(Uri relativeUri, object toSend)
+        protected static async Task PostWithUri(Uri relativeUri, object toSend, CancellationToken token)
         {
             var uri = new Uri(RestServerUri, relativeUri);
-            var resp = await Client.PostAsJsonAsync(uri, toSend);
+            var resp = await Client.PostAsJsonAsync(uri, toSend, token);
 
             if (!resp.IsSuccessStatusCode)
                 await ThrowAnException(resp);
         }
+
+
+        protected static Task PostWithUri(Uri relativeUri, object toSend)
+            => PostWithUri(relativeUri, toSend, CancellationToken.None);
 
         private static async Task ThrowAnException(HttpResponseMessage response)
         {
@@ -86,11 +87,17 @@ namespace BischinoTheGame.Controller.Communication.ServerHandlers
         }
 
 
-        protected async Task Post(object toSend, [CallerMemberName] string methodName = "")
+
+        protected async Task Post(object toSend, CancellationToken token, [CallerMemberName] string methodName = "")
         {
             var uri = MethodNameToUri(methodName);
-            await PostWithUri(uri, toSend);
+            await PostWithUri(uri, toSend, token);
         }
+
+        protected Task Post(object toSend, [CallerMemberName] string methodName = "")
+            => Post(toSend, CancellationToken.None, methodName);
+
+
 
         protected async Task<T> Get<T>(object toSend, [CallerMemberName] string methodName = "")
         {

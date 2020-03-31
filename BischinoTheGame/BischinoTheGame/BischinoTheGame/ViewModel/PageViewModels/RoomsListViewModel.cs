@@ -133,7 +133,7 @@ namespace BischinoTheGame.ViewModel.PageViewModels
                 var player = AppController.Navigation.RoomNavigation.LoggedPlayer;
                 var roomQuery = new RoomQuery { PlayerName = player.Name, RoomName = room.Name };
                 await AppController.RoomsHandler.Join(roomQuery);
-                await AppController.Navigation.RoomNavigation.NotifyRoomJoined(room, false);
+                await AppController.Navigation.RoomNavigation.NotifyRoomJoined(room);
             }
             catch (Exception e)
             {
