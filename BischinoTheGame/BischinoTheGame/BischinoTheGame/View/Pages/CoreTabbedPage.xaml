@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
+             xmlns:pages="clr-namespace:BischinoTheGame.View.Pages;assembly=BischinoTheGame"
+             mc:Ignorable="d"
+             android:TabbedPage.ToolbarPlacement="Bottom"
+             SelectedTabColor="White"
+             UnselectedTabColor="DarkGray"
+             BarTextColor="White"
+             BarBackgroundColor="Black"
+             NavigationPage.HasNavigationBar="False"
+             x:Class="BischinoTheGame.View.Pages.CoreTabbedPage">
+    <pages:RoomsListPage BindingContext="{Binding RoomListViewModel}" Title="Search" IconImageSource="Explore"/>
+    <pages:SettingsPage BindingContext="{Binding SettingsViewModel}" Title="Settings" IconImageSource="settings"/>
+</TabbedPage>

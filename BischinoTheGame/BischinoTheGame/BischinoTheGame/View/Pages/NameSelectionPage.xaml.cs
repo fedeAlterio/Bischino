@@ -16,6 +16,7 @@ namespace BischinoTheGame
         public NameSelectionPage()
         {
             InitializeComponent();
+
         }
     }
 }

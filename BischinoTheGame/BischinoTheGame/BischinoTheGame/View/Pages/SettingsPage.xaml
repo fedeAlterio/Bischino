@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             NavigationPage.HasNavigationBar="False"
+             BackgroundColor="{StaticResource BackgroundBlack}"
+             x:Class="BischinoTheGame.View.Pages.SettingsPage">
+   <Grid IsEnabled="{Binding IsPageEnabled}" Padding="20">
+       <Grid.RowDefinitions>
+           <RowDefinition Height="40"/>
+           <RowDefinition Height="*"/>
+       </Grid.RowDefinitions>
+       <Label Grid.Row="0" TextColor="White" HorizontalOptions="Start" FontSize="23" 
+              Text="Settings"/>
+       <StackLayout Grid.Row="1" HorizontalOptions="FillAndExpand" VerticalOptions="Center">
+           <Button  BackgroundColor="{StaticResource GoodGray}" TextColor="White"
+                    Text="Choose your deck" Command="{Binding ToDeckSelectionCommand}"/>
+       </StackLayout>
+   </Grid>
+</ContentPage>

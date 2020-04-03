@@ -12,9 +12,9 @@ namespace Bischino.Bischino
         public event EventHandler<Card> DroppedCardEvent;
         public event EventHandler<int> NewBetEvent;
         public event EventHandler HasLostEvent;
-        public event EventHandler PlayerWinEvent;  
+        public event EventHandler PlayerWinEvent;
 
-        private const int FirstTurnCardCount = 2;
+        private const int FirstTurnCardCount = 5;
         private readonly GameManager _gameManager;
         private IList<int> _possibleBets;
 
@@ -28,6 +28,7 @@ namespace Bischino.Bischino
         public BetViewModel BetViewModel { get; private set; }
         public LastPhaseViewModel LastPhaseViewModel { get; set; }
 
+        public bool IsIdled { get; set; }
 
         private List<Card> _cards;
         public IReadOnlyList<Card> Cards => _cards;
@@ -71,7 +72,7 @@ namespace Bischino.Bischino
             {
                 WinBet = null;
                 _cards.Clear();
-                PhaseWin = 0;
+                PhaseWin = null;
             }
         }
 
@@ -170,11 +171,15 @@ namespace Bischino.Bischino
                 throw new Exception($"Phase bet null for player {Name}");
 
             TotLost += Math.Abs(WinBet.Value - PhaseWin.Value);
-            if(HasLost)
-            {
-                UnsubscribeFromEvents();
-                HasLostEvent?.Invoke(this, EventArgs.Empty);
-            }
+            if (HasLost)
+                NotifyLost();
+        }
+
+
+        private void NotifyLost()
+        {
+            UnsubscribeFromEvents();
+            HasLostEvent?.Invoke(this, EventArgs.Empty);
         }
 
         private void UnsubscribeFromEvents()
@@ -186,7 +191,20 @@ namespace Bischino.Bischino
         }
 
 
-        public bool HasLost => TotLost >= 3;
+        public void NotifyIdled()
+        {
+            IsIdled = true;
+            WinBet = null;
+            PhaseWin = null;
+            TotLost = null;
+            _cards = new List<Card>();
+            BetViewModel = null;
+            DropCardViewModel = null;
+            LastPhaseViewModel = null;
+            NotifyLost();
+        }
 
+        public bool HasLost => IsIdled || TotLost >= 3;
+        public bool IsTurn => _gameManager.CurrentPlayer == this;
     }
 }

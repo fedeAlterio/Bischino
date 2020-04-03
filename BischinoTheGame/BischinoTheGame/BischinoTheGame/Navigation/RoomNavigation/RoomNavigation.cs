@@ -29,16 +29,9 @@ namespace BischinoTheGame.Navigation.RoomNavigation
         public async Task NotifyNameSelected(Player player)
         {
             LoggedPlayer = player;
-            await ToRoomList();
+            await ToCorePage();
         }
 
-        private async Task ToRoomList()
-        {
-            var vm = new RoomsListViewModel();
-            var page = new RoomsListPage { BindingContext = vm };
-            await Navigation.PushAsync(page);
-            Navigation.RemovePage(Navigation.NavigationStack.First());
-        }
         public async Task ShowRoomCreationPopup()
         {
             var vm = new RoomCreationViewModel();
@@ -119,7 +112,7 @@ namespace BischinoTheGame.Navigation.RoomNavigation
         {
             if(PopupNavigation.Instance.PopupStack.Count > 0)
                 await PopupNavigation.Instance.PopAllAsync();
-            await ToRoomList();
+            await ToCorePage();
         }
 
         public async Task ToWinnersPopup(MatchSnapshot matchSnapshot)
@@ -127,6 +120,28 @@ namespace BischinoTheGame.Navigation.RoomNavigation
             var vm = new WinnersPopupViewModel(matchSnapshot);
             var popup = new WinnersPopup {BindingContext = vm};
             await PopupNavigation.Instance.PushAsync(popup);
+        }
+
+        public async Task ToDeckSelection()
+        {
+            var vm = new DeckSelectionVewModel();
+            var page = new DeckSelectionPage {BindingContext = vm};
+            await Navigation.PushModalAsync(page);
+        }
+
+        public async Task NotifyDeckChosen()
+        {
+            await Navigation.PopModalAsync();
+        }
+
+        private async Task ToCorePage()
+        {
+            var roomListVM = new RoomsListViewModel();
+            var settingsVM = new SettingsViewModel();
+            var vm = new CoreTabbedViewModel(roomListVM, settingsVM);
+            var page = new CoreTabbedPage {BindingContext = vm};
+            await Navigation.PushAsync(page);
+            Navigation.RemovePage(Navigation.NavigationStack.First());
         }
     }
 }

@@ -9,7 +9,6 @@ namespace Bischino.Bischino
     {
         public int Value { get; set; }
         public string Name { get; set; }
-        public string IconName { get; set; }
         public bool IsPaolo { get; set; }
         public string Owner { get; set; }
     }

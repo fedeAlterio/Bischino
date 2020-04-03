@@ -26,5 +26,7 @@ namespace BischinoTheGame.Navigation.RoomNavigation
         Task ToFilterPopup(RoomSearchQuery query);
         Task BackToRoomList();
         Task ToWinnersPopup(MatchSnapshot matchSnapshot);
+        Task ToDeckSelection();
+        Task NotifyDeckChosen();
     }
 }

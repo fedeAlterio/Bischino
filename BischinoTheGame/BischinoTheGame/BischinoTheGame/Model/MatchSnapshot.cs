@@ -64,22 +64,11 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         }
 
 
-
-        private string _disconnectedPlayer;
-        public string DisconnectedPlayer
-        {
-            get => _disconnectedPlayer;
-            set => SetProperty(ref _disconnectedPlayer, value);
-        }
-
-
         private IList<PrivatePlayer> _winners;
         public IList<PrivatePlayer> Winners
         {
             get => _winners;
             set => SetProperty(ref _winners, value);
         }
-
-        public string Host { get; set; }
     }
 }

@@ -15,14 +15,16 @@ namespace BischinoTheGame.Controller.Communication.ServerHandlers
 {
     public abstract class ServerHandler
     {
-        protected abstract string BaseUrl { get; }
-        private static Uri RestServerUri { get; }
         protected static readonly HttpClient Client = GetClient();
+        protected abstract string BaseUrl { get; }  
         protected static Uri ToRelativeUri(string uri) => new Uri(uri, UriKind.Relative);
+        private static Uri RestServerUri { get; }
+
+
         static ServerHandler()
         {
-           RestServerUri = new UriBuilder(@"https://bischino20200324045818.azurewebsites.net").Uri; 
-          //RestServerUri = new UriBuilder(@"https://10.0.2.2:5001").Uri;
+            RestServerUri = new UriBuilder(@"https://bischino20200324045818.azurewebsites.net").Uri;
+           //RestServerUri = new UriBuilder(@"https://10.0.2.2:5001").Uri;
         }
 
         public static HttpClient GetClient()
@@ -114,9 +116,6 @@ namespace BischinoTheGame.Controller.Communication.ServerHandlers
         }
 
 
-        protected Uri MethodNameToUri(string name)
-        {
-            return ToRelativeUri(BaseUrl + name);
-        }
+        protected Uri MethodNameToUri(string name) => ToRelativeUri(BaseUrl + name);
     }
 }

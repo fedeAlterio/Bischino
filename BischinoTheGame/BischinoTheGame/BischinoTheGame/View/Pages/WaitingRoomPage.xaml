@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:forms="clr-namespace:Lottie.Forms;assembly=Lottie.Forms"
              mc:Ignorable="d"
              NavigationPage.HasNavigationBar="False"
              BackgroundColor="{StaticResource BackgroundBlack}"
@@ -39,8 +40,9 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-            <Button IsVisible="{Binding IsHost}" Grid.Row="3"  BackgroundColor="{StaticResource GoodBlue}" TextColor="White" HorizontalOptions="Center" CornerRadius="20"
-                    Text="Start" Command="{Binding StartMatchCommand}"/>
+            <forms:AnimationView Grid.Row="3" IsVisible="{Binding CanStart}" x:Name="AnimatedPlayButton" Animation="play.json" Loop="True" IsPlaying="True" HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="100" HeightRequest="100"/>
+            <Button IsVisible="{Binding CanStart}" Grid.Row="3" x:Name="StartButton" BackgroundColor="Transparent" TextColor="White" HorizontalOptions="Center" CornerRadius="20"
+                    Text="" Command="{Binding StartMatchCommand}" Clicked="StartButton_OnClicked"/>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

@@ -15,7 +15,6 @@ namespace Bischino.Bischino
         public bool IsPhaseEnded { get; set; }
         public string Host { get; set; }
         public PrivatePlayer PlayerTurn { get; set; }
-        public string DisconnectedPlayer { get; set; }
         public IList<PrivatePlayer> Winners { get; set; }
     }
 }

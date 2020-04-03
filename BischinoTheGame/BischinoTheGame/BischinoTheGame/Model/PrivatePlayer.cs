@@ -52,5 +52,21 @@ namespace BischinoTheGame.Model
             get => _hasLost;
             set => SetProperty(ref _hasLost, value);
         }
+
+
+        private bool _isIdled;
+        public bool IsIdled
+        {
+            get => _isIdled;
+            set => SetProperty(ref _isIdled, value);
+        }
+
+
+        private bool _isTurn;
+        public bool IsTurn
+        {
+            get => _isTurn;
+            set => SetProperty(ref _isTurn, value);
+        }
     }
 }

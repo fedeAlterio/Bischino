@@ -13,7 +13,8 @@ namespace Bischino.Bischino
         public int? PhaseWin { get; set; }
         public int? TotLost { get; set; }
         public bool HasLost { get; set; }
-
+        public bool IsIdled { get; set; }
+        public bool IsTurn { get; set; }
         public static PrivatePlayer FromPlayer(Player player)
         {
             var ret = new PrivatePlayer
@@ -23,7 +24,9 @@ namespace Bischino.Bischino
                 WinBet = player.WinBet,
                 HasLost = player.HasLost,
                 TotLost = player.TotLost,
-                PhaseWin = player.PhaseWin
+                PhaseWin = player.PhaseWin,
+                IsIdled = player.IsIdled,
+                IsTurn = player.IsTurn
             };
 
             return ret;

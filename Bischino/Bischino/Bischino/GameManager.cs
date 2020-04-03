@@ -23,6 +23,7 @@ namespace Bischino.Bischino
         public Player TurnStarter { get; set; }
         public IList<Player> Winners { get; set; }
 
+
         private Player _currentPlayer;
         public Player CurrentPlayer
         {
@@ -33,6 +34,7 @@ namespace Bischino.Bischino
                 CurrentPlayerChanged?.Invoke(this, _currentPlayer);
             }
         }
+
 
         private List<Player> _players;
         public IReadOnlyList<Player> Players => _players;
@@ -125,18 +127,29 @@ namespace Bischino.Bischino
             PhaseEnded = true;
         }
 
-        private void EndTurn()
-        {
-            TurnEnded = true;
-            TurnEndedEvent?.Invoke(this, EventArgs.Empty);
 
+        public void NotifyIdled(string playerName)
+        {
+            var player = _playingPlayers.Find(p => p.Name == playerName);
+            player.NotifyIdled();
+            RemovePlayers();
+            SetupNextTurn();
+            NewTurn();
+        }
+
+        private void RemovePlayers()
+        {
             foreach (var player in _toRemove)
                 _playingPlayers.Remove(player);
             _toRemove = new List<Player>();
+        }
 
+
+        private void SetupNextTurn()
+        {
             var totLost = from p in Players where p.HasLost select p;
             GameEnded = totLost.Count() >= Players.Count - 1;
-            if(GameEnded)
+            if (GameEnded)
                 ToGameEnd();
             else
             {
@@ -144,6 +157,15 @@ namespace Bischino.Bischino
                 PhaseStarter = TurnStarter;
                 CurrentPlayer = PhaseStarter;
             }
+        }
+
+        public void EndTurn()
+        {
+            TurnEnded = true;
+            TurnEndedEvent?.Invoke(this, EventArgs.Empty);
+
+            RemovePlayers();
+            SetupNextTurn();
         }
 
 
@@ -193,7 +215,8 @@ namespace Bischino.Bischino
             if (player is null)
                 throw new Exception("Player does not exist");
 
-            var otherPlayers = (from p in Players where p.Name != playerName select PrivatePlayer.FromPlayer(p)).ToList();
+            var otherPlayers = (from p in Players select PrivatePlayer.FromPlayer(p)).ToList();
+
             IList<PrivatePlayer> winners = null;
             if (Winners is {})
                 winners = (from p in Winners select PrivatePlayer.FromPlayer(p)).ToList();
@@ -208,12 +231,11 @@ namespace Bischino.Bischino
                 IsMatchEnded = GameEnded,
                 IsPhaseEnded = PhaseEnded,
                 PlayerTurn = PrivatePlayer.FromPlayer(CurrentPlayer),
-                Winners = winners
+                Winners = winners,
             };
             return ret;
         }
 
-        public Player Host => Players[0];
 
         private void NextPlayer()
         {

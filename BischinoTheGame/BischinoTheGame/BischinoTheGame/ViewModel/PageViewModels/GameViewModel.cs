@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BischinoTheGame.Controller.Communication.Exceptions;
 using BischinoTheGame.Controller.Communication.Queries;
 using BischinoTheGame.Model;
+using Rg.Plugins.Popup.Services;
 using Rooms.Controller;
 using Xamarin.Forms;
 
@@ -16,13 +19,24 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         public event EventHandler PlayerCardsUpdated;
         public event EventHandler YourTurn;
         public event Func<Task> NewMatchSnapshot;
-
         private readonly Room _room;
         private readonly RoomQuery _roomQuery;
+        private IList<string> _disconnectedPlayers = new List<string>();
 
+        public ObservableCollection<Card> PlayerCards { get; set; } = new ObservableCollection<Card>();
+        public ObservableCollection<Card> DroppedCards { get; set; } = new ObservableCollection<Card>();
+        public bool IsGameEnded { get; set; }
+        private bool CanDrop() => IsDropPhase;
+
+
+        private Player _player;
+        public Player Player
+        {
+            get => _player;
+            set => SetProperty(ref _player, value);
+        }
 
         private MatchSnapshot _matchSnapshot;
-
         public MatchSnapshot MatchSnapshot
         {
             get => _matchSnapshot;
@@ -31,7 +45,6 @@ namespace BischinoTheGame.ViewModel.PageViewModels
 
 
         private bool _isDropPhase;
-
         public bool IsDropPhase
         {
             get => _isDropPhase;
@@ -40,7 +53,6 @@ namespace BischinoTheGame.ViewModel.PageViewModels
 
 
         private bool _isBetPhase;
-
         public bool IsBetPhase
         {
             get => _isBetPhase;
@@ -53,7 +65,6 @@ namespace BischinoTheGame.ViewModel.PageViewModels
 
 
         private bool _isLastPhase;
-
         public bool IsLastPhase
         {
             get => _isLastPhase;
@@ -66,7 +77,6 @@ namespace BischinoTheGame.ViewModel.PageViewModels
 
 
         private Command<Card> _dropCommand;
-
         public Command<Card> DropCommand
         {
             get => _dropCommand;
@@ -74,11 +84,9 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         }
 
 
-        public ObservableCollection<Card> PlayerCards { get; set; } = new ObservableCollection<Card>();
-        public ObservableCollection<Card> DroppedCards { get; set; } = new ObservableCollection<Card>();
-
         public GameViewModel(Room room)
         {
+            Player = AppController.Navigation.RoomNavigation.LoggedPlayer;
             _room = room;
             _roomQuery = new RoomQuery {PlayerName = Player.Name, RoomName = _room.Name};
             DropCommand = new Command<Card>(Drop, _ => CanDrop());
@@ -135,9 +143,13 @@ namespace BischinoTheGame.ViewModel.PageViewModels
                     await AppController.RoomsHandler.DropCard(query);
                     IsDropPhase = false;
                 }
-                catch (Exception e)
+                catch (ServerException e)
                 {
                     await AppController.Navigation.DisplayAlert(ErrorTitle, e.Message);
+                }
+                catch (Exception)
+                {
+                    await AppController.Navigation.DisplayAlert(ErrorTitle, ErrorDefault);
                 }
 
             IsPageEnabled = true;
@@ -147,7 +159,8 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         private void UpdatePlayerCards()
         {
             if (_matchSnapshot.Player.Cards.Count == PlayerCards.Count ||
-                (_matchSnapshot.Player.StartCardsCount == 1 && _matchSnapshot.Player.DropCardViewModel == null))
+                (_matchSnapshot.Player.StartCardsCount == 1 && _matchSnapshot.Player.Cards.Count == 1 &&
+                 _matchSnapshot.Player.DropCardViewModel == null))
                 return;
 
             PlayerCards.Clear();
@@ -171,30 +184,46 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         private async Task OnEndPhase()
         {
             await Task.Delay(3000);
-            await AppController.RoomsHandler.NextPhase(_roomQuery);
+            bool isOk = false;
+            while(!isOk)
+                try
+                {
+                    await AppController.RoomsHandler.NextPhase(_roomQuery);
+                    isOk = true;
+                }
+                catch
+                {
+                    await AppController.Navigation.DisplayAlert("Error",
+                        "Impossible to communicate with the server, try again");
+                }
         }
 
         private async Task OnEndTurn()
         {
             await Task.Delay(3000);
-            await AppController.RoomsHandler.NextTurn(_roomQuery);
+            bool isOk = false;
+            while (!isOk)
+                try
+                {
+                    await AppController.RoomsHandler.NextTurn(_roomQuery);
+                    isOk = true;
+                }
+                catch
+                {
+                    await AppController.Navigation.DisplayAlert("Error",
+                        "Impossible to communicate with the server, try again");
+                }
         }
 
         private async void HandleSnapshot(object sender, MatchSnapshot matchSnapshot)
         {
             MatchSnapshot = matchSnapshot;
-            if (NewMatchSnapshot == null)
+            if (NewMatchSnapshot == null || IsGameEnded)
                 return;
 
 
+            await HandleDisconnectedPlayers();
             await NewMatchSnapshot?.Invoke();
-
-            if (matchSnapshot.DisconnectedPlayer is { })
-            {
-                await OnPlayerDisconnected(matchSnapshot.DisconnectedPlayer);
-                return;
-            }
-
             UpdatePlayerCards();
             UpdateDroppedCards();
 
@@ -205,7 +234,7 @@ namespace BischinoTheGame.ViewModel.PageViewModels
 
             HandleTurn(matchSnapshot.PlayerTurn);
 
-            if (matchSnapshot.Host == Player.Name)
+            if (matchSnapshot.PlayerTurn.Name == Player.Name)
                 if (matchSnapshot.IsEndTurn)
                     await OnEndTurn();
                 else if (matchSnapshot.IsPhaseEnded)
@@ -215,24 +244,31 @@ namespace BischinoTheGame.ViewModel.PageViewModels
                 await OnWinnersPhase();
         }
 
+        private async Task HandleDisconnectedPlayers()
+        {
+            var names = from p in MatchSnapshot.OtherPlayers where p.IsIdled select p.Name;
+            var enumerable = names as string[] ?? names.ToArray();
+            if (enumerable.All(name => _disconnectedPlayers.Contains(name)))
+                return;
+
+            _disconnectedPlayers = enumerable.ToList();
+            if (PopupNavigation.Instance.PopupStack.Count > 0)
+                await PopupNavigation.Instance.PopAllAsync();
+        }
+
         private async Task OnWinnersPhase()
         {
+            if (IsGameEnded)
+                return;
+
             IsPageEnabled = false;
+            IsGameEnded = true;
             UnsubscribeFromEvents();
             await Task.Delay(3000);
             await AppController.Navigation.RoomNavigation.ToWinnersPopup(MatchSnapshot);
             IsPageEnabled = true;
         }
 
-        private async Task OnPlayerDisconnected(string playerName)
-        {
-            IsPageEnabled = false;
-            UnsubscribeFromEvents();
-            await AppController.Navigation.DisplayAlert("Timeout",
-                $"The player {playerName} is idled, going back to room list");
-            await AppController.Navigation.RoomNavigation.BackToRoomList();
-            IsPageEnabled = true;
-        }
 
         private void HandleTurn(PrivatePlayer playerTurn)
         {
@@ -247,9 +283,5 @@ namespace BischinoTheGame.ViewModel.PageViewModels
             AppController.RoomsHandler.UnsubscribeMatchSnapshotUpdates();
             AppController.RoomsHandler.MatchSnapshotUpdated -= HandleSnapshot;
         }
-
-        private Player Player { get; } = AppController.Navigation.RoomNavigation.LoggedPlayer;
-
-        private bool CanDrop() => IsDropPhase;
     }
 }

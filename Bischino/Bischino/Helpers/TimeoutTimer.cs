@@ -12,6 +12,8 @@ namespace Bischino.Helpers
         public T Tag { get; }
         private readonly int _timeoutMs;
         private CancellationTokenSource _tokenSource;
+        private Task _timerTask;
+        private bool _isTimeoutForced;
 
         public bool IsEnabled { get; private set; }
 
@@ -21,7 +23,7 @@ namespace Bischino.Helpers
             _timeoutMs = timeoutMs;
         }
 
-        public async void Start()
+        private async Task TimerRoutine()
         {
             _tokenSource = new CancellationTokenSource();
             var token = _tokenSource.Token;
@@ -33,7 +35,8 @@ namespace Bischino.Helpers
             }
             catch (TaskCanceledException) when (token.IsCancellationRequested)
             {
-
+                if (_isTimeoutForced)
+                    TimeoutEvent?.Invoke(this, Tag);
             }
             finally
             {
@@ -41,17 +44,30 @@ namespace Bischino.Helpers
             }
         }
 
-
-        public void Reset()
+        public void Start()
         {
-            Stop();
+            _timerTask = TimerRoutine();
+        }
+
+        public async Task ForceTimeout()
+        {
+            _isTimeoutForced = true;
+            await Stop();
+            _isTimeoutForced = false;
+        }
+
+        public async Task Reset()
+        {
+            await Stop(); 
             Start();
         }
 
-        public void Stop()
+        public async Task Stop()
         {
             _tokenSource?.Cancel();
+            await _timerTask;
             _tokenSource = null;
         }
+
     }
 }

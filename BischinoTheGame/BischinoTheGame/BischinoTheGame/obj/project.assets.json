@@ -2,6 +2,18 @@
   "version": 3,
   "targets": {
     ".NETStandard,Version=v2.0": {
+      "Com.Airbnb.Xamarin.Forms.Lottie/3.1.0": {
+        "type": "package",
+        "dependencies": {
+          "Xamarin.Forms": "4.5.0.356"
+        },
+        "compile": {
+          "lib/netstandard2.0/Lottie.Forms.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Lottie.Forms.dll": {}
+        }
+      },
       "Microsoft.NETCore.Platforms/1.1.0": {
         "type": "package",
         "compile": {
@@ -639,7 +651,7 @@
           "lib/netstandard1.1/System.Net.Http.Formatting.dll": {}
         }
       },
-      "Xamarin.Essentials/1.3.1": {
+      "Xamarin.Essentials/1.5.2": {
         "type": "package",
         "dependencies": {
           "System.Numerics.Vectors": "4.5.0"
@@ -651,7 +663,7 @@
           "lib/netstandard2.0/Xamarin.Essentials.dll": {}
         }
       },
-      "Xamarin.Forms/4.3.0.908675": {
+      "Xamarin.Forms/4.5.0.495": {
         "type": "package",
         "compile": {
           "lib/netstandard2.0/Xamarin.Forms.Core.dll": {},
@@ -671,6 +683,39 @@
     }
   },
   "libraries": {
+    "Com.Airbnb.Xamarin.Forms.Lottie/3.1.0": {
+      "sha512": "aOO+qvfD/czfT49S/RCBZUoCc4nGDMDMD9sBDdqDoQ/5RZR5eqs45W4ohlaQnY1w3te4CAw/IN2EesmZEMyiUA==",
+      "type": "package",
+      "path": "com.airbnb.xamarin.forms.lottie/3.1.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE",
+        "com.airbnb.xamarin.forms.lottie.3.1.0.nupkg.sha512",
+        "com.airbnb.xamarin.forms.lottie.nuspec",
+        "icon.png",
+        "lib/monoandroid10.0/Lottie.Forms.dll",
+        "lib/monoandroid10.0/Lottie.Forms.pdb",
+        "lib/monoandroid10.0/Lottie.Forms.xml",
+        "lib/netstandard2.0/Lottie.Forms.dll",
+        "lib/netstandard2.0/Lottie.Forms.pdb",
+        "lib/netstandard2.0/Lottie.Forms.xml",
+        "lib/tizen40/Lottie.Forms.dll",
+        "lib/tizen40/Lottie.Forms.pdb",
+        "lib/tizen40/Lottie.Forms.xml",
+        "lib/uap10.0.18362/Lottie.Forms.dll",
+        "lib/uap10.0.18362/Lottie.Forms.pdb",
+        "lib/uap10.0.18362/Lottie.Forms.pri",
+        "lib/uap10.0.18362/Lottie.Forms.xml",
+        "lib/xamarinios10/Lottie.Forms.dll",
+        "lib/xamarinios10/Lottie.Forms.pdb",
+        "lib/xamarinios10/Lottie.Forms.xml",
+        "lib/xamarinmac20/Lottie.Forms.dll",
+        "lib/xamarinmac20/Lottie.Forms.pdb",
+        "lib/xamarinmac20/Lottie.Forms.xml",
+        "readme.txt"
+      ]
+    },
     "Microsoft.NETCore.Platforms/1.1.0": {
       "sha512": "kz0PEW2lhqygehI/d6XsPCQzD7ff7gUJaVGPVETX611eadGsA3A877GdSlU0LRVMCTH/+P3o2iDTak+S08V2+A==",
       "type": "package",
@@ -3252,22 +3297,18 @@
         "wininsider.system.net.http.formatting.nuspec"
       ]
     },
-    "Xamarin.Essentials/1.3.1": {
-      "sha512": "+51728AdZ/qtABGvcIaNXgEoL2jAtxAXLHS8PvGCP0pb6n7twBqYpfgkmwHYVgu+U99szgtL+Jot8L+OXorPcA==",
+    "Xamarin.Essentials/1.5.2": {
+      "sha512": "qHxkrkx5jIC0X/qWhxCPZ3MuuOJm8bfCzAoUtlpOBSE4oV0JhrkTezK0A+IV+k/MeJ3zKc8FexaIXah9rlCTIw==",
       "type": "package",
-      "path": "xamarin.essentials/1.3.1",
+      "path": "xamarin.essentials/1.5.2",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "lib/monoandroid60/Xamarin.Essentials.dll",
-        "lib/monoandroid60/Xamarin.Essentials.pdb",
-        "lib/monoandroid60/Xamarin.Essentials.xml",
-        "lib/monoandroid70/Xamarin.Essentials.dll",
-        "lib/monoandroid70/Xamarin.Essentials.pdb",
-        "lib/monoandroid70/Xamarin.Essentials.xml",
-        "lib/monoandroid71/Xamarin.Essentials.dll",
-        "lib/monoandroid71/Xamarin.Essentials.pdb",
-        "lib/monoandroid71/Xamarin.Essentials.xml",
+        "LICENSE",
+        "icon.png",
+        "lib/monoandroid10.0/Xamarin.Essentials.dll",
+        "lib/monoandroid10.0/Xamarin.Essentials.pdb",
+        "lib/monoandroid10.0/Xamarin.Essentials.xml",
         "lib/monoandroid80/Xamarin.Essentials.dll",
         "lib/monoandroid80/Xamarin.Essentials.pdb",
         "lib/monoandroid80/Xamarin.Essentials.xml",
@@ -3300,18 +3341,24 @@
         "lib/xamarinwatchos10/Xamarin.Essentials.pdb",
         "lib/xamarinwatchos10/Xamarin.Essentials.xml",
         "readme.txt",
-        "xamarin.essentials.1.3.1.nupkg.sha512",
+        "xamarin.essentials.1.5.2.nupkg.sha512",
         "xamarin.essentials.nuspec"
       ]
     },
-    "Xamarin.Forms/4.3.0.908675": {
-      "sha512": "kXrbXKJvXYF4cKjs1Jsb+pQFEnFGl0AONYSeABjgOJqN/o5Y4zC0XXQ68xiUI81PKQTuRB5F3oDom2t5ccJDZw==",
+    "Xamarin.Forms/4.5.0.495": {
+      "sha512": "ipufpdjFh+YHHw1E3I+8FIQWk1KmlB77PSHg32YRnuBSCUNEHjoMnvEmY9YCK4DTWfOenV0HHZVvGjB9qDtI9w==",
       "type": "package",
-      "path": "xamarin.forms/4.3.0.908675",
+      "path": "xamarin.forms/4.5.0.495",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "build/MonoAndroid10/proguard.cfg",
+        "build/XCODE10/Xamarin.Forms.Platform.iOS.dll",
+        "build/XCODE10/Xamarin.Forms.Platform.iOS.pdb",
+        "build/XCODE10/Xamarin.Forms.Platform.macOS.dll",
+        "build/XCODE11/Xamarin.Forms.Platform.iOS.dll",
+        "build/XCODE11/Xamarin.Forms.Platform.iOS.pdb",
+        "build/XCODE11/Xamarin.Forms.Platform.macOS.dll",
         "build/Xamarin.Forms.DefaultItems.props",
         "build/Xamarin.Forms.DefaultItems.targets",
         "build/Xamarin.Forms.props",
@@ -3332,39 +3379,39 @@
         "build/netstandard2.0/Xamarin.Forms.Build.Tasks.dll",
         "build/netstandard2.0/Xamarin.Forms.Core.dll",
         "build/netstandard2.0/Xamarin.Forms.Xaml.dll",
-        "lib/MonoAndroid81/Design/Xamarin.Forms.Core.Design.dll",
-        "lib/MonoAndroid81/Design/Xamarin.Forms.Xaml.Design.dll",
-        "lib/MonoAndroid81/FormsViewGroup.dll",
-        "lib/MonoAndroid81/FormsViewGroup.pdb",
-        "lib/MonoAndroid81/Xamarin.Forms.Core.dll",
-        "lib/MonoAndroid81/Xamarin.Forms.Core.pdb",
-        "lib/MonoAndroid81/Xamarin.Forms.Core.xml",
-        "lib/MonoAndroid81/Xamarin.Forms.Platform.Android.dll",
-        "lib/MonoAndroid81/Xamarin.Forms.Platform.Android.pdb",
-        "lib/MonoAndroid81/Xamarin.Forms.Platform.dll",
-        "lib/MonoAndroid81/Xamarin.Forms.Xaml.dll",
-        "lib/MonoAndroid81/Xamarin.Forms.Xaml.pdb",
-        "lib/MonoAndroid81/Xamarin.Forms.Xaml.xml",
-        "lib/MonoAndroid81/de/Xamarin.Forms.Core.xml",
-        "lib/MonoAndroid81/de/Xamarin.Forms.Xaml.xml",
-        "lib/MonoAndroid81/es/Xamarin.Forms.Core.xml",
-        "lib/MonoAndroid81/es/Xamarin.Forms.Xaml.xml",
-        "lib/MonoAndroid81/fr/Xamarin.Forms.Core.xml",
-        "lib/MonoAndroid81/fr/Xamarin.Forms.Xaml.xml",
-        "lib/MonoAndroid81/it/Xamarin.Forms.Core.xml",
-        "lib/MonoAndroid81/it/Xamarin.Forms.Xaml.xml",
-        "lib/MonoAndroid81/ja/Xamarin.Forms.Core.xml",
-        "lib/MonoAndroid81/ja/Xamarin.Forms.Xaml.xml",
-        "lib/MonoAndroid81/ko/Xamarin.Forms.Core.xml",
-        "lib/MonoAndroid81/ko/Xamarin.Forms.Xaml.xml",
-        "lib/MonoAndroid81/pt-br/Xamarin.Forms.Core.xml",
-        "lib/MonoAndroid81/pt-br/Xamarin.Forms.Xaml.xml",
-        "lib/MonoAndroid81/ru/Xamarin.Forms.Core.xml",
-        "lib/MonoAndroid81/ru/Xamarin.Forms.Xaml.xml",
-        "lib/MonoAndroid81/zh-Hans/Xamarin.Forms.Core.xml",
-        "lib/MonoAndroid81/zh-Hans/Xamarin.Forms.Xaml.xml",
-        "lib/MonoAndroid81/zh-Hant/Xamarin.Forms.Core.xml",
-        "lib/MonoAndroid81/zh-Hant/Xamarin.Forms.Xaml.xml",
+        "lib/MonoAndroid10.0/Design/Xamarin.Forms.Core.Design.dll",
+        "lib/MonoAndroid10.0/Design/Xamarin.Forms.Xaml.Design.dll",
+        "lib/MonoAndroid10.0/FormsViewGroup.dll",
+        "lib/MonoAndroid10.0/FormsViewGroup.pdb",
+        "lib/MonoAndroid10.0/Xamarin.Forms.Core.dll",
+        "lib/MonoAndroid10.0/Xamarin.Forms.Core.pdb",
+        "lib/MonoAndroid10.0/Xamarin.Forms.Core.xml",
+        "lib/MonoAndroid10.0/Xamarin.Forms.Platform.Android.dll",
+        "lib/MonoAndroid10.0/Xamarin.Forms.Platform.Android.pdb",
+        "lib/MonoAndroid10.0/Xamarin.Forms.Platform.dll",
+        "lib/MonoAndroid10.0/Xamarin.Forms.Xaml.dll",
+        "lib/MonoAndroid10.0/Xamarin.Forms.Xaml.pdb",
+        "lib/MonoAndroid10.0/Xamarin.Forms.Xaml.xml",
+        "lib/MonoAndroid10.0/de/Xamarin.Forms.Core.xml",
+        "lib/MonoAndroid10.0/de/Xamarin.Forms.Xaml.xml",
+        "lib/MonoAndroid10.0/es/Xamarin.Forms.Core.xml",
+        "lib/MonoAndroid10.0/es/Xamarin.Forms.Xaml.xml",
+        "lib/MonoAndroid10.0/fr/Xamarin.Forms.Core.xml",
+        "lib/MonoAndroid10.0/fr/Xamarin.Forms.Xaml.xml",
+        "lib/MonoAndroid10.0/it/Xamarin.Forms.Core.xml",
+        "lib/MonoAndroid10.0/it/Xamarin.Forms.Xaml.xml",
+        "lib/MonoAndroid10.0/ja/Xamarin.Forms.Core.xml",
+        "lib/MonoAndroid10.0/ja/Xamarin.Forms.Xaml.xml",
+        "lib/MonoAndroid10.0/ko/Xamarin.Forms.Core.xml",
+        "lib/MonoAndroid10.0/ko/Xamarin.Forms.Xaml.xml",
+        "lib/MonoAndroid10.0/pt-br/Xamarin.Forms.Core.xml",
+        "lib/MonoAndroid10.0/pt-br/Xamarin.Forms.Xaml.xml",
+        "lib/MonoAndroid10.0/ru/Xamarin.Forms.Core.xml",
+        "lib/MonoAndroid10.0/ru/Xamarin.Forms.Xaml.xml",
+        "lib/MonoAndroid10.0/zh-Hans/Xamarin.Forms.Core.xml",
+        "lib/MonoAndroid10.0/zh-Hans/Xamarin.Forms.Xaml.xml",
+        "lib/MonoAndroid10.0/zh-Hant/Xamarin.Forms.Core.xml",
+        "lib/MonoAndroid10.0/zh-Hant/Xamarin.Forms.Xaml.xml",
         "lib/MonoAndroid90/Design/Xamarin.Forms.Core.Design.dll",
         "lib/MonoAndroid90/Design/Xamarin.Forms.Xaml.Design.dll",
         "lib/MonoAndroid90/FormsViewGroup.dll",
@@ -3402,7 +3449,6 @@
         "lib/Xamarin.Mac/Design/Xamarin.Forms.Xaml.Design.dll",
         "lib/Xamarin.Mac/Xamarin.Forms.Core.dll",
         "lib/Xamarin.Mac/Xamarin.Forms.Platform.dll",
-        "lib/Xamarin.Mac/Xamarin.Forms.Platform.macOS.dll",
         "lib/Xamarin.Mac/Xamarin.Forms.Xaml.dll",
         "lib/Xamarin.iOS10/Design/Xamarin.Forms.Core.Design.dll",
         "lib/Xamarin.iOS10/Design/Xamarin.Forms.Xaml.Design.dll",
@@ -3410,8 +3456,6 @@
         "lib/Xamarin.iOS10/Xamarin.Forms.Core.pdb",
         "lib/Xamarin.iOS10/Xamarin.Forms.Core.xml",
         "lib/Xamarin.iOS10/Xamarin.Forms.Platform.dll",
-        "lib/Xamarin.iOS10/Xamarin.Forms.Platform.iOS.dll",
-        "lib/Xamarin.iOS10/Xamarin.Forms.Platform.iOS.pdb",
         "lib/Xamarin.iOS10/Xamarin.Forms.Xaml.dll",
         "lib/Xamarin.iOS10/Xamarin.Forms.Xaml.pdb",
         "lib/Xamarin.iOS10/Xamarin.Forms.Xaml.xml",
@@ -3518,48 +3562,83 @@
         "lib/tizen40/Xamarin.Forms.Xaml.dll",
         "lib/tizen40/Xamarin.Forms.Xaml.pdb",
         "lib/tizen40/Xamarin.Forms.Xaml.xml",
-        "lib/uap10.0/Design/Xamarin.Forms.Core.Design.dll",
-        "lib/uap10.0/Design/Xamarin.Forms.Xaml.Design.dll",
-        "lib/uap10.0/Xamarin.Forms.Core.dll",
-        "lib/uap10.0/Xamarin.Forms.Core.pdb",
-        "lib/uap10.0/Xamarin.Forms.Core.xml",
-        "lib/uap10.0/Xamarin.Forms.Platform.UAP.dll",
-        "lib/uap10.0/Xamarin.Forms.Platform.UAP.pdb",
-        "lib/uap10.0/Xamarin.Forms.Platform.UAP.pri",
-        "lib/uap10.0/Xamarin.Forms.Platform.UAP/AutoSuggestStyle.xbf",
-        "lib/uap10.0/Xamarin.Forms.Platform.UAP/CollectionView/ItemsViewStyles.xbf",
-        "lib/uap10.0/Xamarin.Forms.Platform.UAP/FormsCheckBoxStyle.xbf",
-        "lib/uap10.0/Xamarin.Forms.Platform.UAP/FormsCommandBarStyle.xbf",
-        "lib/uap10.0/Xamarin.Forms.Platform.UAP/FormsEmbeddedPageWrapper.xbf",
-        "lib/uap10.0/Xamarin.Forms.Platform.UAP/FormsFlyout.xbf",
-        "lib/uap10.0/Xamarin.Forms.Platform.UAP/FormsProgressBarStyle.xbf",
-        "lib/uap10.0/Xamarin.Forms.Platform.UAP/FormsTextBoxStyle.xbf",
-        "lib/uap10.0/Xamarin.Forms.Platform.UAP/MasterDetailControlStyle.xbf",
-        "lib/uap10.0/Xamarin.Forms.Platform.UAP/Microsoft.UI.Xaml/DensityStyles/Compact.xbf",
-        "lib/uap10.0/Xamarin.Forms.Platform.UAP/PageControlStyle.xbf",
-        "lib/uap10.0/Xamarin.Forms.Platform.UAP/Properties/Xamarin.Forms.Platform.UAP.rd.xml",
-        "lib/uap10.0/Xamarin.Forms.Platform.UAP/Resources.xbf",
-        "lib/uap10.0/Xamarin.Forms.Platform.UAP/Shell/ShellStyles.xbf",
-        "lib/uap10.0/Xamarin.Forms.Platform.UAP/SliderStyle.xbf",
-        "lib/uap10.0/Xamarin.Forms.Platform.UAP/StepperControl.xbf",
-        "lib/uap10.0/Xamarin.Forms.Platform.UAP/TabbedPageStyle.xbf",
-        "lib/uap10.0/Xamarin.Forms.Platform.UAP/Xamarin.Forms.Platform.UAP.xr.xml",
-        "lib/uap10.0/Xamarin.Forms.Platform.dll",
-        "lib/uap10.0/Xamarin.Forms.Xaml.dll",
-        "lib/uap10.0/Xamarin.Forms.Xaml.pdb",
-        "lib/uap10.0/Xamarin.Forms.Xaml.xml",
-        "xamarin.forms.4.3.0.908675.nupkg.sha512",
+        "lib/uap10.0.14393/Design/Xamarin.Forms.Core.Design.dll",
+        "lib/uap10.0.14393/Design/Xamarin.Forms.Xaml.Design.dll",
+        "lib/uap10.0.14393/Properties/Xamarin.Forms.Platform.UAP.rd.xml",
+        "lib/uap10.0.14393/Xamarin.Forms.Core.dll",
+        "lib/uap10.0.14393/Xamarin.Forms.Core.pdb",
+        "lib/uap10.0.14393/Xamarin.Forms.Core.xml",
+        "lib/uap10.0.14393/Xamarin.Forms.Platform.UAP.dll",
+        "lib/uap10.0.14393/Xamarin.Forms.Platform.UAP.pdb",
+        "lib/uap10.0.14393/Xamarin.Forms.Platform.UAP.pri",
+        "lib/uap10.0.14393/Xamarin.Forms.Platform.UAP/CollectionView/ItemsViewStyles.xaml",
+        "lib/uap10.0.14393/Xamarin.Forms.Platform.UAP/FormsAutoSuggestBoxStyle.xaml",
+        "lib/uap10.0.14393/Xamarin.Forms.Platform.UAP/FormsCheckBoxStyle.xaml",
+        "lib/uap10.0.14393/Xamarin.Forms.Platform.UAP/FormsCommandBarStyle.xaml",
+        "lib/uap10.0.14393/Xamarin.Forms.Platform.UAP/FormsEmbeddedPageWrapper.xaml",
+        "lib/uap10.0.14393/Xamarin.Forms.Platform.UAP/FormsFlyout.xaml",
+        "lib/uap10.0.14393/Xamarin.Forms.Platform.UAP/FormsProgressBarStyle.xaml",
+        "lib/uap10.0.14393/Xamarin.Forms.Platform.UAP/FormsTextBoxStyle.xaml",
+        "lib/uap10.0.14393/Xamarin.Forms.Platform.UAP/MasterDetailControlStyle.xaml",
+        "lib/uap10.0.14393/Xamarin.Forms.Platform.UAP/Microsoft.UI.Xaml/DensityStyles/Compact.xaml",
+        "lib/uap10.0.14393/Xamarin.Forms.Platform.UAP/Microsoft.UI.Xaml/Themes/generic.xaml",
+        "lib/uap10.0.14393/Xamarin.Forms.Platform.UAP/PageControlStyle.xaml",
+        "lib/uap10.0.14393/Xamarin.Forms.Platform.UAP/PickerStyle.xaml",
+        "lib/uap10.0.14393/Xamarin.Forms.Platform.UAP/Resources.xaml",
+        "lib/uap10.0.14393/Xamarin.Forms.Platform.UAP/Shell/ShellStyles.xaml",
+        "lib/uap10.0.14393/Xamarin.Forms.Platform.UAP/SliderStyle.xaml",
+        "lib/uap10.0.14393/Xamarin.Forms.Platform.UAP/StepperControl.xaml",
+        "lib/uap10.0.14393/Xamarin.Forms.Platform.UAP/TabbedPageStyle.xaml",
+        "lib/uap10.0.14393/Xamarin.Forms.Platform.UAP/Xamarin.Forms.Platform.UAP.xr.xml",
+        "lib/uap10.0.14393/Xamarin.Forms.Platform.dll",
+        "lib/uap10.0.14393/Xamarin.Forms.Xaml.dll",
+        "lib/uap10.0.14393/Xamarin.Forms.Xaml.pdb",
+        "lib/uap10.0.14393/Xamarin.Forms.Xaml.xml",
+        "lib/uap10.0.16299/Design/Xamarin.Forms.Core.Design.dll",
+        "lib/uap10.0.16299/Design/Xamarin.Forms.Xaml.Design.dll",
+        "lib/uap10.0.16299/Properties/Xamarin.Forms.Platform.UAP.rd.xml",
+        "lib/uap10.0.16299/Xamarin.Forms.Core.dll",
+        "lib/uap10.0.16299/Xamarin.Forms.Core.pdb",
+        "lib/uap10.0.16299/Xamarin.Forms.Core.xml",
+        "lib/uap10.0.16299/Xamarin.Forms.Platform.UAP.dll",
+        "lib/uap10.0.16299/Xamarin.Forms.Platform.UAP.pdb",
+        "lib/uap10.0.16299/Xamarin.Forms.Platform.UAP.pri",
+        "lib/uap10.0.16299/Xamarin.Forms.Platform.UAP/CollectionView/ItemsViewStyles.xaml",
+        "lib/uap10.0.16299/Xamarin.Forms.Platform.UAP/FormsAutoSuggestBoxStyle.xaml",
+        "lib/uap10.0.16299/Xamarin.Forms.Platform.UAP/FormsCheckBoxStyle.xaml",
+        "lib/uap10.0.16299/Xamarin.Forms.Platform.UAP/FormsCommandBarStyle.xaml",
+        "lib/uap10.0.16299/Xamarin.Forms.Platform.UAP/FormsEmbeddedPageWrapper.xaml",
+        "lib/uap10.0.16299/Xamarin.Forms.Platform.UAP/FormsFlyout.xaml",
+        "lib/uap10.0.16299/Xamarin.Forms.Platform.UAP/FormsProgressBarStyle.xaml",
+        "lib/uap10.0.16299/Xamarin.Forms.Platform.UAP/FormsTextBoxStyle.xaml",
+        "lib/uap10.0.16299/Xamarin.Forms.Platform.UAP/MasterDetailControlStyle.xaml",
+        "lib/uap10.0.16299/Xamarin.Forms.Platform.UAP/Microsoft.UI.Xaml/DensityStyles/Compact.xaml",
+        "lib/uap10.0.16299/Xamarin.Forms.Platform.UAP/Microsoft.UI.Xaml/Themes/generic.xaml",
+        "lib/uap10.0.16299/Xamarin.Forms.Platform.UAP/PageControlStyle.xaml",
+        "lib/uap10.0.16299/Xamarin.Forms.Platform.UAP/PickerStyle.xaml",
+        "lib/uap10.0.16299/Xamarin.Forms.Platform.UAP/Resources.xaml",
+        "lib/uap10.0.16299/Xamarin.Forms.Platform.UAP/Shell/ShellStyles.xaml",
+        "lib/uap10.0.16299/Xamarin.Forms.Platform.UAP/SliderStyle.xaml",
+        "lib/uap10.0.16299/Xamarin.Forms.Platform.UAP/StepperControl.xaml",
+        "lib/uap10.0.16299/Xamarin.Forms.Platform.UAP/TabbedPageStyle.xaml",
+        "lib/uap10.0.16299/Xamarin.Forms.Platform.UAP/Xamarin.Forms.Platform.UAP.xr.xml",
+        "lib/uap10.0.16299/Xamarin.Forms.Platform.dll",
+        "lib/uap10.0.16299/Xamarin.Forms.Xaml.dll",
+        "lib/uap10.0.16299/Xamarin.Forms.Xaml.pdb",
+        "lib/uap10.0.16299/Xamarin.Forms.Xaml.xml",
+        "xamarin.forms.4.5.0.495.nupkg.sha512",
         "xamarin.forms.nuspec"
       ]
     }
   },
   "projectFileDependencyGroups": {
     ".NETStandard,Version=v2.0": [
+      "Com.Airbnb.Xamarin.Forms.Lottie >= 3.1.0",
       "NETStandard.Library >= 2.0.3",
       "Rg.Plugins.Popup >= 1.2.0.223",
       "WinInsider.System.Net.Http.Formatting >= 1.0.14",
-      "Xamarin.Essentials >= 1.3.1",
-      "Xamarin.Forms >= 4.3.0.908675"
+      "Xamarin.Essentials >= 1.5.2",
+      "Xamarin.Forms >= 4.5.0.495"
     ]
   },
   "packageFolders": {
@@ -3606,6 +3685,10 @@
     "frameworks": {
       "netstandard2.0": {
         "dependencies": {
+          "Com.Airbnb.Xamarin.Forms.Lottie": {
+            "target": "Package",
+            "version": "[3.1.0, )"
+          },
           "NETStandard.Library": {
             "suppressParent": "All",
             "target": "Package",
@@ -3622,11 +3705,11 @@
           },
           "Xamarin.Essentials": {
             "target": "Package",
-            "version": "[1.3.1, )"
+            "version": "[1.5.2, )"
           },
           "Xamarin.Forms": {
             "target": "Package",
-            "version": "[4.3.0.908675, )"
+            "version": "[4.5.0.495, )"
           }
         },
         "imports": [

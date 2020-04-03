@@ -5,7 +5,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
              xmlns:pages1="clr-namespace:BischinoTheGame.View.Pages;assembly=BischinoTheGame"
-             BackgroundColor="{StaticResource BackgroundBlack}"
              mc:Ignorable="d"
              x:Class="BischinoTheGame.View.Pages.RoomCreationPopup">
     <Frame CornerRadius="20" WidthRequest="210" HorizontalOptions="Center" VerticalOptions="Center" HeightRequest="250" BackgroundColor="{StaticResource GoodGray}" >
@@ -29,7 +28,7 @@
                    Text="Room Name" IsVisible="{Binding Room.Name, Converter={StaticResource RoomNameValueConverter}}"/>
 
 
-            <Entry Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" FontSize="20" TextColor="White" PlaceholderColor="Gray" Margin="0,20,0,0" 
+            <Entry Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" FontSize="20" TextColor="White" HorizontalTextAlignment="Center" PlaceholderColor="Gray" Margin="0,20,0,0" 
                    Placeholder="Room name" Text="{Binding Room.Name}"/>
             <Entry Grid.Row="2" Grid.Column="0" HorizontalTextAlignment="Center" HorizontalOptions="FillAndExpand" Keyboard="Numeric" TextColor="White" PlaceholderColor="Gray"
                    Placeholder="Min players" Text="{Binding Room.MinPlayers}"/>

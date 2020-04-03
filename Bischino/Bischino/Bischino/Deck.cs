@@ -44,7 +44,6 @@ namespace Bischino.Bischino
             for(int i=0; i < 40; i++)
                 cards.Add(new Card
                     {
-                        IconName = $"c{i}.png",
                         IsPaolo = i==30,
                         Name = $"{i}",
                         Value = i

@@ -33,11 +33,11 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
 
-            <ImageButton IsVisible="{Binding LastPhaseViewModel.CanBetWin}" Grid.Row="2" Grid.Column="0" HorizontalOptions="Center" BackgroundColor="{StaticResource BackgroundBlack}" CornerRadius="30" Padding="3"
-                         Source="thumbup" Command="{Binding WinBetCommand}"/>
+            <Button IsVisible="{Binding LastPhaseViewModel.CanBetWin}" Grid.Row="2" Grid.Column="0" HorizontalOptions="Center" BackgroundColor="{StaticResource BackgroundBlack}" CornerRadius="30" Padding="3" TextColor="{StaticResource GoodBlue}" FontSize="23"
+                    Text="1" Command="{Binding WinBetCommand}"/>
 
-            <ImageButton IsVisible="{Binding LastPhaseViewModel.CanBetLose}" Grid.Row="2" Grid.Column="1" HorizontalOptions="Center" BackgroundColor="{StaticResource BackgroundBlack}" CornerRadius="30" Padding="3"
-                         Source="thumbdown" Command="{Binding LoseBetCommand}"/>
+            <Button IsVisible="{Binding LastPhaseViewModel.CanBetLose}" Grid.Row="2" Grid.Column="1" HorizontalOptions="Center" BackgroundColor="{StaticResource GoodBlue}" CornerRadius="30" Padding="3" TextColor="White" FontSize="23" VerticalOptions="Center"
+                         Text="0" Command="{Binding LoseBetCommand}"/>
         </Grid>
     </Frame>
 </pages:PopupPage>

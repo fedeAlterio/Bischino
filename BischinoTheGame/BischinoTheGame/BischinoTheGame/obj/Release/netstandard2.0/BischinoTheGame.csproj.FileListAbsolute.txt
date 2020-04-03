@@ -44,3 +44,7 @@ C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame\obj\Release\net
 C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame\obj\Release\netstandard2.0\BischinoTheGame.dll
 C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame\obj\Release\netstandard2.0\ref\BischinoTheGame.dll
 C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame\obj\Release\netstandard2.0\BischinoTheGame.pdb
+C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame\obj\Release\netstandard2.0\View\Pages\WinnersPopup.xaml.g.cs
+C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame\obj\Release\netstandard2.0\View\Pages\CoreTabbedPage.xaml.g.cs
+C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame\obj\Release\netstandard2.0\View\Pages\DeckSelectionPage.xaml.g.cs
+C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame\obj\Release\netstandard2.0\View\Pages\SettingsPage.xaml.g.cs

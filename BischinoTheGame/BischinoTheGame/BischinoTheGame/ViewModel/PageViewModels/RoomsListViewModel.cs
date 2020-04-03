@@ -15,6 +15,8 @@ namespace BischinoTheGame.ViewModel.PageViewModels
 {
     public class RoomsListViewModel : PageViewModel
     {
+        public ObservableRangeCollection<Room> Rooms { get; } = new ObservableRangeCollection<Room>();
+
 
         private bool _isUpdatingList;
         private bool IsUpdatingList
@@ -37,15 +39,13 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         }
 
 
-        public ObservableRangeCollection<Room> Rooms { get; } = new ObservableRangeCollection<Room>();
-
-
         private Room _selectedRoom;
         public Room SelectedRoom
         {
             get => _selectedRoom;
             set => SetProperty(ref _selectedRoom, value);
         }
+
 
         private Command _refreshCommand;
         public Command RefreshCommand
@@ -103,6 +103,8 @@ namespace BischinoTheGame.ViewModel.PageViewModels
             AsyncInitialization();
         }
 
+
+
         private async void CreateRoom()
         {
             IsPageEnabled = false;
@@ -110,10 +112,12 @@ namespace BischinoTheGame.ViewModel.PageViewModels
             IsPageEnabled = true;
         }
 
+
         private async void AsyncInitialization()
         {
             await GetRooms();
         }
+
 
         private async void ShowFilters()
         {
@@ -121,6 +125,7 @@ namespace BischinoTheGame.ViewModel.PageViewModels
             await AppController.Navigation.RoomNavigation.ToFilterPopup(Query);
             IsPageEnabled = true;
         }
+
 
         private async void OnRoomSelected(Room room)
         {
@@ -135,18 +140,24 @@ namespace BischinoTheGame.ViewModel.PageViewModels
                 await AppController.RoomsHandler.Join(roomQuery);
                 await AppController.Navigation.RoomNavigation.NotifyRoomJoined(room);
             }
-            catch (Exception e)
+            catch (ServerException e)
             {
                 await AppController.Navigation.DisplayAlert(ErrorTitle, e.Message);
+            }
+            catch
+            {
+                await AppController.Navigation.DisplayAlert(ErrorTitle, ErrorDefault);
             }
             IsPageEnabled = true;
             SelectedRoom = null;
         }
 
+
         private async void EndReached()
         {
             await GetRooms();
         }
+
 
         private async void Refresh()
         {
@@ -157,10 +168,6 @@ namespace BischinoTheGame.ViewModel.PageViewModels
             IsBusy = false;
         }
 
-        public void OnPageVisible()
-        {
-            Refresh();
-        }
 
         private async Task GetRooms()
         {

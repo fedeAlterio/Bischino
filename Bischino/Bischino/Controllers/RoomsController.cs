@@ -22,9 +22,8 @@ namespace Bischino.Controllers
 {
     public class RoomsController : ModelController<Room>
     {
-        private static readonly BlockingSet<RoomManager> RoomManagers = new BlockingSet<RoomManager>();
-
-
+        private static readonly RoomsCollection RoomsCollection = new RoomsCollection();
+        
         public RoomsController(IOwnedModelCollectionService<Room> collectionService) : base(collectionService)
         {
             var index = Builders<Room>.IndexKeys.Ascending(room => room.CreationDate);
@@ -33,175 +32,230 @@ namespace Bischino.Controllers
             MongoService.MongoCollection.Indexes.CreateOne(createIndexModel);
         }
 
-        [ValidateModel]
-        public async Task<IActionResult> Create([FromBody] Room room)
+
+
+
+        private void ValidateCreate(Room room)
         {
             if (room.MinPlayers > room.MaxPlayers)
-                return BadRequest(new ValuedResponse {Message = "Max should be a value greater or equal to Min"});
-
+                ThrowValidationEx("Max should be a value greater or equal to Min");
+           
             if (room.Name.Any(char.IsWhiteSpace))
-                return BadRequest(new ValuedResponse{Message = "Please insert a valid room name"});
-
-            if (RoomManagers.GetAll(rm => rm.RoomName.Equals(room.Name)).Count > 0)
-                return BadRequest(new ValuedResponse("Another room with the same name is playing a game"));
-
-            room.PendingPlayers = new List<string>();
-            room.IsMatchStarted = false;
-            room.IsFull = false;
-            room.CreationDate = DateTime.Now;
-            var ret = await CreateModel(room);
-            var roomLock = GetRoomManager(room.Name);
-            RoomManagers.Add(roomLock);
-            return ret;
+               ThrowValidationEx("Please insert a valid room name");
+            
         }
 
-
-        public async Task<IActionResult> GetRooms([FromBody] RoomSearchQuery query)
+        [ValidateModel]
+        public IActionResult Create([FromBody] Room room)
         {
             try
             {
-                query.Model.IsFull = false;
-                var filter = BuildFilters(query);
-                var findOptions = CollectionService.FindOptionsFromQuery<Room>(query.Options);
+                ValidateCreate(room);
 
-                var cursor = await MongoService.MongoCollection.FindAsync(filter, findOptions);
-                var rooms = await cursor.ToListAsync();
+                room.PendingPlayers = new List<string>();
+                room.IsMatchStarted = false;
+                room.IsFull = false;
+                room.CreationDate = DateTime.Now;
+                var rm = new RoomManager(room);
+                rm.WaitingRoomDisconnectedPlayer += RoomManager_WaitingRoomDisconnectedPlayer;
+                rm.RoomClosed += RoomManager_RoomClosed;
+
+                RoomsCollection.Add(rm);
+                return Ok();
+            }
+            catch (ValidationException e)
+            {
+                return BadRequest(new ValuedResponse {Message = e.Message});
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+
+
+        public IActionResult GetRooms([FromBody] RoomSearchQuery query)
+        {
+            try
+            {
+                var rooms = RoomsCollection.GetRooms(query);
                 return Ok(new ValuedResponse(rooms));
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return BadRequest();
             }
         }
 
-        private FilterDefinition<Room> BuildFilters(RoomSearchQuery query)
-        {
-            return CollectionService.FilterFromModel<Room>(query.Model);
-        }
 
 
-        public async Task<IActionResult> GetJoinedPLayers([FromBody] RoomQuery roomQuery)
+
+        public IActionResult GetJoinedPLayers([FromBody] RoomQuery roomQuery)
         {
             try
-            { 
-                var room = await MongoService.MongoCollection.Aggregate()
-                    .Match(room => room.Name.Equals(roomQuery.RoomName))
-                    .FirstAsync(); 
-                var joinedPlayers = room.PendingPlayers;
+            {
+                var roomManager = RoomsCollection.Get(roomQuery.RoomName);
+                var joinedPlayers = roomManager.Room.PendingPlayers;
 
-                var roomManager = GetRoomManager(roomQuery.RoomName); 
-                roomManager.NotifyToBePinged(roomQuery.PlayerName);
+                lock (roomManager)
+                {
+                    roomManager.NotifyToBePinged(roomQuery.PlayerName);
+                }
                 return Ok(new ValuedResponse(joinedPlayers));
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return BadRequest();
             }
         }
+
+
+
 
         public IActionResult IsMatchStarted([FromBody] string roomName)
         {
             try
             {
-                var room = GetRoomManager(roomName);
+                var room = RoomsCollection.Get(roomName);
                 return Ok(new ValuedResponse(room.IsGameStarted));
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return Ok(new ValuedResponse(false));
             }
         }
 
 
-        public async Task<IActionResult> Start([FromBody] string name)
+
+        private void ValidateStart(Room room, RoomManager roomManager)
+        {
+            if (roomManager.IsGameStarted)
+                ThrowValidationEx("This game is already started");
+            /*
+            if (room.PendingPlayers.Count < room.MinPlayers)
+                ThrowValidationEx("There are not enough players to start the game");
+                */
+        }
+
+        public IActionResult Start([FromBody] string roomName)
         {
             try
             {
-                var cursor = await MongoService.MongoCollection.FindAsync(room => room.Name.Equals(name));
-                var room = cursor.FirstOrDefault();
-                var roomManager = GetRoomManager(room.Name, true);
+                var roomManager = RoomsCollection.Get(roomName);
+                var room = roomManager.Room;
                 lock (roomManager)
                 {
-                   // if (room.PendingPlayers.Count < room.MinPlayers)
-                     //   return BadRequest();
-
-                    if (roomManager.IsGameStarted)
-                        return Ok();
-
+                    ValidateStart(room, roomManager);
 
                     roomManager.Start(room.Name, room.PendingPlayers);
-                    var first = RoomManagers.First();
-                    if(first.StartTime <= DateTime.Now.Subtract(TimeSpan.FromDays(1)))
-                        RoomManagers.Remove(first);
+                    var first = RoomsCollection.First();
+                    if (first.StartTime <= DateTime.Now.Subtract(TimeSpan.FromDays(1)))
+                        RoomsCollection.Remove(first);
+                    
+                    foreach (var player in room.PendingPlayers)
+                        roomManager.NewSubscriber(player); 
+                    roomManager.NotifyAll();
                 }
-                await MongoService.Remove(room.Id);
-
-                foreach(var player in room.PendingPlayers)
-                    roomManager.NewSubscriber(player);
-                roomManager.NotifyAll();
 
                 return Ok();
             }
-            catch (Exception e)
+            catch (ValidationException e)
+            {
+                return BadRequest(new ValuedResponse {Message = e.Message});
+            }
+            catch(Exception)
             {
                 return BadRequest();
             }
         }
 
+
+
+
+        private void ValidateJoin(Room room, RoomQuery roomQuery)
+        {
+            if (room.PendingPlayers.Count == room.MaxPlayers)
+                ThrowValidationEx("The room is full");
+
+            if (room.PendingPlayers.Contains(roomQuery.PlayerName))
+                ThrowValidationEx("A player with the same username has already joined the room");
+        }
 
         public IActionResult Join([FromBody] RoomQuery roomQuery)
         {
             try
             {
-                var roomName = roomQuery.RoomName;
-                var roomManager = GetRoomManager(roomName, true);
-                lock (roomManager.Lock)
+                var roomManager = RoomsCollection.Get(roomQuery.RoomName);
+                lock (roomManager)
                 {
-                    var room = MongoService.MongoCollection.Find(dbRoom => dbRoom.Name.Equals(roomName)).First();
+                    var room = roomManager.Room;
+                    ValidateJoin(room, roomQuery);
 
-                    if (room.PendingPlayers.Count == room.MaxPlayers)
-                        return BadRequest();
-                    if (room.PendingPlayers.Contains(roomQuery.PlayerName))
-                        return BadRequest();
-
-                    foreach (var p in room.PendingPlayers)
-                        roomManager.NotifyToBePinged(p, false);
+                    roomManager.NotifyToBePinged(roomQuery.PlayerName);
 
                     room.PendingPlayers.Add(roomQuery.PlayerName);
-                    if(room.PendingPlayers.Count == room.MaxPlayers)
-                        room.IsFull = true;
-                    
-                    MongoService.MongoCollection.ReplaceOne(dbRoom => dbRoom.Name.Equals(room.Name), room);
+                    room.IsFull = room.PendingPlayers.Count == room.MaxPlayers;
                 }
 
                 roomManager.NotifyToBePinged(roomQuery.PlayerName);
                 return Ok();
             }
-            catch (Exception e)
+            catch (ValidationException e)
+            {
+                return BadRequest(new ValuedResponse {Message = e.Message});
+            }
+            catch
             {
                 return BadRequest();
             }
         }
 
+
+
+        private void UnJoinPlayer(RoomQuery roomQuery)
+        {
+            var roomManager = RoomsCollection.Get(roomQuery.RoomName);
+            lock (roomManager)
+            {
+                var room = roomManager.Room;
+
+                room.PendingPlayers.Remove(roomQuery.PlayerName);
+                room.IsFull = false;
+
+                if (!room.PendingPlayers.Any())
+                    RoomsCollection.Remove(roomManager);
+            }
+        }
+
         public IActionResult UnJoin([FromBody] RoomQuery roomQuery)
-        {   
+        {
             try
             {
-                UnJoinPlayer(roomQuery);
+                var roomManager = RoomsCollection.Get(roomQuery.RoomName);
+                roomManager.NotifyDisconnected(roomQuery.PlayerName);
                 return Ok();
             }
-            catch (Exception e)
+            catch (ValidationException e)
+            {
+                return BadRequest(new ValuedResponse {Message = e.Message});
+            }
+            catch(Exception e)
             {
                 return BadRequest();
             }
         }
+
+
+
+
         public IActionResult MakeABet([FromBody] RoomQuery<int> betQuery)
         {
             try
             {
-                var roomManager = GetRoomManager(betQuery.RoomName);
+                var roomManager = RoomsCollection.Get(betQuery.RoomName);
                 var gameManager = roomManager.GameManager;
-                lock(roomManager.Lock)
+                lock (roomManager)
                 {
                     ValidateTurn(gameManager, betQuery.PlayerName);
                     var bet = betQuery.Data;
@@ -211,19 +265,26 @@ namespace Bischino.Controllers
                 roomManager.NotifyAll();
                 return Ok();
             }
-            catch (Exception e)
+            catch (ValidationException e)
+            {
+                return BadRequest(new ValuedResponse {Message = e.Message});
+            }
+            catch
             {
                 return BadRequest();
             }
         }
 
+
+
+
         public IActionResult DropCard([FromBody] RoomQuery<string> dropQuery)
         {
             try
             {
-                var roomManager = GetRoomManager(dropQuery.RoomName);
+                var roomManager = RoomsCollection.Get(dropQuery.RoomName);
                 var gameManager = roomManager.GameManager;
-                lock (roomManager.Lock)
+                lock (roomManager)
                 {
                     ValidateTurn(gameManager, dropQuery.PlayerName);
                     var cardName = dropQuery.Data;
@@ -233,20 +294,26 @@ namespace Bischino.Controllers
                 roomManager.NotifyAll();
                 return Ok();
             }
-            catch (Exception e)
+            catch (ValidationException e)
+            {
+                return BadRequest(new ValuedResponse {Message = e.Message});
+            }
+            catch
             {
                 return BadRequest();
             }
         }
 
 
+
+
         public IActionResult DropPaolo([FromBody] RoomQuery<bool> dropPaolo)
         {
             try
             {
-                var roomManager = GetRoomManager(dropPaolo.RoomName);
+                var roomManager = RoomsCollection.Get(dropPaolo.RoomName);
                 var gameManager = roomManager.GameManager;
-                lock (roomManager.Lock)
+                lock (roomManager)
                 {
                     ValidateTurn(gameManager, dropPaolo.PlayerName);
                     var isMax = dropPaolo.Data;
@@ -256,23 +323,28 @@ namespace Bischino.Controllers
                 roomManager.NotifyAll();
                 return Ok();
             }
-            catch (Exception e)
+            catch (ValidationException e)
+            {
+                return BadRequest(new ValuedResponse {Message = e.Message});
+            }
+            catch
             {
                 return BadRequest();
             }
         }
 
 
+
+
         public IActionResult NextPhase([FromBody] RoomQuery roomQuery)
         {
             try
             {
-                var roomManager = GetRoomManager(roomQuery.RoomName);
+                var roomManager = RoomsCollection.Get(roomQuery.RoomName);
                 var gameManager = roomManager.GameManager;
-                lock(roomManager.Lock)
+                lock (roomManager)
                 {
-                    if (gameManager.Host.Name != roomQuery.PlayerName)
-                        throw new Exception("Only the host can perform this action");
+                    ValidateTurn(gameManager, roomQuery.PlayerName);
 
                     gameManager.NewPhase();
                 }
@@ -280,22 +352,28 @@ namespace Bischino.Controllers
                 roomManager.NotifyAll();
                 return Ok();
             }
-            catch (Exception e)
+            catch (ValidationException e)
+            {
+                return BadRequest(new ValuedResponse {Message = e.Message});
+            }
+            catch
             {
                 return BadRequest();
             }
         }
 
+
+
+
         public IActionResult NextTurn([FromBody] RoomQuery<string> dropQuery)
         {
             try
             {
-                var roomManager = GetRoomManager(dropQuery.RoomName);
+                var roomManager = RoomsCollection.Get(dropQuery.RoomName);
                 var gameManager = roomManager.GameManager;
-                lock(roomManager.Lock)
+                lock (roomManager)
                 {
-                    if (gameManager.Host.Name != dropQuery.PlayerName)
-                        throw new Exception("Only the host can perform this action");
+                    ValidateTurn(gameManager, dropQuery.PlayerName);
 
                     gameManager.NewTurn();
                 }
@@ -303,73 +381,67 @@ namespace Bischino.Controllers
                 roomManager.NotifyAll();
                 return Ok();
             }
-            catch (Exception e)
+            catch (ValidationException e)
+            {
+                return BadRequest(new ValuedResponse {Message = e.Message});
+            }
+            catch
             {
                 return BadRequest();
             }
         }
+
+
+
 
         public async Task<IActionResult> GetMatchSnapshot([FromBody] RoomQuery roomQuery)
         {
             try
             {
-                var roomManager = GetRoomManager(roomQuery.RoomName, false);
+                var roomManager = RoomsCollection.Get(roomQuery.RoomName);
                 var snapshot = await roomManager.PopFirstSnapshotAsync(roomQuery.PlayerName);
 
                 return Ok(new ValuedResponse(snapshot));
             }
-            catch (Exception e)
+            catch (Exception e) 
             {
                 return BadRequest();
             }
         }
 
-        private void ValidateTurn(GameManager gameManager, string playerName)
+
+
+        private void RoomManager_RoomClosed(object sender, EventArgs e)
         {
-            if (gameManager.CurrentPlayer.Name != playerName)
-                throw new Exception();
+            var roomManager = sender as RoomManager;
+            RoomsCollection.Remove(roomManager);
         }
 
 
-        private RoomManager GetRoomManager(string roomName, bool createIfDoesNotExist = true)
-        {
-            var roomManager = RoomManagers.GetAll(rLock => rLock.RoomName == roomName).FirstOrDefault();
-            if(roomManager is null)
-                if (createIfDoesNotExist)
-                {
-                    RoomManagers.Add(roomManager = new RoomManager(roomName));
-                    roomManager.WaitingRoomDisconnectedPlayer += RoomManager_WaitingRoomDisconnectedPlayer;
-                }
-                else
-                    throw new Exception("RoomLock does not exist");
 
-            return roomManager;
-        }
 
-        private void UnJoinPlayer(RoomQuery roomQuery)
-        {
-            var roomName = roomQuery.RoomName;
-            var roomLock = GetRoomManager(roomName, true);
-            lock (roomLock.Lock)
-            {
-                var room = MongoService.MongoCollection.Find(dbRoom => dbRoom.Name.Equals(roomName)).First();
-                room.PendingPlayers.Remove(roomQuery.PlayerName);
-                room.IsFull = false;
-               
-                if (!room.PendingPlayers.Any())
-                    MongoService.MongoCollection.DeleteOne(dbRoom => dbRoom.Name.Equals(room.Name));
-                else
-                    MongoService.MongoCollection.ReplaceOne(dbRoom => dbRoom.Name.Equals(room.Name), room);
-            }
-        }
-
-        private  void RoomManager_WaitingRoomDisconnectedPlayer(object sender, RoomQuery roomQuery)
+        private void RoomManager_WaitingRoomDisconnectedPlayer(object sender, RoomQuery roomQuery)
         {
             try
             {
                 UnJoinPlayer(roomQuery);
             }
-            catch { }
+            catch (Exception)
+            {
+
+            }
         }
+
+
+
+
+        private static void ValidateTurn(GameManager gameManager, string playerName)
+        {
+            if (gameManager.CurrentPlayer.Name != playerName)
+                ThrowValidationEx("It's not your turn");
+        }
+
+
+        private static void ThrowValidationEx(string message) => throw new ValidationException(message);
     }
 }

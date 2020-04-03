@@ -5,6 +5,8 @@ public class MonoPackageManager_Resources {
 		"BischinoTheGame.Android.dll",
 		"BischinoTheGame.dll",
 		"FormsViewGroup.dll",
+		"Lottie.Android.dll",
+		"Lottie.Forms.dll",
 		"Newtonsoft.Json.dll",
 		"Rg.Plugins.Popup.dll",
 		"Rg.Plugins.Popup.Droid.dll",

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using BischinoTheGame.Controller.Communication.Exceptions;
 using BischinoTheGame.Controller.Communication.Queries;
 using BischinoTheGame.Model;
 using Rooms.Controller;
@@ -30,12 +31,16 @@ namespace BischinoTheGame.ViewModel.PageViewModels
             set => SetProperty(ref _createRoomCommand, value);
         }
 
+
+
+
         public RoomCreationViewModel()
         {
             var user = AppController.Navigation.RoomNavigation.LoggedPlayer;
             Room = new Room {Host = user.Name};
             CreateRoomCommand = new Command(_=>CreateRoom(), _=>CanCreateRoom());
         }
+
 
         private async void CreateRoom()
         {
@@ -48,9 +53,13 @@ namespace BischinoTheGame.ViewModel.PageViewModels
                 await AppController.RoomsHandler.Join(query);
                 await AppController.Navigation.RoomNavigation.NotifyRoomCreated(_room);
             }
-            catch (Exception e)
+            catch (ServerException e)
             {
                 await AppController.Navigation.DisplayAlert(ErrorTitle, e.Message);
+            }
+            catch
+            {
+                await AppController.Navigation.DisplayAlert(ErrorTitle, ErrorDefault);
             }
 
             IsPageEnabled = true;

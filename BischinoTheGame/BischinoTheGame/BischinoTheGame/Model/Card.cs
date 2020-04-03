@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using BischinoTheGame.ViewModel;
+using Rooms.Controller;
 
 namespace BischinoTheGame.Model
 {
@@ -26,12 +27,7 @@ namespace BischinoTheGame.Model
         }
 
 
-        private string _iconName;
-        public string IconName
-        {
-            get => _iconName;
-            set => SetProperty(ref _iconName, value);
-        }
+        public string IconName => AppController.Settings.GetCardIcon(_value);
 
 
         private string _owner;

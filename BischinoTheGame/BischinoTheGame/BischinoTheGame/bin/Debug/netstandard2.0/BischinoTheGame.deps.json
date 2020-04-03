@@ -9,14 +9,26 @@
     ".NETStandard,Version=v2.0/": {
       "BischinoTheGame/1.0.0": {
         "dependencies": {
+          "Com.Airbnb.Xamarin.Forms.Lottie": "3.1.0",
           "NETStandard.Library": "2.0.3",
           "Rg.Plugins.Popup": "1.2.0.223",
           "WinInsider.System.Net.Http.Formatting": "1.0.14",
-          "Xamarin.Essentials": "1.3.1",
-          "Xamarin.Forms": "4.3.0.908675"
+          "Xamarin.Essentials": "1.5.2",
+          "Xamarin.Forms": "4.5.0.495"
         },
         "runtime": {
           "BischinoTheGame.dll": {}
+        }
+      },
+      "Com.Airbnb.Xamarin.Forms.Lottie/3.1.0": {
+        "dependencies": {
+          "Xamarin.Forms": "4.5.0.495"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Lottie.Forms.dll": {
+            "assemblyVersion": "3.1.0.0",
+            "fileVersion": "3.1.0.0"
+          }
         }
       },
       "Microsoft.NETCore.Platforms/1.1.0": {},
@@ -36,7 +48,7 @@
       },
       "Rg.Plugins.Popup/1.2.0.223": {
         "dependencies": {
-          "Xamarin.Forms": "4.3.0.908675"
+          "Xamarin.Forms": "4.5.0.495"
         },
         "runtime": {
           "lib/netstandard1.0/Rg.Plugins.Popup.dll": {
@@ -535,7 +547,7 @@
           }
         }
       },
-      "Xamarin.Essentials/1.3.1": {
+      "Xamarin.Essentials/1.5.2": {
         "dependencies": {
           "System.Numerics.Vectors": "4.5.0"
         },
@@ -546,19 +558,19 @@
           }
         }
       },
-      "Xamarin.Forms/4.3.0.908675": {
+      "Xamarin.Forms/4.5.0.495": {
         "runtime": {
           "lib/netstandard2.0/Xamarin.Forms.Core.dll": {
             "assemblyVersion": "2.0.0.0",
-            "fileVersion": "4.3.0.336"
+            "fileVersion": "4.5.0.198"
           },
           "lib/netstandard2.0/Xamarin.Forms.Platform.dll": {
             "assemblyVersion": "2.0.0.0",
-            "fileVersion": "4.3.0.336"
+            "fileVersion": "4.5.0.198"
           },
           "lib/netstandard2.0/Xamarin.Forms.Xaml.dll": {
             "assemblyVersion": "2.0.0.0",
-            "fileVersion": "4.3.0.336"
+            "fileVersion": "4.5.0.198"
           }
         }
       }
@@ -569,6 +581,13 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "Com.Airbnb.Xamarin.Forms.Lottie/3.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-aOO+qvfD/czfT49S/RCBZUoCc4nGDMDMD9sBDdqDoQ/5RZR5eqs45W4ohlaQnY1w3te4CAw/IN2EesmZEMyiUA==",
+      "path": "com.airbnb.xamarin.forms.lottie/3.1.0",
+      "hashPath": "com.airbnb.xamarin.forms.lottie.3.1.0.nupkg.sha512"
     },
     "Microsoft.NETCore.Platforms/1.1.0": {
       "type": "package",
@@ -878,19 +897,19 @@
       "path": "wininsider.system.net.http.formatting/1.0.14",
       "hashPath": "wininsider.system.net.http.formatting.1.0.14.nupkg.sha512"
     },
-    "Xamarin.Essentials/1.3.1": {
+    "Xamarin.Essentials/1.5.2": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-+51728AdZ/qtABGvcIaNXgEoL2jAtxAXLHS8PvGCP0pb6n7twBqYpfgkmwHYVgu+U99szgtL+Jot8L+OXorPcA==",
-      "path": "xamarin.essentials/1.3.1",
-      "hashPath": "xamarin.essentials.1.3.1.nupkg.sha512"
+      "sha512": "sha512-qHxkrkx5jIC0X/qWhxCPZ3MuuOJm8bfCzAoUtlpOBSE4oV0JhrkTezK0A+IV+k/MeJ3zKc8FexaIXah9rlCTIw==",
+      "path": "xamarin.essentials/1.5.2",
+      "hashPath": "xamarin.essentials.1.5.2.nupkg.sha512"
     },
-    "Xamarin.Forms/4.3.0.908675": {
+    "Xamarin.Forms/4.5.0.495": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-kXrbXKJvXYF4cKjs1Jsb+pQFEnFGl0AONYSeABjgOJqN/o5Y4zC0XXQ68xiUI81PKQTuRB5F3oDom2t5ccJDZw==",
-      "path": "xamarin.forms/4.3.0.908675",
-      "hashPath": "xamarin.forms.4.3.0.908675.nupkg.sha512"
+      "sha512": "sha512-ipufpdjFh+YHHw1E3I+8FIQWk1KmlB77PSHg32YRnuBSCUNEHjoMnvEmY9YCK4DTWfOenV0HHZVvGjB9qDtI9w==",
+      "path": "xamarin.forms/4.5.0.495",
+      "hashPath": "xamarin.forms.4.5.0.495.nupkg.sha512"
     }
   }
 }

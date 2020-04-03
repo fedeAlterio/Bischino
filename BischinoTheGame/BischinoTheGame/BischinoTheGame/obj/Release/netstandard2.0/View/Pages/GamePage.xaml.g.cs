@@ -26,7 +26,10 @@ namespace BischinoTheGame.View.Pages {
         private global::Xamarin.Forms.CollectionView PlayerCollectionView;
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Xamarin.Forms.Build.Tasks.XamlG", "2.0.0.0")]
-        private global::Xamarin.Forms.ContentView YourTurnContentView;
+        private global::Xamarin.Forms.Grid YourTurnContentView;
+        
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Xamarin.Forms.Build.Tasks.XamlG", "2.0.0.0")]
+        private global::Lottie.Forms.AnimationView BouncingAnimationView;
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Xamarin.Forms.Build.Tasks.XamlG", "2.0.0.0")]
         private void InitializeComponent() {
@@ -34,7 +37,8 @@ namespace BischinoTheGame.View.Pages {
             OtherPlayersCollectionView = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.CollectionView>(this, "OtherPlayersCollectionView");
             DroppedCardsCollectionView = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.CollectionView>(this, "DroppedCardsCollectionView");
             PlayerCollectionView = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.CollectionView>(this, "PlayerCollectionView");
-            YourTurnContentView = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.ContentView>(this, "YourTurnContentView");
+            YourTurnContentView = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.Grid>(this, "YourTurnContentView");
+            BouncingAnimationView = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Lottie.Forms.AnimationView>(this, "BouncingAnimationView");
         }
     }
 }

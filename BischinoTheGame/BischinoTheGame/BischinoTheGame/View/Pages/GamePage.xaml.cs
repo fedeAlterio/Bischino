@@ -32,6 +32,13 @@ namespace BischinoTheGame.View.Pages
             _viewModel.DroppedCardsUpdated += _viewModel_DroppedCardsUpdated;
             _viewModel.YourTurn += _viewModel_YourTurnEventHandler; 
             _viewModel.NewMatchSnapshot += _viewModel_NewMatchSnapshot;
+            BouncingAnimationView.OnFinish += BouncingAnimationView_OnFinish;
+        }
+
+        private async void BouncingAnimationView_OnFinish(object sender, EventArgs e)
+        {
+            await BouncingAnimationView.ScaleTo(0, 500, Easing.BounceIn);
+            YourTurnContentView.IsVisible = false;
         }
 
         private async Task _viewModel_NewMatchSnapshot()
@@ -52,11 +59,12 @@ namespace BischinoTheGame.View.Pages
 
         private async void _viewModel_YourTurnEventHandler(object sender, EventArgs e)
         {
-            YourTurnContentView.Opacity = 0;
             YourTurnContentView.IsVisible = true;
-            await YourTurnContentView.FadeTo(0.8, 1000, Easing.Linear);
-            await YourTurnContentView.FadeTo(0, 500, Easing.CubicOut);
-            YourTurnContentView.IsVisible = false;
+            YourTurnContentView.Opacity = 1;
+            BouncingAnimationView.Scale = 0;
+            await BouncingAnimationView.ScaleTo(1, 500, Easing.BounceIn);
+            BouncingAnimationView.IsPlaying = false;
+            BouncingAnimationView.IsPlaying = true;
         }
 
         private void _viewModel_DroppedCardsUpdated(object sender, EventArgs e)
