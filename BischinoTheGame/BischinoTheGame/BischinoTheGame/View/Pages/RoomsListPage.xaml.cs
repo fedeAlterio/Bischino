@@ -16,5 +16,15 @@ namespace BischinoTheGame.View.Pages
         {
             InitializeComponent();
         }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+        }
+
+        public async Task StartAnimation()
+        {
+            Logo.Opacity = 0.15;
+        }
     }
 }

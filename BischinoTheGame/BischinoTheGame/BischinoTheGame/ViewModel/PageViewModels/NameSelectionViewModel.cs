@@ -29,6 +29,16 @@ namespace BischinoTheGame.ViewModel.PageViewModels
             set => SetProperty(ref _nextCommand, value);
         }
 
+
+        private string _errorMessage;
+        public string ErrorMessage
+        {
+            get => _errorMessage;
+            set => SetProperty(ref _errorMessage, value);
+        }
+
+
+
         public NameSelectionViewModel()
         {
             Player = new Player();
@@ -45,11 +55,22 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         private bool CanGoNext()
         {
             if (string.IsNullOrWhiteSpace(_player.Name))
+            {
+                ErrorMessage = string.Empty;
                 return false;
+            }
             if (_player.Name.Any(char.IsWhiteSpace))
+            {
+                ErrorMessage = "Make sure there are no spaces";
                 return false;
+            }
             if (_player.Name.Length > 16)
+            {
+                ErrorMessage = "Make sure the username is at least 16 character long";
                 return false;
+            }
+
+            ErrorMessage = string.Empty;
             return true;
         }
     }

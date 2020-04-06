@@ -14,7 +14,7 @@ namespace BischinoTheGame.View.Pages
             if (!(value is Card card) || !card.IsPaolo)
                 return Color.Transparent;
 
-            return card.Value > 39 ? Color.Red : Color.Blue;
+            return card.Value > 39 ? Color.DarkRed : Color.FromHex("#204051");
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

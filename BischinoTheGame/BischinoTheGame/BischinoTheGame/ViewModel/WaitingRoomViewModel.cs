@@ -26,7 +26,7 @@ namespace BischinoTheGame.ViewModel
             set => SetProperty(ref _room, value);
         }
 
-        public ObservableCollection<string> JoinedPlayers { get; set; } = new ObservableCollection<string>();
+        public ObservableCollection<JoinedPlayer> JoinedPlayers { get; set; } = new ObservableCollection<JoinedPlayer>();
         public bool IsMatchStarted { get; set; } = false;
 
 
@@ -94,7 +94,7 @@ namespace BischinoTheGame.ViewModel
         }
 
 
-        private bool CanStartCommand() => CanStart = IsHost;// && JoinedPlayers.Count > _room.MinPlayers;
+        private bool CanStartCommand() => CanStart = IsHost && JoinedPlayers.Count >= _room.MinPlayers;
 
 
         private async void StartMatch()
@@ -135,7 +135,19 @@ namespace BischinoTheGame.ViewModel
 
         private async void OnMatchStarted()
         {
-            await AppController.Navigation.RoomNavigation.NotifyMatchStarted(_room);
+            for(var i=0; i < 3; i++)
+                try
+                {
+                    var roomInfo = await AppController.RoomsHandler.GetGameInfo(_roomQuery);
+                    await AppController.Navigation.RoomNavigation.NotifyMatchStarted(_room, roomInfo);
+                    return;
+                }
+                catch (Exception e)
+                {
+                    await AppController.Navigation.DisplayAlert(ErrorTitle, "Impossible to communicate with the server, try again?");
+                }
+            await AppController.Navigation.DisplayAlert(ErrorTitle, "Impossible to communicate with the server, going back to room list?");
+            await AppController.Navigation.RoomNavigation.BackToRoomList();
         }
 
         private async Task LoadPlayers()
@@ -146,12 +158,16 @@ namespace BischinoTheGame.ViewModel
                 JoinedPlayers.Clear();
                 IsHost = _player.Name == joinedPlayers[0];
                 foreach (var player in joinedPlayers)
-                    JoinedPlayers.Add(player);
+                    JoinedPlayers.Add(new JoinedPlayer
+                    {
+                        Name = player,
+                        IconName = player == joinedPlayers[0] ? "host_user" : "standard_user"
+                    });
+                StartMatchCommand.ChangeCanExecute();
             }
-            catch (Exception e)
+            catch (Exception)
             {
             }
-    
         }
     }
 }

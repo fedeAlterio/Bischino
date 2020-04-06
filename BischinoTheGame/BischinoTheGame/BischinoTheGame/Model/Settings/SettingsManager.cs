@@ -1,19 +1,50 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using BischinoTheGame.ViewModel;
+using Xamarin.Essentials;
 
 namespace BischinoTheGame.Model.Settings
 {
-    public class SettingsManager
+    public class SettingsManager : ViewModelBase
     {
-        public DeckType DeckType { get; set; } = DeckType.A;
+        public event EventHandler<DeckType> DeckChanged;
+        public DeckType DeckType
+        {
+            get => (DeckType) Preferences.Get(nameof(DeckType), 1);
+            set
+            {
+                Preferences.Set(nameof(DeckType), (int) value);
+                DeckChanged?.Invoke(this, value);
+            }
+        }
 
-        public string GetCardIcon(int number) => GetCardIcon(number, DeckType);
 
-        public string GetCardIcon(int number, DeckType deckType) => deckType switch
+        public bool AudioOn
+        {
+            get => Preferences.Get(nameof(AudioOn), true);
+            set => Preferences.Set(nameof(AudioOn), value);
+        }
+
+
+        public bool SoundEffectsOn
+        {
+            get => Preferences.Get(nameof(SoundEffectsOn), true);
+            set
+            {
+                Preferences.Set(nameof(SoundEffectsOn), value);
+                OnPropertyChanged();
+            }
+        }
+
+
+        public string GetCardIcon(string number) => GetCardIcon(number, DeckType);
+
+        public string GetCardIcon(string number, DeckType deckType) => deckType switch
         {
             DeckType.A => $"c{number}",
-            DeckType.B => $"D{number}"
+            DeckType.B => $"D{number}",
+            DeckType.C => $"E{number}"
         };
 }
 }

@@ -14,7 +14,7 @@ namespace BischinoTheGame {
     
     
     [global::Xamarin.Forms.Xaml.XamlFilePathAttribute("View\\Pages\\NameSelectionPage.xaml")]
-    public partial class NameSelectionPage : global::Xamarin.Forms.ContentPage {
+    public partial class NameSelectionPage : global::Rg.Plugins.Popup.Pages.PopupPage {
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Xamarin.Forms.Build.Tasks.XamlG", "2.0.0.0")]
         private void InitializeComponent() {

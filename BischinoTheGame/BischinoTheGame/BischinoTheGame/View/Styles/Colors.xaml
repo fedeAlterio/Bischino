@@ -13,6 +13,7 @@
     <Color x:Key="SeparatorColor">#616161</Color>
     <Color x:Key="ThemeColor">#12151c</Color>
     <Color x:Key="GoodPink">#ad1457</Color>
+    <Color x:Key="LightBlue">#204051</Color>
     <Color x:Key="PopupText">Black</Color>
     <Color x:Key="GoodWhite">#fafafa</Color>
 </ResourceDictionary>

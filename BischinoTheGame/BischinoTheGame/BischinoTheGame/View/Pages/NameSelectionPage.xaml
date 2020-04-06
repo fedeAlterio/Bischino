@@ -1,23 +1,35 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+<pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:forms="clr-namespace:Lottie.Forms;assembly=Lottie.Forms"
+             xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+             xmlns:animations="clr-namespace:Rg.Plugins.Popup.Animations;assembly=Rg.Plugins.Popup"
              mc:Ignorable="d"
              BackgroundColor="{StaticResource BackgroundBlack}"
              NavigationPage.HasNavigationBar="False"
              x:Class="BischinoTheGame.NameSelectionPage">
-
-    <ScrollView>
-        <StackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="10" WidthRequest="300">
-            <Image HorizontalOptions="Center"
+    <pages:PopupPage.Animation>
+        <animations:FadeAnimation DurationOut="700"/>
+    </pages:PopupPage.Animation>
+        <Grid WidthRequest="350" HorizontalOptions="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Image Grid.Row="0" HorizontalOptions="Center" VerticalOptions="End"
                    Source="logo"/>
-            <Entry TextColor="White" FontSize="20" HorizontalOptions="Center" HorizontalTextAlignment="Center" PlaceholderColor="Gray" WidthRequest="200" Margin="0,25,0,0"
-                   Placeholder="Username" Text="{Binding Player.Name}" MaxLength="16"/>
-            <Button HorizontalOptions="Center" Margin="0,20" TextColor="White" BackgroundColor="{StaticResource GoodBlue}" CornerRadius="20"
-                    Text="Next" Command="{Binding NextCommand}"/>
-        </StackLayout>
-    </ScrollView>
+            <ScrollView  Grid.Row="1">
+                <StackLayout HorizontalOptions="Center" VerticalOptions="Start" Spacing="10">
+                    <Entry TextColor="White" FontSize="20" HorizontalOptions="Center" HorizontalTextAlignment="Center" PlaceholderColor="Gray" WidthRequest="200" HeightRequest="50" Margin="0,25,0,0"
+                           Placeholder="Username" Text="{Binding Player.Name}" MaxLength="16"/>
+                    <Button HorizontalOptions="Center" Margin="0,20" TextColor="White" BackgroundColor="{StaticResource GoodBlue}" CornerRadius="20" HeightRequest="50"
+                            Text="Next" Command="{Binding NextCommand}"/>
+                    <Label TextColor="{StaticResource GoodBlue}" HorizontalOptions="Center"
+                           Text="{Binding ErrorMessage}"/>
+                </StackLayout>
+            </ScrollView>
+        </Grid>
 
-</ContentPage>
+</pages:PopupPage>

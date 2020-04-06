@@ -12,15 +12,24 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="70"/>
                     <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Button Padding="0" BackgroundColor="{StaticResource BackgroundBlack}" Grid.Row="0" Grid.Column="1" Margin="0,40,0,0" FontSize="22" TextColor="White" HorizontalOptions="Center"
-                            Text="Filter" Command="{Binding ShowFiltersCommand}"/>
-                <ContentView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Margin="20, 10" WidthRequest="360" HorizontalOptions="Center">
+                
+                <Image x:Name="Logo" Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="3"  HorizontalOptions="Center" VerticalOptions="End" WidthRequest="350" Margin="0,0,0,33" Opacity="0.15"
+                       Source="logo"/>
+
+                <Button Padding="0" BackgroundColor="{StaticResource BackgroundBlack}" Grid.Row="0" Grid.Column="2" Margin="0,20,0,0" FontSize="20" TextColor="White" HorizontalOptions="Center"
+                            Text="Filters" Command="{Binding ShowFiltersCommand}"/>
+                <Label TextColor="White" Grid.Row="0"  Grid.Column="1" Margin="0,30,0,0" FontSize="24" HorizontalOptions="Center"
+                           Text="Room list"/>
+                <Button Padding="0" BackgroundColor="{StaticResource BackgroundBlack}" Grid.Row="0" Grid.Column="0" Margin="0,20,0,0" FontSize="20" TextColor="White" HorizontalOptions="Center"
+                            Text="Refresh" Command="{Binding RefreshCommand}"/>
+                <ContentView Grid.Row="1" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="3" Margin="20, 10" WidthRequest="360" HorizontalOptions="Center">
                     <RefreshView IsRefreshing="{Binding IsBusy}" Command="{Binding RefreshCommand}">
                         <CollectionView SelectedItem="{Binding SelectedRoom}" ItemsSource="{Binding Rooms}" SelectionMode="Single" SelectionChangedCommand="{Binding VisualizeRoomCommand}" SelectionChangedCommandParameter="{Binding Source={RelativeSource Self}, Path=SelectedItem}" RemainingItemsThreshold="3" RemainingItemsThresholdReachedCommand="{Binding EndOfListCommand}">
                             <CollectionView.ItemsLayout>
@@ -31,8 +40,8 @@
                             </CollectionView.ItemsLayout>
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
-                                    <Frame CornerRadius="20" Padding="0" Margin="0" BackgroundColor="{StaticResource GoodGray}">
-                                        <Grid BackgroundColor="{StaticResource GoodGray}" ColumnSpacing="20" HorizontalOptions="Center" VerticalOptions="Center" HeightRequest="230" Padding="15, 10">
+                                    <Frame x:Name="RoomFrame" CornerRadius="20" Padding="1" Margin="0" BackgroundColor="{Binding Converter={StaticResource RandomColorConverter}}" BorderColor="Black">
+                                        <Grid BackgroundColor="{Binding BackgroundColor, Source={x:Reference Name=RoomFrame}}" ColumnSpacing="20" HorizontalOptions="Center" VerticalOptions="Center" HeightRequest="230" Padding="15, 10">
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="Auto"/>
                                                 <RowDefinition Height="Auto"/>
@@ -43,6 +52,7 @@
                                                 <ColumnDefinition Width="*"/>
                                             </Grid.ColumnDefinitions>
 
+                                            <BoxView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Color="{StaticResource GoodGray}" VerticalOptions="Start" HeightRequest="1" CornerRadius="30"/>
                                             <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" TextColor="White" FontSize="33" HorizontalOptions="Center" VerticalOptions="Center"
                                                    Text="{Binding Name}"/>
                                             <StackLayout Grid.Row="1" Grid.Column="0" HorizontalOptions="Center" VerticalOptions="Center" Orientation="Horizontal" Spacing="10"
@@ -75,7 +85,7 @@
                     </RefreshView>
                 </ContentView>
 
-                <ImageButton Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Grid.ColumnSpan="3" HorizontalOptions="End" VerticalOptions="End" BackgroundColor="Transparent" Margin="0,0,20,20" HeightRequest="80"
+                <ImageButton Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Grid.ColumnSpan="3" HorizontalOptions="End" VerticalOptions="End" BackgroundColor="Transparent" Margin="0,0,20,20" HeightRequest="80"
                              Source="add" Command="{Binding CreateRoomCommand}"/>
             </Grid>
     </ContentPage.Content>

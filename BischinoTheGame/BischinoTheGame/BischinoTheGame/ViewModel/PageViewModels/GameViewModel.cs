@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using BischinoTheGame.Controller.Communication.Exceptions;
 using BischinoTheGame.Controller.Communication.Queries;
 using BischinoTheGame.Model;
+using BischinoTheGame.View.ViewElements;
 using Rg.Plugins.Popup.Services;
 using Rooms.Controller;
 using Xamarin.Forms;
@@ -20,13 +21,20 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         public event EventHandler YourTurn;
         public event Func<Task> NewMatchSnapshot;
         private readonly Room _room;
+        private readonly RoomManager _roomInfo;
         private readonly RoomQuery _roomQuery;
         private IList<string> _disconnectedPlayers = new List<string>();
 
+
+
         public ObservableCollection<Card> PlayerCards { get; set; } = new ObservableCollection<Card>();
         public ObservableCollection<Card> DroppedCards { get; set; } = new ObservableCollection<Card>();
+        public ObservableCollection<PrivatePlayerWrapper> PrivatePlayers { get; set; } = new ObservableCollection<PrivatePlayerWrapper>();
+        
         public bool IsGameEnded { get; set; }
         private bool CanDrop() => IsDropPhase;
+
+
 
 
         private Player _player;
@@ -76,6 +84,8 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         }
 
 
+
+
         private Command<Card> _dropCommand;
         public Command<Card> DropCommand
         {
@@ -84,14 +94,31 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         }
 
 
-        public GameViewModel(Room room)
+        private Command _audioSettingsCommand;
+        public Command AudioSettingsCommand
+        {
+            get => _audioSettingsCommand;
+            set => SetProperty(ref _audioSettingsCommand, value);
+        }
+
+
+        public GameViewModel(Room room, RoomManager roomInfo)
         {
             Player = AppController.Navigation.RoomNavigation.LoggedPlayer;
             _room = room;
+            _roomInfo = roomInfo;
             _roomQuery = new RoomQuery {PlayerName = Player.Name, RoomName = _room.Name};
             DropCommand = new Command<Card>(Drop, _ => CanDrop());
+            AudioSettingsCommand = new Command(_ => ToAudioSettings());
             AppController.RoomsHandler.MatchSnapshotUpdated += HandleSnapshot;
             AppController.RoomsHandler.SubscribeMatchSnapshotUpdates(_roomQuery);
+        }
+
+        private async void ToAudioSettings()
+        {
+            IsPageEnabled = false;
+            await AppController.Navigation.RoomNavigation.ShowAudioPopup();
+            IsPageEnabled = true;
         }
 
 
@@ -112,20 +139,9 @@ namespace BischinoTheGame.ViewModel.PageViewModels
             IsPageEnabled = true;
         }
 
-        public void BetCompleted()
-        {
-            IsBetPhase = false;
-        }
-
-        public void PaoloSent()
-        {
-            IsDropPhase = false;
-        }
-
-        public void LastPhaseCompleted()
-        {
-            IsLastPhase = false;
-        }
+        public void BetCompleted() => IsBetPhase = false;
+        public void PaoloSent() => IsDropPhase = false;
+        public void LastPhaseCompleted() => IsLastPhase = false;
 
         private async void Drop(Card card)
         {
@@ -175,6 +191,8 @@ namespace BischinoTheGame.ViewModel.PageViewModels
                 return;
 
             DroppedCards.Clear();
+            if(_matchSnapshot.DroppedCards.Any())
+                AppController.AudioManager.PlaySound(SoundEffect.Pop);
             foreach (var card in _matchSnapshot.DroppedCards)
                 DroppedCards.Add(card);
             DroppedCardsUpdated?.Invoke(this, EventArgs.Empty);
@@ -221,9 +239,9 @@ namespace BischinoTheGame.ViewModel.PageViewModels
             if (NewMatchSnapshot == null || IsGameEnded)
                 return;
 
-
             await HandleDisconnectedPlayers();
             await NewMatchSnapshot?.Invoke();
+            UpdatePrivatePlayers();
             UpdatePlayerCards();
             UpdateDroppedCards();
 
@@ -244,6 +262,15 @@ namespace BischinoTheGame.ViewModel.PageViewModels
                 await OnWinnersPhase();
         }
 
+
+        private void UpdatePrivatePlayers()
+        {
+            var players = from player in _matchSnapshot.OtherPlayers select new PrivatePlayerWrapper(player, (uint)_roomInfo.InGameTimeout);
+            PrivatePlayers.Clear();
+            foreach (var p in players)
+                PrivatePlayers.Add(p);
+        }
+
         private async Task HandleDisconnectedPlayers()
         {
             var names = from p in MatchSnapshot.OtherPlayers where p.IsIdled select p.Name;
@@ -251,6 +278,7 @@ namespace BischinoTheGame.ViewModel.PageViewModels
             if (enumerable.All(name => _disconnectedPlayers.Contains(name)))
                 return;
 
+            AppController.AudioManager.PlaySound(SoundEffect.Disconnected);
             _disconnectedPlayers = enumerable.ToList();
             if (PopupNavigation.Instance.PopupStack.Count > 0)
                 await PopupNavigation.Instance.PopAllAsync();
@@ -261,6 +289,7 @@ namespace BischinoTheGame.ViewModel.PageViewModels
             if (IsGameEnded)
                 return;
 
+            AppController.AudioManager.PlaySound(SoundEffect.Win);
             IsPageEnabled = false;
             IsGameEnded = true;
             UnsubscribeFromEvents();
@@ -273,8 +302,10 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         private void HandleTurn(PrivatePlayer playerTurn)
         {
             if (playerTurn.Name == Player.Name)
+            {
                 if (MatchSnapshot.Player.DropCardViewModel is { })
                     YourTurn?.Invoke(this, EventArgs.Empty);
+            }
         }
 
 

@@ -8,7 +8,7 @@ namespace BischinoTheGame.Model
 {
     public class Card : ViewModelBase
     {
-        public const double ratio = 2 / 4.0;
+        public const double ratio = 2.5 / 4.0;
 
 
         private int _value;
@@ -27,7 +27,7 @@ namespace BischinoTheGame.Model
         }
 
 
-        public string IconName => AppController.Settings.GetCardIcon(_value);
+        public string IconName => AppController.Settings.GetCardIcon(Name);
 
 
         private string _owner;

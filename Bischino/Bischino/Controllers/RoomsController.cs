@@ -132,10 +132,9 @@ namespace Bischino.Controllers
         {
             if (roomManager.IsGameStarted)
                 ThrowValidationEx("This game is already started");
-            /*
+            
             if (room.PendingPlayers.Count < room.MinPlayers)
                 ThrowValidationEx("There are not enough players to start the game");
-                */
         }
 
         public IActionResult Start([FromBody] string roomName)
@@ -409,6 +408,25 @@ namespace Bischino.Controllers
             }
         }
 
+
+
+
+        public IActionResult GetGameInfo([FromBody] RoomQuery roomQuery)
+        {
+            try
+            {
+                var roomManager = RoomsCollection.Get(roomQuery.RoomName);
+                return Ok(new ValuedResponse(roomManager));
+            }
+            catch (ValidationException e)
+            {
+                return BadRequest(new ValuedResponse {Message = e.Message});
+            }
+            catch(Exception)
+            {
+                return BadRequest();
+            }
+        }
 
 
         private void RoomManager_RoomClosed(object sender, EventArgs e)

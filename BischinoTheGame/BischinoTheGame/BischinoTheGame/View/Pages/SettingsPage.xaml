@@ -15,8 +15,10 @@
        <Label Grid.Row="0" TextColor="White" HorizontalOptions="Start" FontSize="23" 
               Text="Settings"/>
        <StackLayout Grid.Row="1" HorizontalOptions="FillAndExpand" VerticalOptions="Center">
-           <Button  BackgroundColor="{StaticResource GoodGray}" TextColor="White"
+            <Button  BackgroundColor="{StaticResource GoodGray}" TextColor="White"
                     Text="Choose your deck" Command="{Binding ToDeckSelectionCommand}"/>
+            <Button  BackgroundColor="{StaticResource GoodGray}" TextColor="White"
+                    Text="Audio" Command="{Binding AudioSettingsCommand}"/>
        </StackLayout>
    </Grid>
 </ContentPage>

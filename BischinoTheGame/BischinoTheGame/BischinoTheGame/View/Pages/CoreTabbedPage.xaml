@@ -14,5 +14,6 @@
              NavigationPage.HasNavigationBar="False"
              x:Class="BischinoTheGame.View.Pages.CoreTabbedPage">
     <pages:RoomsListPage BindingContext="{Binding RoomListViewModel}" Title="Search" IconImageSource="Explore"/>
+    <pages:RulesPage BindingContext="{Binding RulesViewModel}" Title="Rules" IconImageSource="rules"/>
     <pages:SettingsPage BindingContext="{Binding SettingsViewModel}" Title="Settings" IconImageSource="settings"/>
 </TabbedPage>

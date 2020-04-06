@@ -7,11 +7,11 @@
              mc:Ignorable="d"
              x:Class="BischinoTheGame.View.Pages.PaoloPopup">
 
-    <Frame CornerRadius="20" WidthRequest="200" HorizontalOptions="Center" VerticalOptions="Center" HeightRequest="200" BackgroundColor="{StaticResource GoodGray}" >
+    <Frame CornerRadius="10" WidthRequest="180" HorizontalOptions="Center" VerticalOptions="Center" HeightRequest="180" BackgroundColor="{StaticResource GoodGray}" >
         <StackLayout IsEnabled="{Binding IsPageEnabled}" HorizontalOptions="Center" VerticalOptions="Center" Spacing="30">
-            <Button BackgroundColor="Red"
+            <Button BackgroundColor="DarkRed" TextColor="White" CornerRadius="30"
                     Text="MAX" Command="{Binding MaxCommand}"/>
-            <Button BackgroundColor="Aqua"
+            <Button BackgroundColor="#204051" TextColor="White" CornerRadius="30"
                     Text="MIN" Command="{Binding MinCommand}"/>
         </StackLayout>
     </Frame>

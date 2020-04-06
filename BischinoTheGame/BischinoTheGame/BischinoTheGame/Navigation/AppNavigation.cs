@@ -33,7 +33,7 @@ namespace Rooms.Controller.Navigation
 
         public async Task Start()
         {
-            await RoomNavigation.ToRoomSelectionPage();
+            await RoomNavigation.ToNameSelection();
         }
     }
 }

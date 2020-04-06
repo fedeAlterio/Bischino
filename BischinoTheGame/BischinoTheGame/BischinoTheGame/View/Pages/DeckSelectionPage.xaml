@@ -6,44 +6,65 @@
              mc:Ignorable="d"
              BackgroundColor="{StaticResource BackgroundBlack}"
              x:Class="BischinoTheGame.View.Pages.DeckSelectionPage">
-    <StackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="30">
-        <Frame CornerRadius="20" Padding="5" Margin="0" BackgroundColor="{StaticResource GoodGray}"  VerticalOptions="Center">
-            <StackLayout Margin="5,10" Spacing="20">
-                <CollectionView SelectionMode="None" ItemsSource="{Binding Deck1}" HeightRequest="170">
-                    <CollectionView.ItemsLayout>
-                        <GridItemsLayout Span="1" VerticalItemSpacing="15" 
-                                         Orientation="Horizontal"
-                                         HorizontalItemSpacing="15"/>
-                    </CollectionView.ItemsLayout>
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <Image Source="{Binding}" HeightRequest="100" WidthRequest="100"/>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
-                <Button TextColor="White" BackgroundColor="{StaticResource GoodBlue}" HorizontalOptions="Center" VerticalOptions="Center" CornerRadius="30" WidthRequest="100"
-                        Text="Choose" Command="{Binding Deck1Command}"/>
-            </StackLayout>
-        </Frame>
+    <ScrollView Margin="20,10">
+        <StackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="30" >
+            <Frame CornerRadius="20" Padding="5" Margin="0" BackgroundColor="{StaticResource GoodGray}"  VerticalOptions="Center">
+                <StackLayout Margin="5,10" Spacing="20">
+                    <CollectionView SelectionMode="None" ItemsSource="{Binding Deck1}" HeightRequest="170">
+                        <CollectionView.ItemsLayout>
+                            <GridItemsLayout Span="1" VerticalItemSpacing="15" 
+                                             Orientation="Horizontal"
+                                             HorizontalItemSpacing="15"/>
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Image Source="{Binding}" HeightRequest="100" WidthRequest="100"/>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                    <Button TextColor="White" BackgroundColor="{StaticResource GoodBlue}" HorizontalOptions="Center" VerticalOptions="Center" CornerRadius="30" WidthRequest="100"
+                            Text="Choose" Command="{Binding Deck1Command}"/>
+                </StackLayout>
+            </Frame>
 
-        <Frame CornerRadius="20" Padding="5" Margin="0" BackgroundColor="{StaticResource GoodGray}"  VerticalOptions="Center">
-            <StackLayout Margin="5,10" Spacing="20">
-                <CollectionView SelectionMode="None" ItemsSource="{Binding Deck2}" HeightRequest="170">
-                    <CollectionView.ItemsLayout>
-                        <GridItemsLayout Span="1" VerticalItemSpacing="15" 
-                                         Orientation="Horizontal"
-                                         HorizontalItemSpacing="15"/>
-                    </CollectionView.ItemsLayout>
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <Image Source="{Binding}" HeightRequest="100" WidthRequest="100"/>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
-                <Button TextColor="White" BackgroundColor="{StaticResource GoodBlue}" HorizontalOptions="Center" VerticalOptions="Center" CornerRadius="30" WidthRequest="100"
-                        Text="Choose" Command="{Binding Deck2Command}"/>
-            </StackLayout>
-        </Frame>
-    </StackLayout>
+            <Frame CornerRadius="20" Padding="5" Margin="0" BackgroundColor="{StaticResource GoodGray}"  VerticalOptions="Center">
+                <StackLayout Margin="5,10" Spacing="20">
+                    <CollectionView SelectionMode="None" ItemsSource="{Binding Deck2}" HeightRequest="170">
+                        <CollectionView.ItemsLayout>
+                            <GridItemsLayout Span="1" VerticalItemSpacing="15" 
+                                             Orientation="Horizontal"
+                                             HorizontalItemSpacing="15"/>
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Image Source="{Binding}" HeightRequest="100" WidthRequest="100"/>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                    <Button TextColor="White" BackgroundColor="{StaticResource GoodBlue}" HorizontalOptions="Center" VerticalOptions="Center" CornerRadius="30" WidthRequest="100"
+                            Text="Choose" Command="{Binding Deck2Command}"/>
+                </StackLayout>
+            </Frame>
+
+            <Frame CornerRadius="20" Padding="5" Margin="0" BackgroundColor="{StaticResource GoodGray}"  VerticalOptions="Center">
+                <StackLayout Margin="5,10" Spacing="20">
+                    <CollectionView SelectionMode="None" ItemsSource="{Binding Deck3}" HeightRequest="170">
+                        <CollectionView.ItemsLayout>
+                            <GridItemsLayout Span="1" VerticalItemSpacing="15" 
+                                             Orientation="Horizontal"
+                                             HorizontalItemSpacing="15"/>
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Image Source="{Binding}" HeightRequest="100" WidthRequest="100"/>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                    <Button TextColor="White" BackgroundColor="{StaticResource GoodBlue}" HorizontalOptions="Center" VerticalOptions="Center" CornerRadius="30" WidthRequest="100"
+                            Text="Choose" Command="{Binding Deck3Command}"/>
+                </StackLayout>
+            </Frame>
+        </StackLayout>
+    </ScrollView>
 
 </ContentPage>

@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Text;
 using Xamarin.Forms;
 
-namespace Rooms.View
+namespace BischinoTheGame.View
 {
     public class NegateConditionConverter : IValueConverter
     {

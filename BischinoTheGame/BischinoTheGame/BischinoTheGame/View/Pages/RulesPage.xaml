@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:system="clr-namespace:System;assembly=netstandard"
+             BackgroundColor="{StaticResource BackgroundBlack}"
+             mc:Ignorable="d"
+             x:Class="BischinoTheGame.View.Pages.RulesPage">
+    <ScrollView HorizontalOptions="FillAndExpand">
+        <Grid WidthRequest="450" HorizontalOptions="Center">
+            <Grid.Resources>
+                <Style x:Key="DescriptionLabel" TargetType="Label">
+                    <Setter Property="FontFamily" Value="Mark"/>
+                    <Setter Property="Font" Value="Small"/>
+                    <Setter Property="CharacterSpacing" Value="0.8"/>
+                </Style>
+            </Grid.Resources>
+            <StackLayout Margin="30,10" Spacing="10">
+                <Image HorizontalOptions="Center" Margin="-10,0"
+                       Source="logo"/>
+                <Label TextColor="White" LineBreakMode="WordWrap" Style="{StaticResource DescriptionLabel}"
+                       Text="Bischino is a card game for 2 to 6 players.">
+                </Label>
+                <Label TextColor="White" LineBreakMode="WordWrap" Style="{StaticResource DescriptionLabel}"
+                       Text="40 cards are used, and they are all sorted in order of value:"/>
+                <Label TextColor="DarkGray" LineBreakMode="WordWrap" FontSize="13" HorizontalOptions="Center" Style="{StaticResource DescriptionLabel}"
+                       Text="(from the least strong to the strongest)"/>
+                <CollectionView SelectionMode="None" HeightRequest="170" Margin="0,10,0,0"
+                                ItemsSource="{Binding Deck}">
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Span="1" VerticalItemSpacing="15" 
+                                         Orientation="Horizontal"
+                                         HorizontalItemSpacing="15"/>
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Image Source="{Binding}" HeightRequest="100" WidthRequest="100"/>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+                <Label TextColor="White" LineBreakMode="WordWrap" Margin="0,10" Style="{StaticResource DescriptionLabel}"
+                       Text="A card is missing from the list above:"/>
+                <Image HorizontalOptions="Center" WidthRequest="90"
+                       Source="{Binding Paolo}"/>
+                <Label TextColor="White" LineBreakMode="WordWrap" Margin="0,10"  Style="{StaticResource DescriptionLabel}"
+                       Text="This is a special card that can have maximum or minimum value, at the discretion of the player."/>
+
+                <Label TextColor="White" LineBreakMode="WordWrap" HorizontalOptions="Center" Margin="0,0,0,10"  Style="{StaticResource DescriptionLabel}"
+                       Text="This is how it is represented in this game"/>
+
+                <Grid HorizontalOptions="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <StackLayout Grid.Row="0" Grid.Column="0" Orientation="Horizontal" HorizontalOptions="Center">
+                        <BoxView HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Color="{StaticResource LightBlue}" WidthRequest="6"/>
+                        <Image HorizontalOptions="Start" WidthRequest="90"
+                               Source="{Binding Paolo}"/>
+                    </StackLayout>
+                    <Label Grid.Row="1" Grid.Column="0" TextColor="White" LineBreakMode="WordWrap" FontSize="13" HorizontalOptions="Center" Style="{StaticResource DescriptionLabel}"
+                           Text="Minimum"/>
+
+                    <StackLayout Grid.Row="0" Grid.Column="1" Orientation="Horizontal" HorizontalOptions="Center">
+                        <BoxView HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Color="DarkRed" WidthRequest="6"/>
+                        <Image HorizontalOptions="Start" WidthRequest="90"
+                               Source="{Binding Paolo}"/>
+                    </StackLayout>
+                    <Label Grid.Row="1" Grid.Column="1" TextColor="White" LineBreakMode="WordWrap" FontSize="13" HorizontalOptions="Center" Style="{StaticResource DescriptionLabel}"
+                           Text="Maximum"/>
+                </Grid>
+
+                <Label TextColor="White" LineBreakMode="WordWrap" FontSize="15" Margin="0,10,0,0" Style="{StaticResource DescriptionLabel}"
+                       Text="The game starts by dealing 5 cards to each player. "/>
+
+                <Label TextColor="White" LineBreakMode="WordWrap" FontSize="15" Margin="0,10,0,0" Style="{StaticResource DescriptionLabel}"
+                       Text="At this point each player has to make a prediction about how many cards he's taking with the cards in his hand."/>
+                <Label TextColor="White" LineBreakMode="WordWrap" FontSize="15" Margin="0,10,0,0" Style="{StaticResource DescriptionLabel}"
+                       Text="The last player to bet has an extra constraint: "/>
+                <Label TextColor="Wheat" LineBreakMode="WordWrap" HorizontalTextAlignment="Center" FontAttributes="Italic" FontSize="15" Margin="0,10" Style="{StaticResource DescriptionLabel}"
+                       Text="The sum of his and the others prediction cannot coincide with the number of cards in his hands."/>
+
+
+                <Label TextColor="DarkGray" LineBreakMode="WordWrap" HorizontalTextAlignment="Center" FontAttributes="Italic" FontSize="13" Margin="0,10" Style="{StaticResource DescriptionLabel}"
+                       Text="For example, let's say there are 3 players who have 5 cards in their hands, that the first player bets 1 and that the second one bets 1; The rule says that the last player can't bet 3."/>
+
+                <Label TextColor="White" LineBreakMode="WordWrap" FontSize="15"  Style="{StaticResource DescriptionLabel}"
+                       Text="The cards are then discarded, one at a time, in order of players, until each of them runs out of cards."/>
+
+                <Label TextColor="White" LineBreakMode="WordWrap" FontSize="15" Style="{StaticResource DescriptionLabel}"
+                       Text="At each round the highest card wins, and a point is awarded to the corresponding player. That's also the player must start the following round."/>
+
+                <Label TextColor="White" LineBreakMode="WordWrap" FontSize="15" Style="{StaticResource DescriptionLabel}"
+                       Text="When the last turn finishes, the prediction made and the number of the winning turns Will be compared. Any difference will be deduct from the player's lives."/>
+                <Label TextColor="White" LineBreakMode="WordWrap" FontSize="15" Style="{StaticResource DescriptionLabel}"
+                       Text="Each player starts with a total of three lives:"/>
+
+                <Label TextColor="Wheat" LineBreakMode="WordWrap" HorizontalTextAlignment="Center" FontAttributes="Italic" FontSize="15" Margin="0,10" Style="{StaticResource DescriptionLabel}"
+                       Text="New Lives = old lives - prediction error"/>
+
+                <Label TextColor="White" LineBreakMode="WordWrap" FontSize="15" Margin="0,10" Style="{StaticResource DescriptionLabel}"
+                       Text="At each round the starting cards decrease by one. The one-card round has different rules:"/>
+
+
+                <Label TextColor="Wheat" LineBreakMode="WordWrap" HorizontalTextAlignment="Center" FontAttributes="Italic" FontSize="15" Margin="0,10" Style="{StaticResource DescriptionLabel}"
+                       Text="Each player sees the cards of all the others, but not his own and on this basis he must make his prediction."/>
+            </StackLayout>
+        </Grid>
+    </ScrollView>
+</ContentPage>

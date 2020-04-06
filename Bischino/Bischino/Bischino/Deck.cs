@@ -40,8 +40,16 @@ namespace Bischino.Bischino
         public static IList<Card> GetAll()
         {
             var cards = new List<Card>();
-          
-            for(int i=0; i < 40; i++)
+            /*
+            for (int i = 0; i < 40; i++)
+                cards.Add(new Card
+                {
+                    IsPaolo = true,
+                    Name = $"{30}",
+                    Value = 30
+                });
+            */
+            for (int i=0; i < 40; i++)
                 cards.Add(new Card
                     {
                         IsPaolo = i==30,

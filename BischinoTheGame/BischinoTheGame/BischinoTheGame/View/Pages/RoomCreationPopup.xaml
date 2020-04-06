@@ -7,12 +7,13 @@
              xmlns:pages1="clr-namespace:BischinoTheGame.View.Pages;assembly=BischinoTheGame"
              mc:Ignorable="d"
              x:Class="BischinoTheGame.View.Pages.RoomCreationPopup">
-    <Frame CornerRadius="20" WidthRequest="210" HorizontalOptions="Center" VerticalOptions="Center" HeightRequest="250" BackgroundColor="{StaticResource GoodGray}" >
+    <Frame CornerRadius="10" WidthRequest="210" HorizontalOptions="Center" VerticalOptions="Center" BackgroundColor="{StaticResource GoodGray}" >
         <Grid IsEnabled="{Binding IsPageEnabled}">
             <Grid.Resources>
                 <pages1:RoomNameValueConverter x:Key="RoomNameValueConverter"/>
             </Grid.Resources>
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -38,6 +39,9 @@
             
             <Button Grid.Row="3" Grid.Column="1" BackgroundColor="{StaticResource GoodBlue}" TextColor="White" HorizontalOptions="End" Margin="0,20" CornerRadius="20"
                     Text="Create" Command="{Binding CreateRoomCommand}"/>
+
+            <Label Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" TextColor="{StaticResource GoodBlue}" HorizontalOptions="Center" LineBreakMode="WordWrap"
+                   Text="{Binding ErrorMessage}"/>
         </Grid>
     </Frame>
 </pages:PopupPage>

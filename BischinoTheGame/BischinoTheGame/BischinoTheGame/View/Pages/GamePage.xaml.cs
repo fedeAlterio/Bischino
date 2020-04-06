@@ -14,7 +14,7 @@ namespace BischinoTheGame.View.Pages
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class GamePage : ContentPage
     {
-        public const double PlayerCardWidth = 330 / 5.0;
+        public const double PlayerCardWidth = 385 / 5.0;
         private GameViewModel _viewModel;
         private ImageButton _clickedImageButton;
         public Task<bool> DeletingCardAnimation { get; set; }
@@ -72,8 +72,8 @@ namespace BischinoTheGame.View.Pages
             var cards = _viewModel.DroppedCards;
             var start = DroppedCardsCollectionView.WidthRequest;
             var height = DroppedCardsCollectionView.Height;
-            var width = height * Card.ratio + 4;
-            var spacing = width * 0.4;
+            var width = height * Card.ratio * 1;
+            var spacing = width * 0.3;
             new Animation(val => DroppedCardsCollectionView.WidthRequest = val, start, width * cards.Count + spacing * (cards.Count-1),
                 Easing.CubicOut).Commit(this, "droppedScale", 32U, 600U);
         }

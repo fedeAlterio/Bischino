@@ -69,6 +69,9 @@ namespace BischinoTheGame.Controller.Communication.ServerHandlers
         public void UnsubscribeMatchSnapshotUpdates()
             => _updateTokenSource?.Cancel();
 
+        public Task<RoomManager> GetGameInfo(RoomQuery roomQuery)
+            => Get<RoomManager>(roomQuery);
+
         private async void GetSnapshotRoutine(RoomQuery roomQuery, CancellationToken token)
         {
             while (!_updateTokenSource.IsCancellationRequested)

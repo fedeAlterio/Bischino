@@ -16,9 +16,25 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         }
 
 
+        private Command _audioSettingsCommand;
+        public Command AudioSettingsCommand
+        {
+            get => _audioSettingsCommand;
+            set => SetProperty(ref _audioSettingsCommand, value);
+        }
+
+
         public SettingsViewModel()
         {
             ToDeckSelectionCommand = new Command(_ => ToDeckSelection());
+            AudioSettingsCommand = new Command(_ => ToAudioSettings());
+        }
+
+        private async void ToAudioSettings()
+        {
+            IsPageEnabled = false;
+            await AppController.Navigation.RoomNavigation.ShowAudioPopup();
+            IsPageEnabled = true;
         }
 
         private async void ToDeckSelection()

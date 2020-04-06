@@ -39,6 +39,14 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         }
 
 
+        private IList<string> _deck3;
+        public IList<string> Deck3
+        {
+            get => _deck3;
+            set => SetProperty(ref _deck3, value);
+        }
+
+
         private Command _deck1Command;
         public Command Deck1Command
         {
@@ -55,6 +63,13 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         }
 
 
+        private Command _deck3Command;
+        public Command Deck3Command
+        {
+            get => _deck3Command;
+            set => SetProperty(ref _deck3Command, value);
+        }
+
 
         public DeckSelectionVewModel()
         {
@@ -70,7 +85,7 @@ namespace BischinoTheGame.ViewModel.PageViewModels
             {
                 var deck = new List<string>();
                 for(int i=0; i < DeckSize; i++)
-                    deck.Add(AppController.Settings.GetCardIcon(i, type));
+                    deck.Add(AppController.Settings.GetCardIcon($"{i}", type));
                 Decks.Add(deck);
             }
 
@@ -79,6 +94,10 @@ namespace BischinoTheGame.ViewModel.PageViewModels
             
             Deck2 = Decks[1];
             Deck2Command = new Command(_ => ChooseDeck(DeckType.B));
+
+
+            Deck3 = Decks[2];
+            Deck3Command = new Command(_ => ChooseDeck(DeckType.C));
         }
 
         private async void ChooseDeck(DeckType type)

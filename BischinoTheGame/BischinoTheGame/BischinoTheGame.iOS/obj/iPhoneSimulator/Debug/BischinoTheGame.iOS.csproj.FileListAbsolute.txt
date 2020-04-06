@@ -142,3 +142,6 @@ C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.iOS\bin\iPhoneS
 C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.iOS\bin\iPhoneSimulator\Debug\Lottie.iOS.pdb
 C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.iOS\bin\iPhoneSimulator\Debug\Lottie.Forms.dll
 C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.iOS\bin\iPhoneSimulator\Debug\Lottie.Forms.pdb
+C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.iOS\bin\iPhoneSimulator\Debug\Plugin.SimpleAudioPlayer.Abstractions.dll
+C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.iOS\bin\iPhoneSimulator\Debug\Plugin.SimpleAudioPlayer.Abstractions.pdb
+C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.iOS\bin\iPhoneSimulator\Debug\Plugin.SimpleAudioPlayer.dll

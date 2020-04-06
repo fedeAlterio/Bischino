@@ -8,6 +8,8 @@ public class MonoPackageManager_Resources {
 		"Lottie.Android.dll",
 		"Lottie.Forms.dll",
 		"Newtonsoft.Json.dll",
+		"Plugin.SimpleAudioPlayer.Abstractions.dll",
+		"Plugin.SimpleAudioPlayer.dll",
 		"Rg.Plugins.Popup.dll",
 		"Rg.Plugins.Popup.Droid.dll",
 		"System.Net.Http.Formatting.dll",

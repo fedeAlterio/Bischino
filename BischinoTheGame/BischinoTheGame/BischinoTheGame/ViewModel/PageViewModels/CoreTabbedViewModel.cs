@@ -22,9 +22,18 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         }
 
 
-        public CoreTabbedViewModel(RoomsListViewModel roomListViewModel, SettingsViewModel settingsViewModel)
+        private RulesViewModel _rulesViewModel;
+        public RulesViewModel RulesViewModel
         {
-            (RoomListViewModel, SettingsViewModel) = (roomListViewModel, settingsViewModel);
+            get => _rulesViewModel;
+            set => SetProperty(ref _rulesViewModel, value);
+        }
+
+
+
+        public CoreTabbedViewModel(RoomsListViewModel roomListViewModel, SettingsViewModel settingsViewModel, RulesViewModel rulesViewModel)
+        {
+            (RoomListViewModel, SettingsViewModel, RulesViewModel) = (roomListViewModel, settingsViewModel, rulesViewModel);
         }
     }
 }

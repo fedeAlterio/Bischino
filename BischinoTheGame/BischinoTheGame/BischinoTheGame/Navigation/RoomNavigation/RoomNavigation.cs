@@ -3,33 +3,43 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BischinoTheGame.Controller;
 using BischinoTheGame.Controller.Communication.Queries;
 using BischinoTheGame.Model;
+using BischinoTheGame.Model.Settings;
 using BischinoTheGame.View.Pages;
 using BischinoTheGame.ViewModel;
 using BischinoTheGame.ViewModel.PageViewModels;
 using Rg.Plugins.Popup.Services;
 using Rooms.Controller;
 using Rooms.Controller.Navigation;
+using Xamarin.Forms;
 
 namespace BischinoTheGame.Navigation.RoomNavigation
 {
     public class RoomNavigation : PageNavigationBase, IRoomNavigation
     {
         private GameViewModel _gameViewModel;
+        private RulesViewModel _rulesVM;
+        private CoreTabbedPage _page;
+        private bool _deckChanged = false;
+        private RoomsListViewModel _roomListVM;
 
         public Player LoggedPlayer { get; private set; }
-        public async Task ToRoomSelectionPage()
+        public async Task ToNameSelection()
         {
             var vm = new NameSelectionViewModel();
             var page = new NameSelectionPage {BindingContext = vm};
-            await Navigation.PushAsync(page);
+            await PushCorePage();
+            await PopupNavigation.Instance.PushAsync(page);
         }
 
         public async Task NotifyNameSelected(Player player)
         {
-            LoggedPlayer = player;
-            await ToCorePage();
+            LoggedPlayer = player; 
+            await PopupNavigation.Instance.PopAsync();
+            await GetRoomListPage().StartAnimation();
+            _roomListVM.AsyncInitialization();
         }
 
         public async Task ShowRoomCreationPopup()
@@ -53,9 +63,9 @@ namespace BischinoTheGame.Navigation.RoomNavigation
             Navigation.RemovePage(Navigation.NavigationStack.First());
         }
 
-        public async Task NotifyMatchStarted(Room room)
+        public async Task NotifyMatchStarted(Room room, RoomManager roomInfo)
         {
-            _gameViewModel = new GameViewModel(room);
+            _gameViewModel = new GameViewModel(room, roomInfo);
             var page = new GamePage {BindingContext = _gameViewModel};
             await Navigation.PushAsync(page);
             Navigation.RemovePage(Navigation.NavigationStack.First());
@@ -112,7 +122,9 @@ namespace BischinoTheGame.Navigation.RoomNavigation
         {
             if(PopupNavigation.Instance.PopupStack.Count > 0)
                 await PopupNavigation.Instance.PopAllAsync();
-            await ToCorePage();
+            await PushCorePage();
+            _roomListVM.AsyncInitialization();
+            Navigation.RemovePage(Navigation.NavigationStack.First());
         }
 
         public async Task ToWinnersPopup(MatchSnapshot matchSnapshot)
@@ -134,14 +146,39 @@ namespace BischinoTheGame.Navigation.RoomNavigation
             await Navigation.PopModalAsync();
         }
 
-        private async Task ToCorePage()
+        public async Task ShowAudioPopup()
         {
-            var roomListVM = new RoomsListViewModel();
+            var vm = new AudioPopupViewModel();
+            var page = new AudioPopup {BindingContext = vm};
+            await PopupNavigation.Instance.PushAsync(page);
+        }
+
+        private async Task PushCorePage()
+        {
+            AppController.Settings.DeckChanged += (_, __) => _deckChanged = true;
+            _roomListVM = new RoomsListViewModel();
             var settingsVM = new SettingsViewModel();
-            var vm = new CoreTabbedViewModel(roomListVM, settingsVM);
-            var page = new CoreTabbedPage {BindingContext = vm};
-            await Navigation.PushAsync(page);
-            Navigation.RemovePage(Navigation.NavigationStack.First());
+            _rulesVM = new RulesViewModel();
+            var vm = new CoreTabbedViewModel(_roomListVM, settingsVM, _rulesVM); 
+            _page = new CoreTabbedPage {BindingContext = vm};
+            _page.CurrentPageChanged += CoreTabbedPage_CurrentPageChanged;
+            await Navigation.PushAsync(_page);
+        }
+
+        private void CoreTabbedPage_CurrentPageChanged(object sender, EventArgs e)
+        {
+            if (_page.CurrentPage.BindingContext == _rulesVM)
+                if(_deckChanged)
+                {
+                    _rulesVM.LoadDecks();
+                    _deckChanged = false;
+                }
+        }
+
+        private RoomsListPage GetRoomListPage()
+        {
+            var query = from page in _page.Children where page is RoomsListPage select (RoomsListPage)page;
+            return query.FirstOrDefault();
         }
     }
 }

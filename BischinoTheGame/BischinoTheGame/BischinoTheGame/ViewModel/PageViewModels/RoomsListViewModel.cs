@@ -100,7 +100,6 @@ namespace BischinoTheGame.ViewModel.PageViewModels
             VisualizeRoomCommand = new Command<Room>(OnRoomSelected);
             ShowFiltersCommand = new Command(_ => ShowFilters());
             CreateRoomCommand = new Command(_ => CreateRoom());
-            AsyncInitialization();
         }
 
 
@@ -113,7 +112,7 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         }
 
 
-        private async void AsyncInitialization()
+        public async void AsyncInitialization()
         {
             await GetRooms();
         }

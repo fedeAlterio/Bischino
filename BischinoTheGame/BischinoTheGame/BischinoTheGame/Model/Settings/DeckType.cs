@@ -7,6 +7,7 @@ namespace BischinoTheGame.Model.Settings
     public enum DeckType
     {
         A,
-        B
+        B,
+        C
     }
 }

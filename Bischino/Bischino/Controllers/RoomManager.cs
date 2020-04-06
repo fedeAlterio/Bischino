@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.WebSockets;
+using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using Bischino.Bischino;
@@ -18,15 +19,21 @@ namespace Bischino.Controllers
         public event EventHandler<RoomQuery> WaitingRoomDisconnectedPlayer;
         public event EventHandler RoomClosed;
 
-        private const int InGameTimeout = 15 * 1000; //ms
+        public int InGameTimeout { get; set; } = 75 * 1000; //ms
         private const int WaitingRoomTimeout = 7 * 1000; //ms
         private const int WinPhaseTimeout = 10 * 1000;
 
         public string RoomName => Room.Name;
-        public GameManager GameManager { get; private set; }
-        public bool IsGameStarted { get; private set; }
-        public DateTime? StartTime { get; private set; } = DateTime.Now;
+        
+        [JsonIgnore]
         public Room Room { get; }
+        
+        [JsonIgnore]
+        public GameManager GameManager { get; private set; }
+        
+        public bool IsGameStarted { get; private set; }
+        
+        public DateTime? StartTime { get; private set; } = DateTime.Now;
 
         private ConcurrentDictionary<string, Timer> _pendingPlayersTimerDictionary = new ConcurrentDictionary<string, Timer>();
         private TimeoutTimer<Player> _inGameTimer;
@@ -95,6 +102,8 @@ namespace Bischino.Controllers
             {
                 var snapshot = GameManager.GetSnapshot(playerName);
                 snapshotWrapper.NotifyNew(snapshot);
+                _inGameTimer?.Stop();
+                _inGameTimer?.Start();
             }
         }
 

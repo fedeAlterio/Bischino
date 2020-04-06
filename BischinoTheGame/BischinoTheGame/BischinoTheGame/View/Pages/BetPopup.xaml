@@ -6,7 +6,7 @@
              xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
              mc:Ignorable="d"
              x:Class="BischinoTheGame.View.Pages.BetPopup" IsEnabled="{Binding IsPageEnabled}">
-    <Frame CornerRadius="20" WidthRequest="240" HorizontalOptions="Center" VerticalOptions="Start" Margin="0,70,0,0"  HeightRequest="110" BackgroundColor="{StaticResource BackgroundBlack}" >
+    <Frame CornerRadius="10" WidthRequest="240" HorizontalOptions="Center" VerticalOptions="Start" Margin="0,70,0,0"  HeightRequest="110" BackgroundColor="{StaticResource BackgroundBlack}" >
         <StackLayout Spacing="10">
             <Label TextColor="White" FontSize="20" HorizontalOptions="Center"
                    Text="Make a bet"/>

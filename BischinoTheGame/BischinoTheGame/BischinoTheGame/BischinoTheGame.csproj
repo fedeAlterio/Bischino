@@ -12,14 +12,46 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Fonts\mark.TTF" />
+    <None Remove="Sfx\coin.wav" />
+    <None Remove="Sfx\conquistador.mp3" />
+    <None Remove="Sfx\disconnected.wav" />
+    <None Remove="Sfx\magic.mp3" />
+    <None Remove="Sfx\pop.flac" />
+    <None Remove="Sfx\tea_music.mp3" />
+    <None Remove="Sfx\win.wav" />
+    <None Remove="Universal-Regular.TTF" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Sfx\coin.wav" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Fonts\mark.TTF" />
+    <EmbeddedResource Include="Fonts\Universal-Regular.TTF" />
+    <EmbeddedResource Include="Sfx\african_son.mp3" />
+    <EmbeddedResource Include="Sfx\conquistador.mp3" />
+    <EmbeddedResource Include="Sfx\disconnected.wav" />
+    <EmbeddedResource Include="Sfx\magic.mp3" />
+    <EmbeddedResource Include="Sfx\pop.flac" />
+    <EmbeddedResource Include="Sfx\tea_music.mp3" />
+    <EmbeddedResource Include="Sfx\win.wav" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Com.Airbnb.Xamarin.Forms.Lottie" Version="3.1.0" />
     <PackageReference Include="Rg.Plugins.Popup" Version="1.2.0.223" />
     <PackageReference Include="WinInsider.System.Net.Http.Formatting" Version="1.0.14" />
-    <PackageReference Include="Xamarin.Forms" Version="4.5.0.495" />
+    <PackageReference Include="Xam.Plugin.SimpleAudioPlayer" Version="1.4.0" />
+    <PackageReference Include="Xamarin.Forms" Version="4.5.0.530" />
     <PackageReference Include="Xamarin.Essentials" Version="1.5.2" />
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="View\Pages\AudioPopup.xaml.cs">
+      <DependentUpon>AudioPopup.xaml</DependentUpon>
+    </Compile>
     <Compile Update="View\Pages\NameSelectionPage.xaml.cs">
       <DependentUpon>NameSelectionPage.xaml</DependentUpon>
     </Compile>
@@ -44,6 +76,9 @@
     <EmbeddedResource Update="View\Pages\GamePage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="View\Pages\AudioPopup.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="View\Pages\PaoloPopup.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -51,6 +86,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="View\Pages\RoomsListPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="View\Pages\RulesPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="View\Pages\SettingsPage.xaml">
@@ -62,5 +100,9 @@
     <EmbeddedResource Update="View\Pages\WinnersPopup.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Extensions\" />
   </ItemGroup>
 </Project>

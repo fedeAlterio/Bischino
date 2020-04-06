@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+             xmlns:controller="clr-namespace:Rooms.Controller;assembly=BischinoTheGame"
+             mc:Ignorable="d"
+             BackgroundColor="transparent"
+             x:Class="BischinoTheGame.View.Pages.AudioPopup">
+    <Frame CornerRadius="20" WidthRequest="250" HorizontalOptions="Center" VerticalOptions="Center" HeightRequest="110" BackgroundColor="{StaticResource GoodGray}" >
+        <StackLayout Spacing="10">
+            <StackLayout HorizontalOptions="Center" VerticalOptions="Center" Orientation="Horizontal">
+
+                <ImageButton BackgroundColor="{StaticResource GoodGray}" HeightRequest="60" CornerRadius="30"
+                             Source="back" Command="{Binding PreviousTrackCommand}"/>
+                <Grid Margin="20,0">
+                    <ImageButton IsVisible="{Binding AudioOn, Source={x:Static controller:AppController.AudioManager}, Converter={StaticResource NegationConverter}}" BackgroundColor="{StaticResource GoodGray}" HeightRequest="60" CornerRadius="30"
+                        Source="audio_on" Command="{Binding AudioOnCommand}"/>
+                    <ImageButton IsVisible="{Binding AudioOn, Source={x:Static controller:AppController.AudioManager}}" BackgroundColor="{StaticResource GoodGray}" HeightRequest="60" CornerRadius="30"
+                        Source="audio_off" Command="{Binding AudioOffCommand}"/>
+                </Grid>
+                <ImageButton BackgroundColor="{StaticResource GoodGray}" HeightRequest="60" CornerRadius="30"
+                             Source="forward" Command="{Binding NextTrackCommand}"/>
+            </StackLayout>
+
+            <StackLayout HorizontalOptions="Center" VerticalOptions="Center" Orientation="Horizontal" Spacing="3">
+                <Label TextColor="White" VerticalOptions="Center"
+                       Text="Sound effects"/>
+                <Grid Margin="20,0">
+                    <ImageButton IsVisible="{Binding SoundEffectsOn, Source={x:Static controller:AppController.Settings}, Converter={StaticResource NegationConverter}}" BackgroundColor="{StaticResource GoodGray}" HeightRequest="40" CornerRadius="30"
+                                 Source="audio_on" Command="{Binding SoundEffectsOnCommand}"/>
+                    <ImageButton IsVisible="{Binding SoundEffectsOn, Source={x:Static controller:AppController.Settings}}" BackgroundColor="{StaticResource GoodGray}" HeightRequest="40" CornerRadius="30"
+                                 Source="audio_off" Command="{Binding SoundEffectsOffCommand}"/>
+                </Grid>
+            </StackLayout>
+        </StackLayout>
+    </Frame>
+</pages:PopupPage>

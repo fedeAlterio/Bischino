@@ -32,6 +32,12 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         }
 
 
+        private string _errorMessage;
+        public string ErrorMessage
+        {
+            get => _errorMessage;
+            set => SetProperty(ref _errorMessage, value);
+        }
 
 
         public RoomCreationViewModel()
@@ -68,19 +74,39 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         private bool CanCreateRoom()
         {
             if (string.IsNullOrWhiteSpace(_room.Name))
+            {
+                ErrorMessage = string.Empty;
                 return false;
+            }
             if (_room.Name.Any(char.IsWhiteSpace))
+            {
+                ErrorMessage = "Make sure there are not spaces";
                 return false;
+            }
             if (_room.Name.Length > 16)
+            {
+                ErrorMessage = "The name can be only 16 character long";
                 return false;
+            }
             if (_room.MinPlayers is null || _room.MaxPlayers is null)
                 return false;
             if (_room.MinPlayers < 2 || _room.MinPlayers > 6)
+            {
+                ErrorMessage = "The field min players should be greater or equal to 2, and less or equal to 6";
                 return false;
+            }
             if (_room.MaxPlayers < 2 || _room.MaxPlayers > 6)
+            {
+                ErrorMessage = "The field max players should be greater or equal to 2, and less or equal to 6";
                 return false;
+            }
             if (_room.MinPlayers > _room.MaxPlayers)
+            {
+                ErrorMessage = "The field max players should be greater than min players";
                 return false;
+            }
+
+            ErrorMessage = string.Empty;
             return true;
         }
     }

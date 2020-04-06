@@ -11,12 +11,12 @@ namespace BischinoTheGame.Navigation.RoomNavigation
     public interface IRoomNavigation
     {
         Player LoggedPlayer { get; }
-        Task ToRoomSelectionPage();
+        Task ToNameSelection();
         Task NotifyNameSelected(Player player);
         Task ShowRoomCreationPopup();
         Task NotifyRoomCreated(Room room);
         Task NotifyRoomJoined(Room room);
-        Task NotifyMatchStarted(Room room);
+        Task NotifyMatchStarted(Room room, RoomManager roomInfo);
         Task ToPaoloPopup(string roomName, string playerName);
         Task NotifyPaoloSent();
         Task ToBetPopup(string roomName, string playerName, BetViewModel vm);
@@ -28,5 +28,6 @@ namespace BischinoTheGame.Navigation.RoomNavigation
         Task ToWinnersPopup(MatchSnapshot matchSnapshot);
         Task ToDeckSelection();
         Task NotifyDeckChosen();
+        Task ShowAudioPopup();
     }
 }

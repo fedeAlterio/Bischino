@@ -27,5 +27,6 @@ namespace BischinoTheGame.Controller.Communication.ServerHandlers
         Task UnJoin(RoomQuery roomQuery);
         void SubscribeMatchSnapshotUpdates(RoomQuery roomQuery);
         void UnsubscribeMatchSnapshotUpdates();
+        Task<RoomManager> GetGameInfo(RoomQuery roomQuery);
     }
 }

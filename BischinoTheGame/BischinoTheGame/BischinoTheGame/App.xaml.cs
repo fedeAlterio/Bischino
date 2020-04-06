@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Reflection;
 using BischinoTheGame.Controller.Communication;
 using BischinoTheGame.Controller.Communication.Queries;
 using BischinoTheGame.View.Pages;
@@ -23,21 +25,23 @@ namespace BischinoTheGame
 
         private async void Tmp()
         {
-            var query = new RoomQuery {PlayerName = "aa", RoomName = "df"};
-            AppController.RoomsHandler.SubscribeMatchSnapshotUpdates(query);
+            await AppController.Navigation.RoomNavigation.ShowAudioPopup();
         }
 
 
         protected override void OnStart()
         {
+
         }
 
         protected override void OnSleep()
         {
+            AppController.AudioManager.GoingBackground();
         }
 
         protected override void OnResume()
         {
+            AppController.AudioManager.OnResume();
         }
     }
 }
