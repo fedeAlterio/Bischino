@@ -25,7 +25,7 @@ namespace BischinoTheGame
 
         private async void Tmp()
         {
-            await AppController.Navigation.RoomNavigation.ShowAudioPopup();
+            await AppController.Navigation.RoomNavigation.ToBetPopup(null, null, null);
         }
 
 

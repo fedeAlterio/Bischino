@@ -22,8 +22,8 @@ namespace BischinoTheGame.Controller
 
         private readonly IList<string> _trackNames = new List<string>
         {
-            "tea_music.mp3",
             "african_son.mp3",
+            "tea_music.mp3",
             "magic.mp3",
             "conquistador.mp3"
         };

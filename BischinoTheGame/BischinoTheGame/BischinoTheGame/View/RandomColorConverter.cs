@@ -14,11 +14,12 @@ namespace BischinoTheGame.View
             Color.DarkRed,
             Color.FromHex("#204051"),
             Color.DarkOrange,
-            Color.FromHex("#2f3640"),
             Color.Brown,
             Color.BlueViolet, 
             Color.Goldenrod,
-            Color.Olive
+            Color.Indigo,
+            Color.MidnightBlue,
+            Color.DarkGreen
         };
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

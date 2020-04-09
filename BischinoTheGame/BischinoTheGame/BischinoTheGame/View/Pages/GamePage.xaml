@@ -30,10 +30,10 @@
 
         
         <Grid Grid.Row="1" Grid.Column="0">
-            <ImageButton IsVisible="{Binding AudioOn, Source={x:Static controller:AppController.AudioManager}, Converter={StaticResource NegationConverter}}" Grid.Column="0" HorizontalOptions="Start" VerticalOptions="Start" HeightRequest="30" BackgroundColor="Transparent" Margin="25,5,0,0"
+            <ImageButton IsVisible="{Binding AudioOn, Source={x:Static controller:AppController.AudioManager}, Converter={StaticResource NegationConverter}}" Grid.Column="0" HorizontalOptions="Start" VerticalOptions="Start" HeightRequest="25" BackgroundColor="Transparent" Margin="25,5,0,0"
                          Source="audio_on" Command="{Binding AudioSettingsCommand}"/>
 
-            <ImageButton IsVisible="{Binding AudioOn, Source={x:Static controller:AppController.AudioManager}}" Grid.Column="0" HorizontalOptions="Start" VerticalOptions="Start" HeightRequest="30" BackgroundColor="Transparent" Margin="25,5,0,0"
+            <ImageButton IsVisible="{Binding AudioOn, Source={x:Static controller:AppController.AudioManager}}" Grid.Column="0" HorizontalOptions="Start" VerticalOptions="Start" HeightRequest="25" BackgroundColor="Transparent" Margin="25,5,0,0"
                          Source="audio_off" Command="{Binding AudioSettingsCommand}"/>
         </Grid>
 
@@ -124,7 +124,7 @@
             <Label Grid.Row="0" Grid.Column="0" TextColor="{StaticResource GoodWhite}" FontSize="40" HorizontalOptions="Center"
                    Text="{Binding MatchSnapshot.Player.WinBet}"/>
             <Label Grid.Row="1" Grid.Column="0" TextColor="{StaticResource GoodWhite}" FontSize="15" HorizontalOptions="Center"
-                   Text="Your Bet"/>
+                   Text="Your Guess"/>
 
             <Label Grid.Row="0" Grid.Column="1" TextColor="{StaticResource GoodWhite}" FontSize="40" HorizontalOptions="Center"
                    Text="{Binding MatchSnapshot.Player.TotLost}"/>

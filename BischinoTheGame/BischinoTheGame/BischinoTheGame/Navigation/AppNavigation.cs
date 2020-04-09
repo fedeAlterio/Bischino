@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BischinoTheGame;
 using BischinoTheGame.Navigation.RoomNavigation;
+using BischinoTheGame.Navigation.TutorialNavigation;
 using Rg.Plugins.Popup.Services;
 using Xamarin.Forms;
 
@@ -15,6 +16,13 @@ namespace Rooms.Controller.Navigation
 
         private RoomNavigation _roomNavigation;
         public IRoomNavigation RoomNavigation => _roomNavigation ??= new RoomNavigation();
+
+
+        private TutorialNavigation _tutorialNavigation;
+        public ITutorialNavigation TutorialNavigation => _tutorialNavigation ??= new TutorialNavigation();
+
+
+
         public async Task PopPopupAsync()
         {
             await PopupNavigation.Instance.PopAsync();
@@ -31,9 +39,7 @@ namespace Rooms.Controller.Navigation
             PageNavigationBase.Navigation = navigation;
         }
 
-        public async Task Start()
-        {
-            await RoomNavigation.ToNameSelection();
-        }
+        public Task Start() => RoomNavigation.ToNameSelection(); // AppController.Settings.FirstRun ? TutorialNavigation.ToMainPage() :  RoomNavigation.ToNameSelection();
+
     }
 }

@@ -72,7 +72,7 @@ namespace BischinoTheGame.View.Pages
             var cards = _viewModel.DroppedCards;
             var start = DroppedCardsCollectionView.WidthRequest;
             var height = DroppedCardsCollectionView.Height;
-            var width = height * Card.ratio * 1;
+            var width = height * Card.Ratio * 1;
             var spacing = width * 0.3;
             new Animation(val => DroppedCardsCollectionView.WidthRequest = val, start, width * cards.Count + spacing * (cards.Count-1),
                 Easing.CubicOut).Commit(this, "droppedScale", 32U, 600U);

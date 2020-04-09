@@ -1,0 +1,162 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             NavigationPage.HasNavigationBar="False"
+             BackgroundColor="Black"
+             x:Class="BischinoTheGame.View.Pages.Tutorial.TutorialMainPage">
+    <Grid IsEnabled="{Binding IsPageEnabled}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="100"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.Resources>
+            <Style x:Key="TutorialLabel" TargetType="Label">
+                <Setter Property="FontSize" Value="40"/>
+                <Setter Property="TextColor" Value="WhiteSmoke"/>
+                <Setter Property="HorizontalTextAlignment" Value="Center"/>
+                <Setter Property="CharacterSpacing" Value="1.5"/>
+            </Style>
+        </Grid.Resources>
+
+
+        <StackLayout Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Start" Margin="0,20,0,0" Spacing="40">
+            <Label x:Name="Player1Bet" TextColor="White" FontSize="23" Scale="0"
+                   Text="Player A: guess 2"/>
+
+            <Label x:Name="Player2Bet" TextColor="White" FontSize="23" Scale="0"
+                   Text="Player B: guess 1"/>
+        </StackLayout>
+
+
+        <StackLayout x:Name="DroppedStackLayout" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" HorizontalOptions="Center" VerticalOptions="Center" Orientation="Horizontal">
+            <ImageButton x:Name="Dropped1" Scale="0" BackgroundColor="Transparent" HeightRequest="125"
+                         Source="{Binding Dropped1}"/>
+
+            <ImageButton x:Name="Dropped2" Scale="0"  BackgroundColor="Transparent" HeightRequest="125"
+                         Source="{Binding Dropped2}"/>
+
+            <ImageButton x:Name="Dropped3" Scale="0"  BackgroundColor="Transparent" HeightRequest="125"
+                         Source="{Binding Card3}"/>
+        </StackLayout>
+
+        <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Grid.RowSpan="2" x:Name="TutorialLabel" Style="{StaticResource TutorialLabel}" Text="{Binding TutorialText}" Margin="20,10,30,0" 
+               VerticalOptions="CenterAndExpand" LineBreakMode="WordWrap" 
+               HorizontalOptions="Center" />
+
+        <ScrollView x:Name="OrderedCardsScrollView" IsVisible="false" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Margin="20,0" Orientation="Horizontal">
+            <StackLayout x:Name="OrderedCardsStackLayout" Orientation="Horizontal" HorizontalOptions="Center" HeightRequest="150" VerticalOptions="Center" Spacing="5">
+                <ImageButton x:Name="ACard0" Scale="0" VerticalOptions="End" HorizontalOptions="Start"
+                             Source="{Binding ACard0}"/>
+
+                <ImageButton x:Name="ACard1" Scale="0" VerticalOptions="End" HorizontalOptions="Start"
+                             Source="{Binding ACard1}"/>
+
+                <ImageButton x:Name="ACard2" Scale="0"  VerticalOptions="End" HorizontalOptions="Start"
+                             Source="{Binding ACard2}"/>
+
+                <ImageButton x:Name="ACard3" Scale="0" VerticalOptions="End" HorizontalOptions="Start" 
+                             Source="{Binding ACard3}"/>
+
+                <ImageButton x:Name="ACard4" Scale="0" VerticalOptions="End" HorizontalOptions="Start"
+                             Source="{Binding ACard4}"/>
+
+                <ImageButton x:Name="ACard5" Scale="0" VerticalOptions="End" HorizontalOptions="Start" 
+                             Source="{Binding ACard5}"/>
+
+                <ImageButton x:Name="ACard6" Scale="0" VerticalOptions="End" HorizontalOptions="Start"
+                             Source="{Binding ACard6}"/>
+
+                <ImageButton x:Name="ACard7" Scale="0" VerticalOptions="End" HorizontalOptions="Start" 
+                             Source="{Binding ACard7}"/>
+
+                <ImageButton x:Name="ACard8" Scale="0" VerticalOptions="End" HorizontalOptions="Start"
+                             Source="{Binding ACard8}"/>
+
+                <ImageButton x:Name="ACard9" Scale="0" VerticalOptions="End" HorizontalOptions="Start"
+                             Source="{Binding ACard9}"/>
+
+            </StackLayout>
+        </ScrollView>
+
+        <StackLayout x:Name="SeedsStackLayout" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Center" HeightRequest="150">
+            <ImageButton x:Name="King0" Scale="0" VerticalOptions="End" HorizontalOptions="Start"
+                         Source="{Binding King1}"/>
+
+            <ImageButton x:Name="King1" Scale="0" VerticalOptions="End" HorizontalOptions="Start"
+                         Source="{Binding King2}"/>
+
+            <ImageButton x:Name="King2" Scale="0" VerticalOptions="End" HorizontalOptions="Start"
+                         Source="{Binding King3}"/>
+
+            <ImageButton x:Name="King3" Scale="0" VerticalOptions="End" HorizontalOptions="Start"
+                         Source="{Binding King4}"/>
+        </StackLayout>
+
+
+        <StackLayout Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalOptions="Center" HeightRequest="100">
+            <ImageButton x:Name="Card0"  Scale="0" BackgroundColor="Transparent"
+                         Source="{Binding Card0}"/>
+
+            <ImageButton x:Name="Card1" Scale="0"  BackgroundColor="Transparent"
+                         Source="{Binding Card1}"/>
+
+            <ImageButton x:Name="Card2" Scale="0"  BackgroundColor="Transparent"
+                         Source="{Binding Card2}"/>
+
+            <ImageButton x:Name="Card3" Scale="0"  BackgroundColor="Transparent"
+                         Source="{Binding Card3}" Command="{Binding DropCommand}"/>
+
+            <Grid x:Name="Card4" HeightRequest="100" Scale="0">
+                <StackLayout x:Name="Paolo" Orientation="Horizontal">
+                    <BoxView x:Name="Paolo1Box" WidthRequest="6" HorizontalOptions="Start" VerticalOptions="FillAndExpand" Opacity="1" IsVisible="False"
+                             Color="DarkRed" />
+                    <ImageButton HeightRequest="100" BackgroundColor="Transparent" 
+                                 Source="{Binding Paolo}"/>
+                </StackLayout>
+
+                <StackLayout x:Name="Paolo2" Orientation="Horizontal">
+                    <BoxView x:Name="Paolo2Box" WidthRequest="6" HorizontalOptions="Start" VerticalOptions="FillAndExpand" Opacity="1" IsVisible="false"
+                             Color="{StaticResource LightBlue}" />
+                    <ImageButton HeightRequest="100"  BackgroundColor="Transparent" 
+                                 Source="{Binding Paolo}"/>
+                </StackLayout>  
+            </Grid>
+        </StackLayout>
+
+        <Grid Grid.Row="1" Grid.Column="0"  HorizontalOptions="Center" ColumnSpacing="20" RowSpacing="0" VerticalOptions="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Label x:Name="BetLabel1" Grid.Row="0" Grid.Column="0" TextColor="{StaticResource GoodWhite}" FontSize="40" HorizontalOptions="Center" Scale="0"
+                   Text="{Binding Bet}"/>
+            <Label x:Name="BetLabel2" Grid.Row="1" Grid.Column="0" TextColor="{StaticResource GoodWhite}" FontSize="15" HorizontalOptions="Center" Scale="0"
+                   Text="Your Guess"/>
+
+            <Label x:Name="LivesLabel1" Grid.Row="0" Grid.Column="1" TextColor="{StaticResource GoodWhite}" FontSize="40" HorizontalOptions="Center" Scale="0"
+                   Text="{Binding Lives}"/>
+            <Label x:Name="LivesLabel2" Grid.Row="1" Grid.Column="1" TextColor="{StaticResource GoodWhite}" FontSize="15" HorizontalOptions="Center" Scale="0"
+                   Text="Lives"/>
+        </Grid>
+       
+        <StackLayout Grid.Row="1" Grid.Column="2" Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="Center" Spacing="2">
+            <Label x:Name="WinLabel1" TextColor="{StaticResource GoodWhite}" FontSize="40" HorizontalOptions="Center" Scale="0"
+                   Text="{Binding CurrentWin}"/>
+            <Label x:Name="WinLabel2" TextColor="{StaticResource GoodWhite}" FontSize="15" HorizontalOptions="Center" Scale="0"
+                   Text="Current Win"/>
+
+        </StackLayout>
+    </Grid>
+</ContentPage>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
 using Rooms.Controller;
+using Xamarin.Forms;
 
 namespace BischinoTheGame.ViewModel.PageViewModels
 {
@@ -26,10 +27,30 @@ namespace BischinoTheGame.ViewModel.PageViewModels
             set => SetProperty(ref _paolo, value);
         }
 
+
+        private Command _tutorialCommand;
+        public Command TutorialCommand
+        {
+            get => _tutorialCommand;
+            set => SetProperty(ref _tutorialCommand, value);
+        }
+
+
+
+
         public RulesViewModel()
         {
             LoadDecks();
+            TutorialCommand = new Command(_ => ToTutorial());
         }
+
+        private async void ToTutorial()
+        {
+            IsPageEnabled = false;
+            await AppController.Navigation.TutorialNavigation.ToMainPage();
+            IsPageEnabled = true;
+        }
+
 
         public void LoadDecks()
         {

@@ -145,7 +145,7 @@ namespace BischinoTheGame.ViewModel.PageViewModels
             }
             catch
             {
-                await AppController.Navigation.DisplayAlert(ErrorTitle, ErrorDefault);
+                await AppController.Navigation.DisplayAlert(ErrorTitle, "Check your internet connection, or try to refresh the page");
             }
             IsPageEnabled = true;
             SelectedRoom = null;

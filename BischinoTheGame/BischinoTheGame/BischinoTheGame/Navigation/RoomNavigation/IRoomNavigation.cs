@@ -29,5 +29,6 @@ namespace BischinoTheGame.Navigation.RoomNavigation
         Task ToDeckSelection();
         Task NotifyDeckChosen();
         Task ShowAudioPopup();
+        Task LaunchTutorial();
     }
 }

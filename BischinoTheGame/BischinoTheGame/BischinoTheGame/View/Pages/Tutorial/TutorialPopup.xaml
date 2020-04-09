@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+             mc:Ignorable="d"
+             x:Class="BischinoTheGame.View.Pages.Tutorial.TutorialPopup">
+    <Frame CornerRadius="10" WidthRequest="200" HeightRequest="150" HorizontalOptions="Center" VerticalOptions="Center" BackgroundColor="{StaticResource GoodGray}">
+        <StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="Center" Spacing="45" >
+            <Label TextColor="White" FontSize="18" HorizontalTextAlignment="Center"
+                   Text="Do you want to play the tutorial?"/>
+            <Button BackgroundColor="{StaticResource GoodPink}" TextColor="White" CornerRadius="30"
+                    Text="Sure!" Command="{Binding TutorialCommand}"/>
+        </StackLayout>
+    </Frame>
+</pages:PopupPage>

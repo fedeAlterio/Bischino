@@ -6,24 +6,24 @@
              xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
              mc:Ignorable="d"
              x:Class="BischinoTheGame.View.Pages.BetPopup" IsEnabled="{Binding IsPageEnabled}">
-    <Frame CornerRadius="10" WidthRequest="240" HorizontalOptions="Center" VerticalOptions="Start" Margin="0,70,0,0"  HeightRequest="110" BackgroundColor="{StaticResource BackgroundBlack}" >
-        <StackLayout Spacing="10">
+    <StackLayout Spacing="30" BackgroundColor="Transparent" VerticalOptions="Center" HorizontalOptions="Center" >
+        <Frame Opacity="0.88" CornerRadius="10"  HorizontalOptions="Center" VerticalOptions="Start" BackgroundColor="{StaticResource GoodGray}">
             <Label TextColor="White" FontSize="20" HorizontalOptions="Center"
                    Text="Make a bet"/>
-            <CollectionView x:Name="BetCollectionView" IsEnabled="{Binding IsPageEnabled}" ItemsSource="{Binding BetViewModel.PossibleBets}" HorizontalOptions="Center" VerticalOptions="EndAndExpand">
-                <CollectionView.ItemsLayout>
-                    <GridItemsLayout Span="1"
-                                     VerticalItemSpacing="15" 
-                                     Orientation="Horizontal"
-                                     HorizontalItemSpacing="10"/>
-                </CollectionView.ItemsLayout>
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Button TextColor="White" BackgroundColor="{StaticResource BackgroundBlack}" CornerRadius="100" FontSize="30"
-                                Text="{Binding}" Command="{Binding BindingContext.BetCommand, Source={x:Reference BetCollectionView}}" CommandParameter="{Binding}"/>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
-        </StackLayout>
-    </Frame>
+        </Frame>
+        <CollectionView x:Name="BetCollectionView" IsEnabled="{Binding IsPageEnabled}" WidthRequest="300" HeightRequest="60" ItemsSource="{Binding BetViewModel.PossibleBets}" HorizontalOptions="Center" VerticalOptions="EndAndExpand">
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Span="1"
+                                 VerticalItemSpacing="15" 
+                                 Orientation="Horizontal"
+                                 HorizontalItemSpacing="10"/>
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Button TextColor="White" BackgroundColor="{Binding Converter={StaticResource RandomColorConverter}}" WidthRequest="60" CornerRadius="100" FontSize="30"
+                            Text="{Binding}" Command="{Binding BindingContext.BetCommand, Source={x:Reference BetCollectionView}}" CommandParameter="{Binding}"/>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </StackLayout>
 </pages:PopupPage>

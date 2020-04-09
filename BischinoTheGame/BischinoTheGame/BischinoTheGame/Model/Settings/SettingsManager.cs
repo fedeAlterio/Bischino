@@ -11,12 +11,19 @@ namespace BischinoTheGame.Model.Settings
         public event EventHandler<DeckType> DeckChanged;
         public DeckType DeckType
         {
-            get => (DeckType) Preferences.Get(nameof(DeckType), 1);
+            get => (DeckType) Preferences.Get(nameof(DeckType), (int) DeckType.C);
             set
             {
                 Preferences.Set(nameof(DeckType), (int) value);
                 DeckChanged?.Invoke(this, value);
             }
+        }
+
+
+        public bool FirstRun
+        {
+            get => Preferences.Get(nameof(FirstRun), true);
+            set => Preferences.Set(nameof(FirstRun), value);
         }
 
 

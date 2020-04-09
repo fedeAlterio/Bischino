@@ -8,7 +8,8 @@ using Android.Widget;
 using Android.OS;
 using BischinoTheGame.View;
 using BischinoTheGame.View.Pages;
-using Lottie.Forms.Droid;
+    using BischinoTheGame.View.Pages.Tutorial;
+    using Lottie.Forms.Droid;
 using Xamarin.Forms;
 
 namespace BischinoTheGame.Droid
@@ -47,28 +48,24 @@ namespace BischinoTheGame.Droid
 
         private void Initialize()
         {
-            
-            MessagingCenter.Subscribe<GamePage>(this, ViewMessagingConstants.Unspecified, sender =>
-            {
-                RequestedOrientation = ScreenOrientation.Unspecified;
-            });
+            OrientationSetup();
+           
+        }
 
-            //during page close setting back to portrait
-            MessagingCenter.Subscribe<GamePage>(this, ViewMessagingConstants.Landscape, sender =>
-            {
-                RequestedOrientation = ScreenOrientation.Landscape;
-            });
+        private void OrientationSetup<T>() where T : class
+        {
+            MessagingCenter.Subscribe<T>(this, ViewMessagingConstants.Unspecified,
+                sender => RequestedOrientation = ScreenOrientation.Unspecified);
 
-            MessagingCenter.Subscribe<DeckSelectionPage>(this, ViewMessagingConstants.Unspecified, sender =>
-            {
-                RequestedOrientation = ScreenOrientation.Unspecified;
-            });
+            MessagingCenter.Subscribe<T>(this, ViewMessagingConstants.Landscape,
+                sender => RequestedOrientation = ScreenOrientation.Landscape);
+        }
 
-            //during page close setting back to portrait
-            MessagingCenter.Subscribe<DeckSelectionPage>(this, ViewMessagingConstants.Portrait, sender =>
-            {
-                RequestedOrientation = ScreenOrientation.Portrait;
-            });
+        private void OrientationSetup()
+        {
+            OrientationSetup<GamePage>();
+            OrientationSetup<DeckSelectionPage>();
+            OrientationSetup<TutorialMainPage>();
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)

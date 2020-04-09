@@ -6,7 +6,7 @@ namespace BischinoTheGame.ViewModel.PageViewModels
 {
     public abstract class PageViewModel : ViewModelBase
     {
-        protected const string ErrorDefault = "An error occurred";
+        protected const string ErrorDefault = "An error occurred, check your internet connection";
         protected const string ErrorTitle = "Warning";
 
         private bool _isPageEnabled = true;

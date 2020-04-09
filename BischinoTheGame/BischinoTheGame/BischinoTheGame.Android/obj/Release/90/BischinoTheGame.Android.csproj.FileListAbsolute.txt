@@ -1008,4 +1008,3 @@ C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.Android\obj\Rel
 C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.Android\obj\Release\90\stamp\_GenerateJavaStubs.stamp
 C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.Android\obj\Release\90\stamp\_GeneratePackageManagerJava.stamp
 C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.Android\obj\Release\90\stamp\_ResolveLibraryProjectImports.stamp
-C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.Android\obj\Release\90\stamp\SetupDependenciesForDesigner.stamp

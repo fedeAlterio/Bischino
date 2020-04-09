@@ -8,7 +8,7 @@
              mc:Ignorable="d"
              x:Class="BischinoTheGame.View.Pages.RulesPage">
     <ScrollView HorizontalOptions="FillAndExpand">
-        <Grid WidthRequest="450" HorizontalOptions="Center">
+        <Grid IsEnabled="{Binding IsPageEnabled}" WidthRequest="450" HorizontalOptions="Center">
             <Grid.Resources>
                 <Style x:Key="DescriptionLabel" TargetType="Label">
                     <Setter Property="FontFamily" Value="Mark"/>
@@ -23,9 +23,9 @@
                        Text="Bischino is a card game for 2 to 6 players.">
                 </Label>
                 <Label TextColor="White" LineBreakMode="WordWrap" Style="{StaticResource DescriptionLabel}"
-                       Text="40 cards are used, and they are all sorted in order of value:"/>
+                       Text="A deck of 40 cards is used, and the cards are ordered in strength from lowest to highest rank."/>
                 <Label TextColor="DarkGray" LineBreakMode="WordWrap" FontSize="13" HorizontalOptions="Center" Style="{StaticResource DescriptionLabel}"
-                       Text="(from the least strong to the strongest)"/>
+                       Text=""/>
                 <CollectionView SelectionMode="None" HeightRequest="170" Margin="0,10,0,0"
                                 ItemsSource="{Binding Deck}">
                     <CollectionView.ItemsLayout>
@@ -40,11 +40,11 @@
                     </CollectionView.ItemTemplate>
                 </CollectionView>
                 <Label TextColor="White" LineBreakMode="WordWrap" Margin="0,10" Style="{StaticResource DescriptionLabel}"
-                       Text="A card is missing from the list above:"/>
+                       Text="One ace is missing from the list above:"/>
                 <Image HorizontalOptions="Center" WidthRequest="90"
                        Source="{Binding Paolo}"/>
                 <Label TextColor="White" LineBreakMode="WordWrap" Margin="0,10"  Style="{StaticResource DescriptionLabel}"
-                       Text="This is a special card that can have maximum or minimum value, at the discretion of the player."/>
+                       Text="This is a special card, which can have the maximum or minimum rank at the discretion of the player."/>
 
                 <Label TextColor="White" LineBreakMode="WordWrap" HorizontalOptions="Center" Margin="0,0,0,10"  Style="{StaticResource DescriptionLabel}"
                        Text="This is how it is represented in this game"/>
@@ -80,36 +80,36 @@
                        Text="The game starts by dealing 5 cards to each player. "/>
 
                 <Label TextColor="White" LineBreakMode="WordWrap" FontSize="15" Margin="0,10,0,0" Style="{StaticResource DescriptionLabel}"
-                       Text="At this point each player has to make a prediction about how many cards he's taking with the cards in his hand."/>
+                       Text="At this point, based on the cards in his hand, each player must predict how many tricks he will win by the end of the game. Each player then bets the orther players he will win the number of tricks he predicts"/>
                 <Label TextColor="White" LineBreakMode="WordWrap" FontSize="15" Margin="0,10,0,0" Style="{StaticResource DescriptionLabel}"
                        Text="The last player to bet has an extra constraint: "/>
                 <Label TextColor="Wheat" LineBreakMode="WordWrap" HorizontalTextAlignment="Center" FontAttributes="Italic" FontSize="15" Margin="0,10" Style="{StaticResource DescriptionLabel}"
-                       Text="The sum of his and the others prediction cannot coincide with the number of cards in his hands."/>
-
-
-                <Label TextColor="DarkGray" LineBreakMode="WordWrap" HorizontalTextAlignment="Center" FontAttributes="Italic" FontSize="13" Margin="0,10" Style="{StaticResource DescriptionLabel}"
-                       Text="For example, let's say there are 3 players who have 5 cards in their hands, that the first player bets 1 and that the second one bets 1; The rule says that the last player can't bet 3."/>
+                       Text="The sum of his and the others' prediction cannot coincide with the number of cards in his hand."/>
 
                 <Label TextColor="White" LineBreakMode="WordWrap" FontSize="15"  Style="{StaticResource DescriptionLabel}"
-                       Text="The cards are then discarded, one at a time, in order of players, until each of them runs out of cards."/>
+                       Text="The cards are then played one at a time in an clockwise direction."/>
 
                 <Label TextColor="White" LineBreakMode="WordWrap" FontSize="15" Style="{StaticResource DescriptionLabel}"
-                       Text="At each round the highest card wins, and a point is awarded to the corresponding player. That's also the player must start the following round."/>
+                       Text="After every round the highest card wins the trick and the winner is awarded a point. That's also the player who must start the following round."/>
 
                 <Label TextColor="White" LineBreakMode="WordWrap" FontSize="15" Style="{StaticResource DescriptionLabel}"
-                       Text="When the last turn finishes, the prediction made and the number of the winning turns Will be compared. Any difference will be deduct from the player's lives."/>
+                       Text="When the last turn ends, the predictions made are compared to the number of points won. Any difference will be deduct from the players' lives."/>
                 <Label TextColor="White" LineBreakMode="WordWrap" FontSize="15" Style="{StaticResource DescriptionLabel}"
-                       Text="Each player starts with a total of three lives:"/>
+                       Text="Each player starts with a total of three lives. At the end of every hand the lives are recalculated:"/>
 
                 <Label TextColor="Wheat" LineBreakMode="WordWrap" HorizontalTextAlignment="Center" FontAttributes="Italic" FontSize="15" Margin="0,10" Style="{StaticResource DescriptionLabel}"
                        Text="New Lives = old lives - prediction error"/>
 
                 <Label TextColor="White" LineBreakMode="WordWrap" FontSize="15" Margin="0,10" Style="{StaticResource DescriptionLabel}"
-                       Text="At each round the starting cards decrease by one. The one-card round has different rules:"/>
+                       Text="At every hand the number of cards dealt is decreased by one. The one-card round has different rules:"/>
 
 
                 <Label TextColor="Wheat" LineBreakMode="WordWrap" HorizontalTextAlignment="Center" FontAttributes="Italic" FontSize="15" Margin="0,10" Style="{StaticResource DescriptionLabel}"
                        Text="Each player sees the cards of all the others, but not his own and on this basis he must make his prediction."/>
+
+
+                <Button TextColor="White" BackgroundColor="{StaticResource GoodPink}" CornerRadius="30" Margin="10,10"
+                        Text="Play the tutorial" Command="{Binding TutorialCommand}"/>
             </StackLayout>
         </Grid>
     </ScrollView>

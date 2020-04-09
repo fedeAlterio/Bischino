@@ -8,8 +8,10 @@ using BischinoTheGame.Controller.Communication.Queries;
 using BischinoTheGame.Model;
 using BischinoTheGame.Model.Settings;
 using BischinoTheGame.View.Pages;
+using BischinoTheGame.View.Pages.Tutorial;
 using BischinoTheGame.ViewModel;
 using BischinoTheGame.ViewModel.PageViewModels;
+using BischinoTheGame.ViewModel.PageViewModels.Tutorial;
 using Rg.Plugins.Popup.Services;
 using Rooms.Controller;
 using Rooms.Controller.Navigation;
@@ -40,6 +42,15 @@ namespace BischinoTheGame.Navigation.RoomNavigation
             await PopupNavigation.Instance.PopAsync();
             await GetRoomListPage().StartAnimation();
             _roomListVM.AsyncInitialization();
+
+
+            if (!AppController.Settings.FirstRun)
+                return;
+
+            var vm = new TutorialPopupViewModel();
+            var popup = new TutorialPopup {BindingContext = vm};
+            await PopupNavigation.Instance.PushAsync(popup);
+            AppController.Settings.FirstRun = false;
         }
 
         public async Task ShowRoomCreationPopup()
@@ -151,6 +162,12 @@ namespace BischinoTheGame.Navigation.RoomNavigation
             var vm = new AudioPopupViewModel();
             var page = new AudioPopup {BindingContext = vm};
             await PopupNavigation.Instance.PushAsync(page);
+        }
+
+        public async Task LaunchTutorial()
+        {
+            await PopupNavigation.Instance.PopAsync();
+            await AppController.Navigation.TutorialNavigation.ToMainPage();
         }
 
         private async Task PushCorePage()
