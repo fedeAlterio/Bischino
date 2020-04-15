@@ -23,8 +23,8 @@
 	.section	.rodata..L.str.1,"aMS",%progbits,1
 	.type	.L.str.1, %object
 .L.str.1:
-	.asciz	"com.companyname.bischinothegame"
-	.size	.L.str.1, 32
+	.asciz	"com.fedefexcompany.bischino"
+	.size	.L.str.1, 28
 	.section	.data.application_config,"aw",%progbits
 	.type	application_config, %object
 	.p2align	2
@@ -82,7 +82,7 @@ mono_aot_mode_name:
 	.section	.rodata..L.str.8,"aMS",%progbits,1
 	.type	.L.str.8, %object
 .L.str.8:
-	.asciz	"568ca1aa-4ba1-4e3a-b26e-6e5699def652"
+	.asciz	"3021fa54-188a-4abd-9aee-3d7b713fe9bc"
 	.size	.L.str.8, 37
 	.section	.rodata..L.str.9,"aMS",%progbits,1
 	.type	.L.str.9, %object

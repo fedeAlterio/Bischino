@@ -297,9 +297,9 @@ namespace Bischino.Controllers
             {
                 return BadRequest(new ValuedResponse {Message = e.Message});
             }
-            catch
+            catch(Exception e)
             {
-                return BadRequest();
+                return BadRequest(new ValuedResponse { Message = e.Message });
             }
         }
 
@@ -408,6 +408,20 @@ namespace Bischino.Controllers
             }
         }
 
+        public IActionResult GetMatchSnapshotForced([FromBody] RoomQuery roomQuery)
+        {
+            try
+            {
+                var roomManager = RoomsCollection.Get(roomQuery.RoomName);
+                var snapshot = roomManager.GameManager.GetSnapshot(roomQuery.PlayerName);
+
+                return Ok(new ValuedResponse(snapshot));
+            }
+            catch (Exception e)
+            {
+                return BadRequest();
+            }
+        }
 
 
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using BischinoTheGame.Controller;
 using Rooms.Controller;
 using Xamarin.Forms;
 
@@ -24,23 +25,41 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         }
 
 
+        private Command _creditsCommand;
+        public Command CreditsCommand
+        {
+            get => _creditsCommand;
+            set => SetProperty(ref _creditsCommand, value);
+        }
+
+
+
         public SettingsViewModel()
         {
             ToDeckSelectionCommand = new Command(_ => ToDeckSelection());
             AudioSettingsCommand = new Command(_ => ToAudioSettings());
+            CreditsCommand = new Command(_ => ToCredits());
         }
+
+        private async void ToCredits()
+        {
+            IsPageEnabled = false;
+            await AppController.Navigation.GameNavigation.ToCredits();
+            IsPageEnabled = true;
+        }
+
 
         private async void ToAudioSettings()
         {
             IsPageEnabled = false;
-            await AppController.Navigation.RoomNavigation.ShowAudioPopup();
+            await AppController.Navigation.GameNavigation.ShowAudioPopup();
             IsPageEnabled = true;
         }
 
         private async void ToDeckSelection()
         {
             IsPageEnabled = false;
-            await AppController.Navigation.RoomNavigation.ToDeckSelection();
+            await AppController.Navigation.GameNavigation.ToDeckSelection();
             IsPageEnabled = true;
         }
     }

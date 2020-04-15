@@ -4,30 +4,57 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+             xmlns:forms="clr-namespace:Lottie.Forms;assembly=Lottie.Forms"
              mc:Ignorable="d"
+             IsEnabled="{Binding IsPageEnabled}"
              x:Class="BischinoTheGame.View.Pages.WinnersPopup">
-    <Frame CornerRadius="20" WidthRequest="240" HorizontalOptions="Center" VerticalOptions="Start" Margin="0,70,0,0"  HeightRequest="230" BackgroundColor="{StaticResource BackgroundBlack}" >
-        <StackLayout>
-            <Label TextColor="White" FontSize="25"
-                   Text="Winners"/>
-            <CollectionView Margin="20,10,0,0"
-                IsEnabled="{Binding IsPageEnabled}" ItemsSource="{Binding MatchSnapshot.Winners}" HorizontalOptions="Center" Footer="">
-                <CollectionView.ItemsLayout>
-                    <GridItemsLayout Span="1"
-                                     VerticalItemSpacing="15" 
-                                     Orientation="Vertical"
-                                     HorizontalItemSpacing="15"/>
-                </CollectionView.ItemsLayout>
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Label TextColor="White" FontSize="17"
-                               Text="{Binding Name}"/>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
-            <Button IsEnabled="{Binding IsPageEnabled}"
-                Text="Ok" TextColor="White" FontSize="17" BackgroundColor="{StaticResource GoodBlue}" CornerRadius="20"
-                Command="{Binding OkCommand}"/>
-        </StackLayout>
+
+    <Frame CornerRadius="20" WidthRequest="240" HorizontalOptions="Center" VerticalOptions="Start" Margin="0,70,0,0"  HeightRequest="260" BackgroundColor="{StaticResource BackgroundBlack}" >
+        <Grid>
+            <forms:AnimationView Animation="fireworks.json" Loop="True" IsPlaying="True" WidthRequest="240" HeightRequest="300" HorizontalOptions="Center" VerticalOptions="Center"/>
+
+            <StackLayout>
+                <CollectionView x:Name="CollectionView"
+                                ItemsSource="{Binding MatchSnapshot.Winners}" >
+                    <CollectionView.Header>
+                        <Grid Margin="0,10,0,5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="1"/>
+                            </Grid.RowDefinitions>
+
+                            <Label TextColor="White" Grid.Row="0" Grid.Column="0" FontSize="21" HorizontalOptions="Center" FontAttributes="Bold"
+                                   Text="Winners"/>
+
+                            <BoxView Grid.Row="1" Grid.Column="0" Color="White" Opacity="0.3" Margin="20,0"/>
+                        </Grid>
+                    </CollectionView.Header>
+
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Span="1" 
+                                         VerticalItemSpacing="10" 
+                                         Orientation="Vertical"
+                                         HorizontalItemSpacing="15"/>
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <StackLayout HorizontalOptions="Center" Orientation="Horizontal" Padding="20,0,20,0" Spacing="20">
+                                <Image HeightRequest="45"
+                                       Source="host_user"/>
+
+                                <Label TextColor="White" FontSize="20" HorizontalOptions="Center" VerticalOptions="Center"
+                                       Text="{Binding Name}"/>
+                            </StackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+                <Button VerticalOptions="End" TextColor="White" BackgroundColor="{StaticResource GoodPink}"
+                        Text="Ok" CornerRadius="30" Command="{Binding OkCommand}"/>
+            </StackLayout>
+        </Grid>
     </Frame>
 </pages:PopupPage>

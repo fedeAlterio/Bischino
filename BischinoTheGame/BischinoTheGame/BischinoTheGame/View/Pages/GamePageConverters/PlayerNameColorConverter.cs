@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
+using BischinoTheGame.Controller;
 using BischinoTheGame.Model;
 using Rooms.Controller;
 using Xamarin.Forms;
@@ -24,7 +25,7 @@ namespace BischinoTheGame.View.Pages.GamePageConverters
                 return value;
 
             var player = value as PrivatePlayer;
-            var currentPlayer = AppController.Navigation.RoomNavigation.LoggedPlayer;
+            var currentPlayer = AppController.Navigation.GameNavigation.LoggedPlayer;
 
             if (player.IsIdled)
                 return IdledColor;

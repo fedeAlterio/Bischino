@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using BischinoTheGame.Controller;
 using BischinoTheGame.Controller.Communication.Exceptions;
 using BischinoTheGame.Controller.Communication.Queries;
 using BischinoTheGame.Model;
@@ -40,12 +42,32 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         }
 
 
+        private ObservableCollection<int> _possibleMinPlayers;
+        public ObservableCollection<int> PossibleMinPlayers
+        {
+            get => _possibleMinPlayers;
+            set => SetProperty(ref _possibleMinPlayers, value);
+        }
+
+
+        private ObservableCollection<int> _possibleMaxPlayers;
+        public ObservableCollection<int> PossibleMaxPlayers
+        {
+            get => _possibleMaxPlayers;
+            set => SetProperty(ref _possibleMaxPlayers, value);
+        }
+
+
+
         public RoomCreationViewModel()
         {
-            var user = AppController.Navigation.RoomNavigation.LoggedPlayer;
+            var user = AppController.Navigation.GameNavigation.LoggedPlayer;
             Room = new Room {Host = user.Name};
             CreateRoomCommand = new Command(_=>CreateRoom(), _=>CanCreateRoom());
+            PossibleMinPlayers = new ObservableCollection<int> {2, 3, 4, 5, 6};
+            PossibleMaxPlayers = new ObservableCollection<int>{2,3,4,5,6};
         }
+
 
 
         private async void CreateRoom()
@@ -57,7 +79,7 @@ namespace BischinoTheGame.ViewModel.PageViewModels
 
                 var query = new RoomQuery {PlayerName = Room.Host, RoomName = Room.Name};
                 await AppController.RoomsHandler.Join(query);
-                await AppController.Navigation.RoomNavigation.NotifyRoomCreated(_room);
+                await AppController.Navigation.GameNavigation.NotifyRoomCreated(_room);
             }
             catch (ServerException e)
             {

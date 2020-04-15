@@ -16,6 +16,7 @@ namespace BischinoTheGame.Model
         }
 
 
+
         private int _startCardsCount;
         public int StartCardsCount
         {
@@ -24,12 +25,14 @@ namespace BischinoTheGame.Model
         }
 
 
+
         private int? _winBet;
         public int? WinBet
         {
             get => _winBet;
             set => SetProperty(ref _winBet, value);
         }
+
 
 
         private int? _totLost;
@@ -58,12 +61,14 @@ namespace BischinoTheGame.Model
         }
 
 
+
         private IList<Card> _droppedCards;
         public IList<Card> DroppedCards
         {
             get => _droppedCards;
             set => SetProperty(ref _droppedCards, value);
         }
+
 
 
         private IList<bool> _winHistory;
@@ -74,12 +79,14 @@ namespace BischinoTheGame.Model
         }
 
 
+
         private DropCardViewModel _dropCardViewModel;
         public DropCardViewModel DropCardViewModel
         {
             get => _dropCardViewModel;
             set => SetProperty(ref _dropCardViewModel, value);
         }
+
 
 
         private BetViewModel _propertyName;
@@ -90,11 +97,15 @@ namespace BischinoTheGame.Model
         }
 
 
+
         private LastPhaseViewModel _lastPhaseViewModel;
         public LastPhaseViewModel LastPhaseViewModel
         {
             get => _lastPhaseViewModel;
             set => SetProperty(ref _lastPhaseViewModel, value);
         }
+
+
+        public bool HasLost => _totLost <= 0;
     }
 }

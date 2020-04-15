@@ -19,9 +19,9 @@ namespace Bischino.Controllers
         public event EventHandler<RoomQuery> WaitingRoomDisconnectedPlayer;
         public event EventHandler RoomClosed;
 
-        public int InGameTimeout { get; set; } = 75 * 1000; //ms
-        private const int WaitingRoomTimeout = 7 * 1000; //ms
-        private const int WinPhaseTimeout = 10 * 1000;
+        public int InGameTimeout { get; set; } = 50 * 1000; //ms
+        private const int WaitingRoomTimeout = 10 * 1000; //ms
+        private const int WinPhaseTimeout = 40 * 1000;
 
         public string RoomName => Room.Name;
         

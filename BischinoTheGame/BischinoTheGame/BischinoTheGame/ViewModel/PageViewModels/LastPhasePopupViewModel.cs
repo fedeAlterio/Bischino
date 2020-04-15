@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
+using BischinoTheGame.Controller;
 using BischinoTheGame.Controller.Communication.Queries;
 using BischinoTheGame.Model;
 using Rooms.Controller;
@@ -54,7 +55,7 @@ namespace BischinoTheGame.ViewModel.PageViewModels
             {
                 var roomQuery = new RoomQuery<int> {RoomName = _roomName, PlayerName = _playerName, Data = win ? 1 : 0};
                 await AppController.RoomsHandler.MakeABet(roomQuery);
-                await AppController.Navigation.RoomNavigation.NotifyLastPhaseCompleted();
+                await AppController.Navigation.GameNavigation.NotifyLastPhaseCompleted();
             }
             catch (Exception e)
             {

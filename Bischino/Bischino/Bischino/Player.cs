@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using Bischino.Base.Controllers;
 using Bischino.Base.Model;
 
 namespace Bischino.Bischino
@@ -49,6 +50,9 @@ namespace Bischino.Bischino
             WinBet = null;
             PhaseWin = 0;
             Dropped = null;
+            DropCardViewModel = null;
+            BetViewModel = null;
+            LastPhaseViewModel = null;
             StartCardsCount = StartCardsCount == 1 ? 5 : StartCardsCount - 1;
             _cards = new List<Card>(_gameManager.Deck.Draw(StartCardsCount, Name));
         }
@@ -141,9 +145,13 @@ namespace Bischino.Bischino
         {
             var card = Cards.FirstOrDefault(c => c.Name == cardName);
             if(card is null)
-                throw new Exception("Impossible drop a card that does not exist");
+            {
+                var error = $"Impossible drop a card that does not exist, arrived {cardName}, having ";
+                error = Cards.Aggregate(error, (current, c) => current + c.Name);
+                throw new ValidationException(error);
+            }
             if (_gameManager.CurrentPlayer != this)
-                throw new Exception("Wrong turn");
+                throw new ValidationException("Wrong turn");
 
             DropCardViewModel = null;
             _cards.Remove(card);

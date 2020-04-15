@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using BischinoTheGame.Controller;
 using BischinoTheGame.ViewModel;
 using Rooms.Controller;
 
@@ -8,7 +9,7 @@ namespace BischinoTheGame.Model
 {
     public class Card : ViewModelBase
     {
-        public const double Ratio = 2.6 / 4.0;
+        public const double Ratio = 2.7 / 4.0;
 
 
         private int _value;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
 using System.Threading.Tasks;
+using BischinoTheGame.Controller;
 using BischinoTheGame.Controller.Communication.Exceptions;
 using BischinoTheGame.Controller.Communication.Queries;
 using BischinoTheGame.Model;
@@ -107,7 +108,7 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         private async void CreateRoom()
         {
             IsPageEnabled = false;
-            await AppController.Navigation.RoomNavigation.ShowRoomCreationPopup();
+            await AppController.Navigation.GameNavigation.ShowRoomCreationPopup();
             IsPageEnabled = true;
         }
 
@@ -121,7 +122,7 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         private async void ShowFilters()
         {
             IsPageEnabled = false;
-            await AppController.Navigation.RoomNavigation.ToFilterPopup(Query);
+            await AppController.Navigation.GameNavigation.ToFilterPopup(Query);
             IsPageEnabled = true;
         }
 
@@ -134,10 +135,10 @@ namespace BischinoTheGame.ViewModel.PageViewModels
             IsPageEnabled = false;
             try
             {
-                var player = AppController.Navigation.RoomNavigation.LoggedPlayer;
+                var player = AppController.Navigation.GameNavigation.LoggedPlayer;
                 var roomQuery = new RoomQuery { PlayerName = player.Name, RoomName = room.Name };
                 await AppController.RoomsHandler.Join(roomQuery);
-                await AppController.Navigation.RoomNavigation.NotifyRoomJoined(room);
+                await AppController.Navigation.GameNavigation.NotifyRoomJoined(room);
             }
             catch (ServerException e)
             {
@@ -152,10 +153,7 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         }
 
 
-        private async void EndReached()
-        {
-            await GetRooms();
-        }
+        private async void EndReached() => await GetRooms();
 
 
         private async void Refresh()

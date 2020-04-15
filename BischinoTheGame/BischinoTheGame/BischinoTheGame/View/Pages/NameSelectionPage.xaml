@@ -18,7 +18,7 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Image Grid.Row="0" HorizontalOptions="Center" VerticalOptions="End"
+            <Image Grid.Row="0" HorizontalOptions="Center" VerticalOptions="End" 
                    Source="logo"/>
             <ScrollView  Grid.Row="1">
                 <StackLayout HorizontalOptions="Center" VerticalOptions="Start" Spacing="10">

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using BischinoTheGame.Controller;
 using Rooms.Controller;
 using Xamarin.Forms;
 
@@ -8,8 +9,6 @@ namespace BischinoTheGame.ViewModel.PageViewModels
 {
     public class AudioPopupViewModel : PageViewModel
     {
-
-
         private Command _audioOnCommand;
         public Command AudioOnCommand
         {

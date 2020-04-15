@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using BischinoTheGame.Controller;
 using BischinoTheGame.Controller.Communication.Queries;
 using BischinoTheGame.Model;
 using BischinoTheGame.ViewModel.PageViewModels;
@@ -14,10 +15,15 @@ namespace BischinoTheGame.ViewModel
 {
     public class WaitingRoomViewModel : PageViewModel
     {
-        private Player _player;
-        private RoomQuery _roomQuery;
-        private CancellationTokenSource _pollTokenSource;
-        private Task _pollingTask;
+        private readonly Player _player;
+        private readonly RoomQuery _roomQuery;
+        private readonly CancellationTokenSource _pollTokenSource;
+        private readonly Task _pollingTask;
+
+        
+        
+        public bool IsMatchStarted { get; private set; }
+
 
         private Room _room;
         public Room Room
@@ -27,7 +33,6 @@ namespace BischinoTheGame.ViewModel
         }
 
         public ObservableCollection<JoinedPlayer> JoinedPlayers { get; set; } = new ObservableCollection<JoinedPlayer>();
-        public bool IsMatchStarted { get; set; } = false;
 
 
         private Command _startMatchCommand;
@@ -65,15 +70,15 @@ namespace BischinoTheGame.ViewModel
         public WaitingRoomViewModel(Room room)
         {
             Room = room;
-            _player = AppController.Navigation.RoomNavigation.LoggedPlayer;
+            _player = AppController.Navigation.GameNavigation.LoggedPlayer;
             _roomQuery = new RoomQuery {PlayerName = _player.Name, RoomName = _room.Name};
             StartMatchCommand = new Command(_ => StartMatch(), _ => CanStartCommand());
-            UnJoinCommand = new Command(_ => UnJoin());
+            UnJoinCommand = new Command(async _ => await UnJoin());
             _pollTokenSource = new CancellationTokenSource();
             _pollingTask = PollingAsync(_pollTokenSource.Token);
         }
 
-        private async void UnJoin()
+        public async Task UnJoin()
         {
             IsPageEnabled = false;
             try
@@ -84,11 +89,11 @@ namespace BischinoTheGame.ViewModel
             }
             catch (Exception e)
             {
-                await AppController.Navigation.DisplayAlert(ErrorTitle, e.Message);
+                //await AppController.Navigation.DisplayAlert(ErrorTitle, e.Message);
             }
             finally
             {
-                await AppController.Navigation.RoomNavigation.BackToRoomList();
+                await AppController.Navigation.GameNavigation.BackToRoomList();
             }
             IsPageEnabled = true;
         }
@@ -107,10 +112,10 @@ namespace BischinoTheGame.ViewModel
             catch (Exception e)
             {
                 await AppController.Navigation.DisplayAlert(ErrorTitle, e.Message);
+                IsPageEnabled = true;
             }
-
-            IsPageEnabled = true;
         }
+
 
 
         private async Task PollingAsync(CancellationToken token)
@@ -126,7 +131,7 @@ namespace BischinoTheGame.ViewModel
                 }
                 catch (Exception)
                 {
-                    
+
                 }
             }
             if(IsMatchStarted)
@@ -139,7 +144,7 @@ namespace BischinoTheGame.ViewModel
                 try
                 {
                     var roomInfo = await AppController.RoomsHandler.GetGameInfo(_roomQuery);
-                    await AppController.Navigation.RoomNavigation.NotifyMatchStarted(_room, roomInfo);
+                    await AppController.Navigation.GameNavigation.NotifyMatchStarted(_room, roomInfo);
                     return;
                 }
                 catch (Exception e)
@@ -147,7 +152,7 @@ namespace BischinoTheGame.ViewModel
                     await AppController.Navigation.DisplayAlert(ErrorTitle, "Impossible to communicate with the server, try again?");
                 }
             await AppController.Navigation.DisplayAlert(ErrorTitle, "Impossible to communicate with the server, going back to room list?");
-            await AppController.Navigation.RoomNavigation.BackToRoomList();
+            await AppController.Navigation.GameNavigation.BackToRoomList();
         }
 
         private async Task LoadPlayers()
@@ -155,6 +160,12 @@ namespace BischinoTheGame.ViewModel
             try
             {
                 var joinedPlayers = await AppController.RoomsHandler.GetJoinedPLayers(_roomQuery);
+                if (!joinedPlayers.Contains(_player.Name))
+                {
+                    await AppController.Navigation.DisplayAlert(ErrorTitle, "Connection lost");
+                    await UnJoin();
+                }
+
                 JoinedPlayers.Clear();
                 IsHost = _player.Name == joinedPlayers[0];
                 foreach (var player in joinedPlayers)

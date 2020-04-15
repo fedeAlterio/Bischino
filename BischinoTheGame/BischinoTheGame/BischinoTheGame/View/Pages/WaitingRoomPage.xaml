@@ -4,88 +4,92 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:forms="clr-namespace:Lottie.Forms;assembly=Lottie.Forms"
+             xmlns:controls="clr-namespace:BischinoTheGame.Controls;assembly=BischinoTheGame"
              mc:Ignorable="d"
              NavigationPage.HasNavigationBar="False"
              BackgroundColor="{StaticResource BackgroundBlack}"
              x:Class="BischinoTheGame.View.Pages.WaitingRoomPage">
     <ContentPage.Content>
-        
-        <Grid IsEnabled="{Binding IsPageEnabled}" Margin="20,15,20,20" HorizontalOptions="Center" WidthRequest="375" VerticalOptions="Center">
+        <Grid RowSpacing="0" ColumnSpacing="0" Padding="0" Margin="0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="100"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <Frame Grid.Row="0"  Padding="15" Margin="0,0,0,10"  HorizontalOptions="Center" VerticalOptions="Center" BackgroundColor="{StaticResource GoodGray}" CornerRadius="20">
-                <Label TextColor="White" FontSize="20" HorizontalOptions="Center" VerticalOptions="Center"
-                       Text="{Binding Room.Name}"/>
-            </Frame> 
-         
-            <Button Grid.Row="0" HorizontalOptions="End" Margin="0,0,20,0" Padding="0" VerticalOptions="Center" TextColor="White" BackgroundColor="{StaticResource GoodGray}" CornerRadius="20"
-                    Text="Exit" Command="{Binding UnJoinCommand}"/>
-            <Frame Grid.Row="1" Padding="10" CornerRadius="10" BackgroundColor="{StaticResource GoodGray}">
-                <CollectionView x:Name="CollectionView"
-                                IsEnabled="{Binding IsPageEnabled}" ItemsSource="{Binding JoinedPlayers}" >
-                    <CollectionView.Header>
-                        <Grid Margin="0,10,0,5">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="1"/>
-                            </Grid.RowDefinitions>
+        
+            <Grid Grid.Row="0"  IsEnabled="{Binding IsPageEnabled}" Margin="20,15,20,20" HorizontalOptions="Center" WidthRequest="375" VerticalOptions="FillAndExpand">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="70"/>
+                </Grid.RowDefinitions>
+                <Frame Grid.Row="0"  Padding="15" Margin="0,0,0,10"  HorizontalOptions="Center" VerticalOptions="Center" BackgroundColor="{StaticResource GoodGray}" CornerRadius="20">
+                    <Label TextColor="White" FontSize="20" HorizontalOptions="Center" VerticalOptions="Center"
+                           Text="{Binding Room.Name}"/>
+                </Frame> 
 
-                            <Label TextColor="White" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" FontSize="21" HorizontalOptions="Center" FontAttributes="Bold"
-                                   Text="Players"/>
+                <Frame Grid.Row="1" Padding="10" CornerRadius="10" BackgroundColor="{StaticResource GoodGray}">
+                    <CollectionView x:Name="CollectionView"
+                                    IsEnabled="{Binding IsPageEnabled}" ItemsSource="{Binding JoinedPlayers}" >
+                        <CollectionView.Header>
+                            <Grid Margin="0,10,0,5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="1"/>
+                                </Grid.RowDefinitions>
 
-                                <StackLayout Orientation="Horizontal" Grid.Row="1" Grid.Column="0" HorizontalOptions="Center">
-                                <Label TextColor="White" 
-                                       Text="Min players"/>
+                                <Label TextColor="White" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" FontSize="21" HorizontalOptions="Center" FontAttributes="Bold"
+                                       Text="Players"/>
 
-                                <Label TextColor="{StaticResource GoodWhite}" FontAttributes="Bold" 
-                                       Text="{Binding Room.MinPlayers}"/>
-                            </StackLayout>
+                                    <StackLayout Orientation="Horizontal" Grid.Row="1" Grid.Column="0" HorizontalOptions="Center">
+                                    <Label TextColor="White" 
+                                           Text="Min players"/>
 
-                            <StackLayout Orientation="Horizontal" Grid.Row="1" Grid.Column="1" HorizontalOptions="Center">
-                                <Label TextColor="White" 
-                                       Text="Max players"/>
+                                    <Label TextColor="{StaticResource GoodWhite}" FontAttributes="Bold" 
+                                           Text="{Binding Room.MinPlayers}"/>
+                                </StackLayout>
 
-                                <Label TextColor="{StaticResource GoodWhite}" FontAttributes="Bold" 
-                                       Text="{Binding Room.MaxPlayers}"/>
-                            </StackLayout>
+                                <StackLayout Orientation="Horizontal" Grid.Row="1" Grid.Column="1" HorizontalOptions="Center">
+                                    <Label TextColor="White" 
+                                           Text="Max players"/>
 
-                            <BoxView Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Color="White" Opacity="0.3" Margin="20,0"/>
-                        </Grid>
-                    </CollectionView.Header>
+                                    <Label TextColor="{StaticResource GoodWhite}" FontAttributes="Bold" 
+                                           Text="{Binding Room.MaxPlayers}"/>
+                                </StackLayout>
 
-                        <CollectionView.ItemsLayout>
-                        <GridItemsLayout Span="1" 
-                                         VerticalItemSpacing="10" 
-                                         Orientation="Vertical"
-                                         HorizontalItemSpacing="15"/>
-                    </CollectionView.ItemsLayout>
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <StackLayout HorizontalOptions="Center" Orientation="Horizontal" Padding="20,0,20,0" Spacing="20">
-                                <Image HeightRequest="45"
-                                    Source="{Binding IconName}"/>
+                                <BoxView Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Color="White" Opacity="0.3" Margin="20,0"/>
+                            </Grid>
+                        </CollectionView.Header>
 
-                                    <Label TextColor="White" FontSize="20" HorizontalOptions="Center" VerticalOptions="Center"
-                                        Text="{Binding Name}"/>
-                            </StackLayout>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
-            </Frame>
-            <forms:AnimationView Grid.Row="2" IsVisible="{Binding CanStart}" x:Name="AnimatedPlayButton" Animation="play.json" Loop="True" IsPlaying="True" HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="100" HeightRequest="100"/>
-            <Button IsVisible="{Binding CanStart}" Grid.Row="2" x:Name="StartButton" BackgroundColor="Transparent" TextColor="White" Padding="0" HorizontalOptions="Center" CornerRadius="20"
-                    Text="" Command="{Binding StartMatchCommand}" Clicked="StartButton_OnClicked"/>
-         
+                            <CollectionView.ItemsLayout>
+                            <GridItemsLayout Span="1" 
+                                             VerticalItemSpacing="10" 
+                                             Orientation="Vertical"
+                                             HorizontalItemSpacing="15"/>
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <StackLayout HorizontalOptions="Center" Orientation="Horizontal" Padding="20,0,20,0" Spacing="20">
+                                    <Image HeightRequest="45"
+                                        Source="{Binding IconName}"/>
+
+                                        <Label TextColor="White" FontSize="20" HorizontalOptions="Center" VerticalOptions="Center"
+                                            Text="{Binding Name}"/>
+                                </StackLayout>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </Frame>
+                <forms:AnimationView Grid.Row="2" IsVisible="{Binding CanStart}" x:Name="AnimatedPlayButton" Animation="play.json" Loop="True" IsPlaying="True" HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="70" HeightRequest="70"/>
+                <Button IsVisible="{Binding CanStart}" Grid.Row="2" x:Name="StartButton" BackgroundColor="Transparent" TextColor="White" Padding="0" HorizontalOptions="Center" CornerRadius="20"
+                        Text="" Command="{Binding StartMatchCommand}" Clicked="StartButton_OnClicked"/>
+            </Grid>
+            <controls:AdControlView AdUnitId="ca-app-pub-7000661273633463/6858813709" Grid.Row="1" Grid.Column="0" BackgroundColor="Transparent" VerticalOptions="End" HeightRequest="90" Margin="0" HorizontalOptions="FillAndExpand"/>
         </Grid>
-
     </ContentPage.Content>
 </ContentPage>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using BischinoTheGame.Controller;
 using BischinoTheGame.Controller.Communication.Queries;
 using Rooms.Controller;
 using Xamarin.Forms;
@@ -42,7 +43,7 @@ namespace BischinoTheGame.ViewModel.PageViewModels
             {
                 var query = new RoomQuery<bool> {RoomName = _roomName, PlayerName = _playerName, Data = isMax};
                 await AppController.RoomsHandler.DropPaolo(query);
-                await AppController.Navigation.RoomNavigation.NotifyPaoloSent();
+                await AppController.Navigation.GameNavigation.NotifyPaoloSent();
             }
             catch (Exception e)
             {

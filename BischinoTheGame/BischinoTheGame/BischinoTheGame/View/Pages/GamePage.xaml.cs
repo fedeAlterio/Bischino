@@ -14,26 +14,57 @@ namespace BischinoTheGame.View.Pages
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class GamePage : ContentPage
     {
-        public const double PlayerCardWidth = 385 / 5.0;
+        public const double PlayerCardWidth = 400 / 5.0;
         private GameViewModel _viewModel;
         private ImageButton _clickedImageButton;
+        private bool _isInitialized;
+
         public Task<bool> DeletingCardAnimation { get; set; }
-        public GamePage()
+
+
+
+
+        public GamePage() => InitializeComponent();
+
+
+
+
+        private void SetupEvents()
         {
-            InitializeComponent();
+            _viewModel.PlayerCardsUpdated += ViewModel_PlayerCardsUpdated;
+            _viewModel.DroppedCardsUpdated += ViewModel_DroppedCardsUpdated;
+            _viewModel.YourTurn += ViewModel_YourTurnEventHandler;
+            _viewModel.NewMatchSnapshot += ViewModel_NewMatchSnapshot;
+            BouncingAnimationView.OnFinish += BouncingAnimationView_OnFinish;
         }
+
+
 
         protected override void OnAppearing()
         {
             base.OnAppearing();
             MessagingCenter.Send(this, ViewMessagingConstants.Landscape);
             _viewModel = BindingContext as GameViewModel;
-            _viewModel.PlayerCardsUpdated += _viewModel_PlayerCardsUpdated;
-            _viewModel.DroppedCardsUpdated += _viewModel_DroppedCardsUpdated;
-            _viewModel.YourTurn += _viewModel_YourTurnEventHandler; 
-            _viewModel.NewMatchSnapshot += _viewModel_NewMatchSnapshot;
-            BouncingAnimationView.OnFinish += BouncingAnimationView_OnFinish;
+
+            if(!_isInitialized)
+            {
+                 SetupEvents();
+                 _viewModel.StartPolling();
+                _isInitialized = true;
+            }
+            _viewModel.OnAppearing();
         }
+
+
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            MessagingCenter.Send(this, ViewMessagingConstants.Unspecified);
+            _viewModel.OnDisappearing();
+        }
+
+
 
         private async void BouncingAnimationView_OnFinish(object sender, EventArgs e)
         {
@@ -41,7 +72,9 @@ namespace BischinoTheGame.View.Pages
             YourTurnContentView.IsVisible = false;
         }
 
-        private async Task _viewModel_NewMatchSnapshot()
+
+
+        private async Task ViewModel_NewMatchSnapshot(MatchSnapshot snapshot)
         {
             if (DeletingCardAnimation is { })
             {
@@ -51,13 +84,8 @@ namespace BischinoTheGame.View.Pages
             }
         }
 
-        protected override void OnDisappearing()
-        {
-            base.OnDisappearing();
-            MessagingCenter.Send(this, ViewMessagingConstants.Unspecified);
-        }
 
-        private async void _viewModel_YourTurnEventHandler(object sender, EventArgs e)
+        private async void ViewModel_YourTurnEventHandler(object sender, EventArgs e)
         {
             YourTurnContentView.IsVisible = true;
             YourTurnContentView.Opacity = 1;
@@ -67,7 +95,8 @@ namespace BischinoTheGame.View.Pages
             BouncingAnimationView.IsPlaying = true;
         }
 
-        private void _viewModel_DroppedCardsUpdated(object sender, EventArgs e)
+
+        private void ViewModel_DroppedCardsUpdated(object sender, EventArgs e)
         {
             var cards = _viewModel.DroppedCards;
             var start = DroppedCardsCollectionView.WidthRequest;
@@ -78,11 +107,15 @@ namespace BischinoTheGame.View.Pages
                 Easing.CubicOut).Commit(this, "droppedScale", 32U, 600U);
         }
 
-        private void _viewModel_PlayerCardsUpdated(object sender, EventArgs e)
+        private void ViewModel_PlayerCardsUpdated(object sender, EventArgs e)
         {
             var cards = _viewModel.PlayerCards;
-            var start = PlayerCollectionView.WidthRequest;
-            new Animation(val => PlayerCollectionView.WidthRequest = val, start, PlayerCardWidth * cards.Count,
+            var start = PlayerCollectionView.Width;
+            var height = PlayerCollectionView.Height;
+            var width = height * Card.Ratio * 1;
+
+
+            new Animation(val => PlayerCollectionView.WidthRequest = val, start, width * cards.Count,
                 Easing.CubicOut).Commit(this, "playerScale", 32U, 600U);
         }
 
@@ -91,6 +124,13 @@ namespace BischinoTheGame.View.Pages
         {
             _clickedImageButton = sender as ImageButton; 
             DeletingCardAnimation = _clickedImageButton.ScaleTo(0, 500U, Easing.CubicOut);
+        }
+
+
+        protected override bool OnBackButtonPressed()
+        {
+            _viewModel.Exit();
+            return base.OnBackButtonPressed();
         }
     }
 }

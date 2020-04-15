@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using BischinoTheGame.Controller;
 using Rooms.Controller;
 using Xamarin.Forms;
 
@@ -24,7 +25,7 @@ namespace BischinoTheGame.ViewModel.PageViewModels.Tutorial
         private async void LaunchTutorial()
         {
             IsPageEnabled = false;
-            await AppController.Navigation.RoomNavigation.LaunchTutorial();
+            await AppController.Navigation.GameNavigation.LaunchTutorial();
             IsPageEnabled = true;
         }
     }

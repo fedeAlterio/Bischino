@@ -15,12 +15,14 @@ namespace BischinoTheGame.Model
         }
 
 
+
         private int _cardCount;
         public int CardCount
         {
             get => _cardCount;
             set => SetProperty(ref _cardCount, value);
         }
+
 
 
         private int? _winBet;
@@ -31,12 +33,15 @@ namespace BischinoTheGame.Model
         }
 
 
+
         private int? _phaseWin;
         public int? PhaseWin
         {
             get => _phaseWin;
             set => SetProperty(ref _phaseWin, value);
         }
+
+
 
         private int? _totLost;
         public int? TotLost
@@ -46,12 +51,18 @@ namespace BischinoTheGame.Model
         }
 
 
+
         private bool _hasLost;
         public bool HasLost
         {
             get => _hasLost;
-            set => SetProperty(ref _hasLost, value);
+            set
+            {
+                SetProperty(ref _hasLost, value); 
+                Notify(nameof(HasLost));
+            }
         }
+
 
 
         private bool _isIdled;
@@ -60,6 +71,7 @@ namespace BischinoTheGame.Model
             get => _isIdled;
             set => SetProperty(ref _isIdled, value);
         }
+
 
 
         private bool _isTurn;

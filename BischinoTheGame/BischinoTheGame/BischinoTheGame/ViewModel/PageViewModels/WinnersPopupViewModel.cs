@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using BischinoTheGame.Controller;
 using Rooms.Controller;
 using Xamarin.Forms;
 
@@ -33,7 +34,7 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         private async void Ok()
         {
             IsPageEnabled = false;
-            await AppController.Navigation.RoomNavigation.BackToRoomList();
+            await AppController.Navigation.GameNavigation.BackToRoomList(true);
             IsPageEnabled = true;
         }
     }

@@ -18,7 +18,9 @@
             <Button  BackgroundColor="{StaticResource GoodGray}" TextColor="White"
                     Text="Choose your deck" Command="{Binding ToDeckSelectionCommand}"/>
             <Button  BackgroundColor="{StaticResource GoodGray}" TextColor="White"
-                    Text="Audio" Command="{Binding AudioSettingsCommand}"/>
-       </StackLayout>
+                     Text="Audio" Command="{Binding AudioSettingsCommand}"/>
+            <Button  BackgroundColor="{StaticResource GoodGray}" TextColor="White"
+                     Text="Credits" Command="{Binding CreditsCommand}"/>
+        </StackLayout>
    </Grid>
 </ContentPage>

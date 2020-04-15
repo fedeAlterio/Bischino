@@ -5,11 +5,17 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
              mc:Ignorable="d"
-             x:Class="BischinoTheGame.View.Pages.BetPopup" IsEnabled="{Binding IsPageEnabled}">
+             x:Class="BischinoTheGame.View.Pages.BetPopup" 
+             IsEnabled="{Binding IsPageEnabled}">
+
     <StackLayout Spacing="30" BackgroundColor="Transparent" VerticalOptions="Center" HorizontalOptions="Center" >
-        <Frame Opacity="0.88" CornerRadius="10"  HorizontalOptions="Center" VerticalOptions="Start" BackgroundColor="{StaticResource GoodGray}">
-            <Label TextColor="White" FontSize="20" HorizontalOptions="Center"
-                   Text="Make a bet"/>
+        <Frame Opacity="0.88" CornerRadius="10" Padding="12" HorizontalOptions="Center" VerticalOptions="Start" BackgroundColor="{StaticResource GoodGray}">
+           <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="10">
+                <Label TextColor="White" FontSize="20" VerticalOptions="Center"
+                       Text="Make a bet"/>
+                <ImageButton x:Name="InfoButton" IsVisible="{Binding IsInfoVisible}" BackgroundColor="{StaticResource GoodGray}" CornerRadius="30" HeightRequest="35" VerticalOptions="Center"
+                    Source="info" Command="{Binding InfoCommand}"/>
+           </StackLayout>
         </Frame>
         <CollectionView x:Name="BetCollectionView" IsEnabled="{Binding IsPageEnabled}" WidthRequest="300" HeightRequest="60" ItemsSource="{Binding BetViewModel.PossibleBets}" HorizontalOptions="Center" VerticalOptions="EndAndExpand">
             <CollectionView.ItemsLayout>

@@ -28,13 +28,13 @@
             <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" TextColor="{StaticResource GoodWhite}" FontSize="26" 
                    Text="Room Name" IsVisible="{Binding Room.Name, Converter={StaticResource RoomNameValueConverter}}"/>
 
-
-            <Entry Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" FontSize="20" TextColor="White" HorizontalTextAlignment="Center" PlaceholderColor="Gray" Margin="0,20,0,0" 
+    
+            <Entry Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" FontSize="17" TextColor="White" HorizontalTextAlignment="Center" PlaceholderColor="Gray" Margin="0,20,0,0" 
                    Placeholder="Room name" Text="{Binding Room.Name}"/>
-            <Entry Grid.Row="2" Grid.Column="0" HorizontalTextAlignment="Center" HorizontalOptions="FillAndExpand" Keyboard="Numeric" TextColor="White" PlaceholderColor="Gray"
-                   Placeholder="Min players" Text="{Binding Room.MinPlayers}"/>
-            <Entry Grid.Row="2" Grid.Column="1" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Center" Keyboard="Numeric" TextColor="White" PlaceholderColor="Gray"
-                   Placeholder="Max players" Text="{Binding Room.MaxPlayers}"/>
+            <Picker Grid.Row="2" Grid.Column="0" HorizontalOptions="FillAndExpand" TextColor="White" TitleColor="White"  FontSize="17"
+                    Title="Min players" ItemsSource="{Binding PossibleMinPlayers} " SelectedItem="{Binding Room.MinPlayers}"/>
+            <Picker Grid.Row="2" Grid.Column="1" HorizontalOptions="FillAndExpand" TextColor="White" WidthRequest="30" TitleColor="White" FontSize="17"
+                    Title="Max players" ItemsSource="{Binding PossibleMaxPlayers}" SelectedItem="{Binding Room.MaxPlayers}"/>
             
             
             <Button Grid.Row="3" Grid.Column="1" BackgroundColor="{StaticResource GoodBlue}" TextColor="White" HorizontalOptions="End" Margin="0,20" CornerRadius="20"

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using BischinoTheGame.Controller;
 using BischinoTheGame.View.Pages.Tutorial;
 using BischinoTheGame.ViewModel.PageViewModels.Tutorial;
 using Rooms.Controller;
@@ -20,7 +21,10 @@ namespace BischinoTheGame.Navigation.TutorialNavigation
         }
 
         public Task NotifyTutorialEnded()
-            => Navigation.NavigationStack.Count > 1 ? Navigation.PopAsync() : AppController.Navigation.RoomNavigation.ToNameSelection();
+        {
+            AppController.Settings.FirstRun = false;
+            return Navigation.NavigationStack.Count > 1 ? Navigation.PopAsync() : AppController.Navigation.GameNavigation.ToNameSelection();
+        }
     }
     
 }

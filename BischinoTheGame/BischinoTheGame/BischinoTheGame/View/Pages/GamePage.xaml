@@ -6,16 +6,16 @@
              xmlns:pages="clr-namespace:BischinoTheGame.View.Pages;assembly=BischinoTheGame"
              xmlns:forms="clr-namespace:Lottie.Forms;assembly=Lottie.Forms"
              xmlns:gamePageConverters="clr-namespace:BischinoTheGame.View.Pages.GamePageConverters;assembly=BischinoTheGame"
-             xmlns:controller="clr-namespace:Rooms.Controller;assembly=BischinoTheGame"
+             xmlns:controller="clr-namespace:BischinoTheGame.Controller;assembly=BischinoTheGame"
              mc:Ignorable="d"
              BackgroundImageSource="wood"
              NavigationPage.HasNavigationBar="False"
              x:Class="BischinoTheGame.View.Pages.GamePage">
+
     <Grid IsEnabled="{Binding IsPageEnabled}" Margin="10,10,10 ,0" ColumnSpacing="10">
         <Grid.Resources>
             <pages:CardToPaoloColorConverter x:Key="CardToPaoloColorConverter"/>
             <gamePageConverters:PlayerNameColorConverter x:Key="PlayerNameColorConverter" StandardColor="{StaticResource GoodBlue}" LostColor="White" TurnColor="White" IdledColor="White" CurrentPayerTurnColor="Peru" CurrentPlayerStandardColor="Peru"/>
-            <gamePageConverters:PlayerBackgroundColorConverter x:Key="BackgroundColorConverter" PlayingColor="{StaticResource GoodGray}" HashLostColor="{StaticResource BackgroundBlack}" IdledColor="DarkRed" TurnColor="{StaticResource LightBlue}"/>
         </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="100"/>
@@ -29,12 +29,12 @@
         </Grid.ColumnDefinitions>
 
         
-        <Grid Grid.Row="1" Grid.Column="0">
+        <Grid x:Name="AudioGrid"  Grid.Row="1" Grid.Column="0" HorizontalOptions="Start" VerticalOptions="Start" Margin="10,-5,0,0">
             <ImageButton IsVisible="{Binding AudioOn, Source={x:Static controller:AppController.AudioManager}, Converter={StaticResource NegationConverter}}" Grid.Column="0" HorizontalOptions="Start" VerticalOptions="Start" HeightRequest="25" BackgroundColor="Transparent" Margin="25,5,0,0"
-                         Source="audio_on" Command="{Binding AudioSettingsCommand}"/>
+                         Source="audio_off" Command="{Binding AudioSettingsCommand}"/>
 
             <ImageButton IsVisible="{Binding AudioOn, Source={x:Static controller:AppController.AudioManager}}" Grid.Column="0" HorizontalOptions="Start" VerticalOptions="Start" HeightRequest="25" BackgroundColor="Transparent" Margin="25,5,0,0"
-                         Source="audio_off" Command="{Binding AudioSettingsCommand}"/>
+                         Source="audio_on" Command="{Binding AudioSettingsCommand}"/>
         </Grid>
 
         <CollectionView x:Name="OtherPlayersCollectionView" IsEnabled="True" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,20,0,0" VerticalOptions="End" HorizontalOptions="Center" 
@@ -43,41 +43,37 @@
                 <GridItemsLayout Span="1" 
                                  VerticalItemSpacing="15" 
                                  Orientation="Horizontal"
-                                 HorizontalItemSpacing="15"/>
+                                 HorizontalItemSpacing="0"/>
             </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Frame Margin="0" Padding="0" CornerRadius="20" BackgroundColor="{Binding BackgroundColor}">
-                        <Grid Padding="10" RowSpacing="6">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="18"/>
-                                <RowDefinition Height="16"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" HorizontalOptions="Center" TextColor="{Binding Player, Converter={StaticResource PlayerNameColorConverter}}" FontSize="13" 
-                                   Text="{Binding Player.Name}"/>
-                            
-                            <Label Grid.Row="1" Grid.Column="0" HorizontalOptions="Center" FontSize="15" TextColor="White"
-                                   Text="{Binding Player.WinBet}"/>
-                            <Label Grid.Row="2" Grid.Column="0" HorizontalOptions="Center" FontSize="12" TextColor="White"
-                                   Text="Bet"/>
+                    <Grid WidthRequest="140">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="2*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Image Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Grid.ColumnSpan="3"
+                            Source="blackboard"/>
+                        <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" HorizontalOptions="Center" TextColor="White" Margin="0,8,0,0" FontSize="10"
+                               Text="{Binding Player.Name}"/>
 
-                            <Label Grid.Row="1" Grid.Column="1" HorizontalOptions="Center" FontSize="15" TextColor="White"
-                                   Text="{Binding Player.TotLost}"/>
-                            <Label Grid.Row="2" Grid.Column="1" HorizontalOptions="Center" FontSize="12" TextColor="White"
-                                   Text="Lives"/>
 
-                            <Label Grid.Row="1" Grid.Column="2" HorizontalOptions="Center" FontSize="15" TextColor="White"
-                                   Text="{Binding Player.PhaseWin}"/>
-                            <Label Grid.Row="2" Grid.Column="2" HorizontalOptions="Center" FontSize="12" TextColor="White"
-                                   Text="Win"/>
-                        </Grid>
-                    </Frame>
+                        <Label Grid.Row="1" Grid.Column="0" HorizontalOptions="Center" TextColor="White" Margin="33,5,0,0" FontSize="10"
+                               Text="{Binding Player.WinBet}"/>
+
+                        <Label Grid.Row="1" Grid.Column="1" HorizontalOptions="Center" TextColor="White" Margin="1,5,0,0" FontSize="10"
+                               Text="{Binding Player.TotLost}"/>
+
+                        <Label Grid.Row="1" Grid.Column="2" HorizontalOptions="Center" TextColor="White" Margin="0,5,29,0" FontSize="10"
+                               Text="{Binding Player.PhaseWin}"/>
+
+                        <BoxView Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Grid.ColumnSpan="3" Color="{Binding BackgroundColor}" ScaleY="{Binding YScale}" HorizontalOptions="Start" CornerRadius="30" BackgroundColor="White" WidthRequest="5" Margin="7,5,0,7.5" VerticalOptions="FillAndExpand"/>
+                    </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
@@ -93,7 +89,7 @@
             </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Grid ColumnSpacing="2">
+                    <Grid ColumnSpacing="2" Opacity="{Binding Scale}">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="30"/>
@@ -102,11 +98,11 @@
                             <ColumnDefinition Width="8"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <Image Grid.Row="0" Grid.Column="1" Source="{Binding IconName}" VerticalOptions="FillAndExpand" HorizontalOptions="Center" />
+                        <Image Grid.Row="0" Grid.Column="1" Source="{Binding Card.IconName}" VerticalOptions="FillAndExpand" HorizontalOptions="Center"/>
                         <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" TextColor="{StaticResource GoodWhite}" Margin="3,0,0,0" WidthRequest="70" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontSize="11"
-                                           Text="{Binding Owner}"/>
-                        <BoxView Grid.Row="0" Grid.Column="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Opacity="1"
-                                 Color="{Binding Converter={StaticResource CardToPaoloColorConverter}}" />
+                                           Text="{Binding Card.Owner}"/>
+                        <BoxView Grid.Row="0" Grid.Column="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Opacity="1" CornerRadius="30" Margin="0,6"
+                                 Color="{Binding Card, Converter={StaticResource CardToPaoloColorConverter}}" />
                     </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
@@ -115,32 +111,31 @@
         <Grid Grid.Row="2" Grid.Column="0"  HorizontalOptions="Center" ColumnSpacing="20" RowSpacing="0" VerticalOptions="Center">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Label Grid.Row="0" Grid.Column="0" TextColor="{StaticResource GoodWhite}" FontSize="40" HorizontalOptions="Center"
+            <Label Grid.Row="0" Grid.Column="0" TextColor="{StaticResource GoodWhite}" FontSize="30" Margin="0,0,0,25" HorizontalOptions="Center" VerticalOptions="Center"
                    Text="{Binding MatchSnapshot.Player.WinBet}"/>
-            <Label Grid.Row="1" Grid.Column="0" TextColor="{StaticResource GoodWhite}" FontSize="15" HorizontalOptions="Center"
-                   Text="Your Guess"/>
+            <Image Grid.Row="0" Grid.Column="0" HorizontalOptions="Center"
+                   Source="your_bet"/>
 
-            <Label Grid.Row="0" Grid.Column="1" TextColor="{StaticResource GoodWhite}" FontSize="40" HorizontalOptions="Center"
+
+            <Label Grid.Row="0" Grid.Column="1" TextColor="{StaticResource GoodWhite}" FontSize="30" Margin="0,0,0,25" HorizontalOptions="Center" VerticalOptions="Center"
                    Text="{Binding MatchSnapshot.Player.TotLost}"/>
-            <Label Grid.Row="1" Grid.Column="1" TextColor="{StaticResource GoodWhite}" FontSize="15" HorizontalOptions="Center"
-                   Text="Lives"/>
+            <Image Grid.Row="0" Grid.Column="1" HorizontalOptions="Center"
+                   Source="lives"/>
         </Grid>
-        <StackLayout Grid.Row="2" Grid.Column="2" Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="Center" Spacing="2">
-            <Label TextColor="{StaticResource GoodWhite}" FontSize="40" HorizontalOptions="Center"
+        <Grid Grid.Row="2" Grid.Column="2" HorizontalOptions="Center" VerticalOptions="Center">
+            <Image Grid.Row="0" Grid.Column="0" HorizontalOptions="Center" 
+                   Source="winnings"/>
+            <Label TextColor="{StaticResource GoodWhite}" FontSize="30" HorizontalOptions="Center" Margin="0,0,0,25" VerticalOptions="Center"  
                    Text="{Binding MatchSnapshot.Player.PhaseWin}"/>
-            <Label TextColor="{StaticResource GoodWhite}" FontSize="15" HorizontalOptions="Center"
-                   Text="Current Win"/>
+        </Grid>
 
-        </StackLayout>
-
-        <CollectionView x:Name="PlayerCollectionView" Grid.Row="2" Grid.Column="1" HorizontalOptions="Center" WidthRequest="330" VerticalOptions="End"
-                            ItemsSource="{Binding PlayerCards}">
+        <CollectionView x:Name="PlayerCollectionView" Grid.Row="2" Grid.Column="1" HorizontalOptions="Center" WidthRequest="0" VerticalOptions="End" Margin="15,0,0,0"
+                        ItemsSource="{Binding PlayerCards}">
                 <CollectionView.ItemsLayout>
                     <GridItemsLayout Span="1" 
                                      Orientation="Horizontal"
@@ -167,5 +162,7 @@
                    Text="Your Turn!"/>
         </Grid>
 
+        <Button Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" HorizontalOptions="End" VerticalOptions="Start" WidthRequest="50" Margin="0,0,0,0" BackgroundColor="{StaticResource GoodGray}" TextColor="White" CornerRadius="30"
+                Text="X" Command="{Binding ExitCommand}"/>
     </Grid>
 </ContentPage>

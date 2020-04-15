@@ -13,30 +13,27 @@
 
   <ItemGroup>
     <None Remove="Fonts\mark.TTF" />
-    <None Remove="Sfx\coin.wav" />
+    <None Remove="Sfx\clock.mp3" />
     <None Remove="Sfx\conquistador.mp3" />
-    <None Remove="Sfx\disconnected.wav" />
+    <None Remove="Sfx\disconnected.mp3" />
     <None Remove="Sfx\magic.mp3" />
-    <None Remove="Sfx\pop.flac" />
+    <None Remove="Sfx\pop.mp3" />
     <None Remove="Sfx\tea_music.mp3" />
-    <None Remove="Sfx\win.wav" />
+    <None Remove="Sfx\win.mp3" />
     <None Remove="Universal-Regular.TTF" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="Sfx\coin.wav" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Fonts\mark.TTF" />
     <EmbeddedResource Include="Fonts\Universal-Regular.TTF" />
     <EmbeddedResource Include="Sfx\african_son.mp3" />
+    <EmbeddedResource Include="Sfx\clock.mp3" />
     <EmbeddedResource Include="Sfx\conquistador.mp3" />
-    <EmbeddedResource Include="Sfx\disconnected.wav" />
+    <EmbeddedResource Include="Sfx\disconnected.mp3" />
     <EmbeddedResource Include="Sfx\magic.mp3" />
-    <EmbeddedResource Include="Sfx\pop.flac" />
+    <EmbeddedResource Include="Sfx\pop.mp3" />
     <EmbeddedResource Include="Sfx\tea_music.mp3" />
-    <EmbeddedResource Include="Sfx\win.wav" />
+    <EmbeddedResource Include="Sfx\win.mp3" />
   </ItemGroup>
 
   <ItemGroup>
@@ -58,7 +55,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="View\Pages\BetInfoPopup.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="View\Pages\CoreTabbedPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="View\Pages\CreditsPopup.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="View\Pages\DeckSelectionPage.xaml">
@@ -106,9 +109,5 @@
     <EmbeddedResource Update="View\Pages\WinnersPopup.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Extensions\" />
   </ItemGroup>
 </Project>

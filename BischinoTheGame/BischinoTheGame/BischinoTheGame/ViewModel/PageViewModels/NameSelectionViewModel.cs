@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using BischinoTheGame.Controller;
 using BischinoTheGame.Model;
 using Rooms.Controller;
 using Xamarin.Forms;
@@ -48,7 +49,7 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         private async void Next()
         {
             IsPageEnabled = false;
-            await AppController.Navigation.RoomNavigation.NotifyNameSelected(_player);
+            await AppController.Navigation.GameNavigation.NotifyNameSelected(_player);
             IsPageEnabled = true;
         }
 

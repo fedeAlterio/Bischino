@@ -13,12 +13,10 @@ namespace BischinoTheGame.Controller
 {
     public class AudioManager : ViewModelBase
     {
-
         private readonly ISimpleAudioPlayer _player;
         private string _currentTrack;
         private bool _backgroundPlayingStateBackup;
         public event EventHandler<bool> PlayingStateChanged;
-
 
         private readonly IList<string> _trackNames = new List<string>
         {
@@ -45,10 +43,13 @@ namespace BischinoTheGame.Controller
             }
         }
 
+        
+        public int TrackNumber => _trackNames.IndexOf(_currentTrack) + 1;
+
 
         public void PlaySound(SoundEffect soundEffect)
         {
-            if (!AppController.Settings.SoundEffectsOn)
+            if (!AppController.Settings.SoundEffectsOn || AppController.IsAppInBackground)
                 return;
 
             var stream = GetSoundEffect(soundEffect);
@@ -61,6 +62,7 @@ namespace BischinoTheGame.Controller
         public AudioManager()
         {
             _player = CrossSimpleAudioPlayer.Current;
+            _player.Volume = 0.4;
             _currentTrack = _trackNames[0];
             LoadTrack();
             _player.PlaybackEnded += _player_PlaybackEnded;
@@ -107,6 +109,7 @@ namespace BischinoTheGame.Controller
             _currentTrack = _currentTrack == _trackNames.Last()
                 ? _trackNames[0]
                 : _trackNames[_trackNames.IndexOf(_currentTrack) + 1];
+            Notify(nameof(TrackNumber));
         }
 
 
@@ -115,6 +118,7 @@ namespace BischinoTheGame.Controller
             _currentTrack = _currentTrack == _trackNames.First()
                 ? _trackNames.Last()
                 : _trackNames[_trackNames.IndexOf(_currentTrack) - 1];
+            Notify(nameof(TrackNumber));
         }
 
         private void LoadTrack()
@@ -123,19 +127,18 @@ namespace BischinoTheGame.Controller
             _player.Load(stream);
         }
 
-        private static Stream GetAudioStream(string audioName)
+        public static Stream GetAudioStream(string audioName)
         {
             var assembly = typeof(App).GetTypeInfo().Assembly;
             var audioStream = assembly.GetManifestResourceStream($"BischinoTheGame.Sfx.{audioName}");
             return audioStream;
         }
 
-        private Stream GetSoundEffect(SoundEffect soundEffect) => GetAudioStream( soundEffect switch
+        private Stream GetSoundEffect(SoundEffect soundEffect) => GetAudioStream (soundEffect switch
         {
-            SoundEffect.Pop => "pop.flac",
-            SoundEffect.Win => "win.wav",
-            SoundEffect.Disconnected => "disconnected.wav",
-            SoundEffect.Coin => "coin.wav",
+            SoundEffect.Pop => "pop.mp3",
+            SoundEffect.Win => "win.mp3",
+            SoundEffect.Disconnected => "disconnected.mp3",
         });
     }
 }

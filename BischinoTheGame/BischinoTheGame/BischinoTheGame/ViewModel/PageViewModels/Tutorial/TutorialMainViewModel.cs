@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using BischinoTheGame.Controller;
 using Rooms.Controller;
 using Xamarin.Forms;
 
@@ -9,31 +10,7 @@ namespace BischinoTheGame.ViewModel.PageViewModels.Tutorial
 {
     public class TutorialMainViewModel : PageViewModel
     {
-        public event Func<string, Task> AutoWriteText;
-        public event Func<string, Task> FadeText;
-        public event Func<Task> WelcomeCompleted;
-        public event Func<Task> FadeOrderedCards;
-        public event Func<Task> FadeSeeds;
-        public event Func<Task> ShowFirstPaolo;
-        public event Func<Task> DuplicatePaolo;
-        public event Func<Task> MaximumPaolo;
-        public event Func<Task> MinimumPaolo;
-        public event Func<Task> PaoloCompleted;
-        public event Func<Task> FadeLives;
-        public event Func<Task> DropCards;
-        public event Func<Task> YourTurn;
-        public event Func<Task> DropTheCard;
-        public event Func<Task> AddPoint;
-        public event Func<Task> Restart;
-        public event Func<Task> StrongCardsPopup;
-        public event Func<Task> PaoloPopup;
-        public event Func<Task> ShowPrediction;
-        public event Func<Task> ShowOtherPlayersPredictions;
-        public event Func<Task> FadeOtherPlayersPrediction;
-        public event Func<Task> PredictionWinComparison;
-        public event Func<Task> LooseALife;
-        public event Func<Task> AnimateSetupRound2;
-        public event Func<Task> LastRound;
+        private ITutorial _tutorial;
 
         #region BottomCards
 
@@ -256,8 +233,9 @@ namespace BischinoTheGame.ViewModel.PageViewModels.Tutorial
         #endregion
 
 
-        public async Task Start()
+        public async Task Start(ITutorial tutorial)
         {
+            _tutorial = tutorial;
             SetupBottomCards();
             SetupCentralCards();
             SetupKings();
@@ -270,71 +248,57 @@ namespace BischinoTheGame.ViewModel.PageViewModels.Tutorial
             await DropTime();
         }
 
+
+
         private async Task PrintWelcome()
         {
-            await FadeText.Invoke("Welcome to Bischino");
-            await Task.Delay(4000);
+            await WriteAndAwait("Welcome to Bischino", 4000);
             /*
             await FadeText.Invoke("Ready to play?");
             await Task.Delay(2000);
             */
-            await FadeText.Invoke("Let's start");
-
-            await WelcomeCompleted.Invoke();
+            await WriteText("Let's start");
+            await _tutorial.WelcomeCompleted();
         }
         private async Task OnWelcomeCompleted()
         {
-            await FadeText("In this game, all the cards are ordered by value");
-            await Task.Delay(2500);
-            await FadeText("From ace to king");
-            await Task.Delay(1000);
-            await FadeOrderedCards();
+            await WriteAndAwait("In this game, all the cards are ordered in strength", 2500);
+            await WriteAndAwait("From ace to king", 1000);
+            await _tutorial.FadeOrderedCards();
 
-            await FadeText("and in order of suit");
-            await Task.Delay(1500);
-            await FadeSeeds();
+            await WriteAndAwait("and ordered in suit", 1500);
+            await _tutorial.FadeSeeds();
         }
         private async Task PaoloTime()
         {
-            await FadeText("But there is an exception");
-            await ShowFirstPaolo();
+            await WriteText("But there is an exception");
+            await _tutorial.ShowFirstPaolo();
             await Task.Delay(1000);
-            await FadeText("This card can have two different values");
-            await Task.Delay(1500);
-            await DuplicatePaolo();
-            await FadeText("Maximum");
-            await MaximumPaolo();
-            await FadeText("and minimum");
-            await MinimumPaolo();
+
+            await WriteAndAwait("This card can have two different values", 1500);
+            await _tutorial.DuplicatePaolo();
+            await WriteText("highest");
+            await _tutorial.MaximumPaolo();
+            await WriteText("and lowest");
+            await _tutorial.MinimumPaolo();
             await Task.Delay(1000);
-            await PaoloCompleted();
+            await WriteAndAwait("in the game", 1300);
+
+            await _tutorial.PaoloCompleted();
 
             await Task.Delay(1000);
         }
         private async Task LivesTime()
         {
-            /*
-            await FadeText("Let's now talk about lives");
-            await Task.Delay(1500);
-            await FadeText("Each player has 3 lives");
-            await Task.Delay(1500);
-            */
-            await FadeLives();
-            /*
-            await Task.Delay(1000);
-            await FadeText("That's it");
-            await Task.Delay(500);
-            */
+            await _tutorial.FadeLives();
         }
         private async Task DropTime()
         {
-            await FadeText("Okay, now let's assume you're playing with 2 players");
-            await Task.Delay(2500);
-            await FadeText("Every player must play one card per turn");
-            await Task.Delay(2000);
-            await DropCards();
+            await WriteAndAwait("Okay, now let's assume you're playing with 2 players", 2500);
+            await WriteAndAwait("Every player must play one card at time", 2000);
+            await _tutorial.DropCards();
             DropCommand = new Command(_ => OnDrop());
-            await YourTurn();
+            await _tutorial.YourTurn();
         }
 
 
@@ -344,11 +308,11 @@ namespace BischinoTheGame.ViewModel.PageViewModels.Tutorial
             IsPageEnabled = false;
             DropCommand = null;
             IsPageEnabled = true;
-            await DropTheCard();
-            await FadeText("Great");
-            await Task.Delay(500);
-            await FadeText("Because your card has the higher value, you gain a point");
-            await AddPoint();
+            await _tutorial.DropTheCard();
+            await WriteAndAwait("Great", 500);
+            
+            await WriteText("Because your card has an higher rank, you are awarded a point");
+            await _tutorial.AddPoint();
             await Task.Delay(2000);
 
             await BetTime();
@@ -356,9 +320,7 @@ namespace BischinoTheGame.ViewModel.PageViewModels.Tutorial
             await OnRound2();
             await OneCardRoundTime();
             await EndTutorial();
-
         }
-
 
 
 
@@ -369,29 +331,26 @@ namespace BischinoTheGame.ViewModel.PageViewModels.Tutorial
             await Task.Delay(2000);
             */
 
-            await FadeText("The aim of the game is to guess the number of points you will gain");
-            await Task.Delay(2000);
+            await WriteAndAwait("The aim of the game is to guess the number of tricks you'll win in a hand", 3000);
             /*
             await FadeText("So let's restart the game");
             */
-            await Restart();
-            await FadeText("This is more or less how you have to think");
+            await _tutorial.Restart();
+            await WriteAndAwait("This is more or less how you have to think", 2000);
+            await WriteText("These cards have an high value");
+            await _tutorial.StrongCardsPopup();
             await Task.Delay(2000);
-            await FadeText("These cards have an high value");
-            await StrongCardsPopup();
-            await Task.Delay(2000);
-            await FadeText("So you will probably win on 2 turns");
-            await Task.Delay(4000);
-            await FadeText("Remember you also have the special card");
-            await PaoloPopup();
+            await WriteAndAwait("So you will probably win on 2 tricks", 4000);
+            await WriteText("Remember you also have the special card");
+            await _tutorial.PaoloPopup();
             /*
             await Task.Delay(5000);
             await FadeText("When you drop it you can choose it to be the highest or lowest card of the whole game!");
             */
             await Task.Delay(3000);
-            await FadeText("So a good guess can be 2");
-            await ShowPrediction();
-            await Task.Delay(3000);
+            await WriteText("So a good prediction can be 2");
+            await _tutorial.ShowPrediction();
+            await Task.Delay(2000);
             /*
             await FadeText("There is one more thing about this phase");
             await Task.Delay(2000);
@@ -416,13 +375,10 @@ namespace BischinoTheGame.ViewModel.PageViewModels.Tutorial
         }
         private async Task OnLivesCalculations()
         {
-            await FadeText("Okay, but how can you lose one of your lives?");
-            await Task.Delay(2000);
-            await FadeText("Well, when all the players drop their 5 cards down");
-            await Task.Delay(3000);
-            await FadeText("The game compares your guess and your actual wins");
-            await Task.Delay(1000);
-            await PredictionWinComparison();
+            await WriteAndAwait("Okay, but how can you lose one of your lives?", 2000);
+            await WriteAndAwait("Well, when all the players play all their 5 cards", 3000);
+            await WriteAndAwait("The game compares your bet and the number of points you won", 1000);
+            await _tutorial.PredictionWinComparison();
             CurrentWin = 3;
             await Task.Delay(5000);
             /*
@@ -432,8 +388,8 @@ namespace BischinoTheGame.ViewModel.PageViewModels.Tutorial
             await FadeText("You have predicted 2, but you actually won 3");
             await Task.Delay(4000);
             */
-            await FadeText("You are off by one, so you lose a life");
-            await LooseALife();
+            await WriteText("The difference is one, so you lose a life");
+            await _tutorial.LoseALife();
             await Task.Delay(2000);
             /*
             await Task.Delay(2000);
@@ -448,30 +404,23 @@ namespace BischinoTheGame.ViewModel.PageViewModels.Tutorial
             Card1 = AppController.Settings.GetCardIcon("21");
             Card2 = AppController.Settings.GetCardIcon("10");
             Card3 = AppController.Settings.GetCardIcon("31");
-            await FadeText("You are now ready for the next round");
-            await Task.Delay(2000);
-            await FadeText("The deck is shuffled, you have 4 cards in you hands, and you are ready to make another bet");
+            await WriteAndAwait("You are now ready for the next round", 2000);
+            await WriteText("The deck is shuffled, you have 4 cards in your hand, and you have to make another bet");
             CurrentWin = 0;
             Bet = null;
-            await AnimateSetupRound2();
+            await _tutorial.AnimateRound2();
             await Task.Delay(3000);
         }
         private async Task OneCardRoundTime()
         {
-            await FadeText("One last thing");
-            await Task.Delay(3000);
-            await FadeText("The round with only one card is different");
-            await Task.Delay(3000);
-            await FadeText("You can't see your card, but you can see the cards of all other players");
-            await Task.Delay(3000);
-            await FadeText("and on these you have to base your guess");
+            await WriteAndAwait("One last thing", 2000);
+            await WriteAndAwait("The one-card hand has different rules", 2000);
+            await WriteAndAwait("You can't see your card, but you can see the cards of all other players", 3000);
+            await WriteAndAwait("Your bet will be based on the cards you see in your opponents' hands", 3000);
         }
         private async Task EndTutorial()
         {
-            await Task.Delay(5000);
-            await FadeText("Now you are ready to play");
-            await Task.Delay(2000);
-            AppController.Settings.FirstRun = false;
+            await WriteAndAwait("Now you are ready to play", 2000);
             await AppController.Navigation.TutorialNavigation.NotifyTutorialEnded();
         }
        
@@ -479,9 +428,9 @@ namespace BischinoTheGame.ViewModel.PageViewModels.Tutorial
         private void SetupProperties()
         {
             Paolo = AppController.Settings.GetCardIcon("30");
-            Lives = 3;
             Dropped1 = AppController.Settings.GetCardIcon("5");
             Dropped2 = AppController.Settings.GetCardIcon("17");
+            Lives = 3;
             CurrentWin = 1;
             Bet = 2;
         }
@@ -512,5 +461,14 @@ namespace BischinoTheGame.ViewModel.PageViewModels.Tutorial
             Card2 = AppController.Settings.GetCardIcon("22");
             Card3 = AppController.Settings.GetCardIcon("33");
         }
+        
+
+        private async Task WriteAndAwait(string text, int delay)
+        {
+            await _tutorial.WriteText(text);
+            await Task.Delay(delay);
+        }
+
+        private Task WriteText(string text) => _tutorial.WriteText(text);
     }
 }

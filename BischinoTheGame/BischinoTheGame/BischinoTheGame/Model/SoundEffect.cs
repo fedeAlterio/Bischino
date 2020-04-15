@@ -8,8 +8,7 @@ namespace BischinoTheGame.Model
     {
         Pop,
         Win,
-        Disconnected,
-        Coin
+        Disconnected
     }
 
 }

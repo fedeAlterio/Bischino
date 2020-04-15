@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
+using BischinoTheGame.Controller;
 using BischinoTheGame.Model.Settings;
 using Rooms.Controller;
 using Xamarin.Forms;
@@ -95,7 +96,6 @@ namespace BischinoTheGame.ViewModel.PageViewModels
             Deck2 = Decks[1];
             Deck2Command = new Command(_ => ChooseDeck(DeckType.B));
 
-
             Deck3 = Decks[2];
             Deck3Command = new Command(_ => ChooseDeck(DeckType.C));
         }
@@ -104,7 +104,7 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         {
             AppController.Settings.DeckType = type;
             await AppController.Navigation.DisplayAlert("Information", "Saved");
-            await AppController.Navigation.RoomNavigation.NotifyDeckChosen();
+            await AppController.Navigation.GameNavigation.NotifyDeckChosen();
         }
     }
 }

@@ -25,10 +25,13 @@ C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame\bin\Release\net
 C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame\bin\Release\netstandard2.0\BischinoTheGame.dll
 C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame\bin\Release\netstandard2.0\ref\BischinoTheGame.dll
 C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame\bin\Release\netstandard2.0\BischinoTheGame.pdb
+C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame\obj\Release\netstandard2.0\BischinoTheGame.csprojAssemblyReference.cache
 C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame\obj\Release\netstandard2.0\App.xaml.g.cs
 C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame\obj\Release\netstandard2.0\View\Pages\AudioPopup.xaml.g.cs
+C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame\obj\Release\netstandard2.0\View\Pages\BetInfoPopup.xaml.g.cs
 C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame\obj\Release\netstandard2.0\View\Pages\BetPopup.xaml.g.cs
 C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame\obj\Release\netstandard2.0\View\Pages\CoreTabbedPage.xaml.g.cs
+C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame\obj\Release\netstandard2.0\View\Pages\CreditsPopup.xaml.g.cs
 C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame\obj\Release\netstandard2.0\View\Pages\DeckSelectionPage.xaml.g.cs
 C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame\obj\Release\netstandard2.0\View\Pages\FilterPopup.xaml.g.cs
 C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame\obj\Release\netstandard2.0\View\Pages\GamePage.xaml.g.cs
@@ -39,6 +42,8 @@ C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame\obj\Release\net
 C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame\obj\Release\netstandard2.0\View\Pages\RoomsListPage.xaml.g.cs
 C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame\obj\Release\netstandard2.0\View\Pages\RulesPage.xaml.g.cs
 C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame\obj\Release\netstandard2.0\View\Pages\SettingsPage.xaml.g.cs
+C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame\obj\Release\netstandard2.0\View\Pages\Tutorial\TutorialMainPage.xaml.g.cs
+C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame\obj\Release\netstandard2.0\View\Pages\Tutorial\TutorialPopup.xaml.g.cs
 C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame\obj\Release\netstandard2.0\View\Pages\WaitingRoomPage.xaml.g.cs
 C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame\obj\Release\netstandard2.0\View\Pages\WinnersPopup.xaml.g.cs
 C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame\obj\Release\netstandard2.0\View\Styles\Colors.xaml.g.cs
@@ -49,6 +54,3 @@ C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame\obj\Release\net
 C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame\obj\Release\netstandard2.0\BischinoTheGame.dll
 C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame\obj\Release\netstandard2.0\ref\BischinoTheGame.dll
 C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame\obj\Release\netstandard2.0\BischinoTheGame.pdb
-C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame\obj\Release\netstandard2.0\BischinoTheGame.csprojAssemblyReference.cache
-C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame\obj\Release\netstandard2.0\View\Pages\Tutorial\TutorialMainPage.xaml.g.cs
-C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame\obj\Release\netstandard2.0\View\Pages\Tutorial\TutorialPopup.xaml.g.cs

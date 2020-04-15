@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BischinoTheGame.Controller;
 using BischinoTheGame.Model;
 using BischinoTheGame.View.Extensions;
 using BischinoTheGame.ViewModel.PageViewModels.Tutorial;
@@ -10,18 +11,22 @@ using Rooms.Controller;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace BischinoTheGame.View.Pages.Tutorial
+namespace BischinoTheGame.View.Pages.Tutorial 
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class TutorialMainPage : ContentPage
+    public partial class TutorialMainPage : ContentPage, ITutorial
     {
         private TutorialMainViewModel _viewModel;
         private const int FadeTime = 500;
         private bool isStarted;
+
+
+
         private List<Xamarin.Forms.View> Cards { get; set; }
         private List<ImageButton> OrderedCards { get; set; }
         private List<ImageButton> Kings { get; set; }
-        private List<ImageButton> DroppedCards { get; set; }
+
+
 
         public TutorialMainPage()
         {
@@ -29,10 +34,12 @@ namespace BischinoTheGame.View.Pages.Tutorial
         }
         
 
+
         protected override void OnDisappearing()
         {
             MessagingCenter.Send(this, ViewMessagingConstants.Unspecified);
         }
+
 
         protected override async void OnAppearing()
         {
@@ -50,45 +57,24 @@ namespace BischinoTheGame.View.Pages.Tutorial
             Cards = new List<Xamarin.Forms.View> {Card0, Card1, Card2, Card3, Card4};
             OrderedCards = new List<ImageButton> { ACard0, ACard1, ACard2, ACard3, ACard4, ACard5, ACard6, ACard7, ACard8, ACard9};
             Kings = new List<ImageButton> {King0, King1, King2, King3};
-            DroppedCards = new List<ImageButton>{Dropped1, Dropped2};
 
             _viewModel = vm;
-            _viewModel.AutoWriteText += ViewModel_AutoWriteText;
-            _viewModel.FadeText += ViewModel_TextFade;
-            _viewModel.WelcomeCompleted += ViewModel_WelcomeCompleted;
-            _viewModel.FadeOrderedCards += ViewModel_FadeOrderedCards;
-            _viewModel.FadeSeeds += ViewModel_FadeSeeds;
-            _viewModel.ShowFirstPaolo += ViewModel_ShowFirstPaolo;
-            _viewModel.DuplicatePaolo += ViewModel_DuplicatePaolo;
-            _viewModel.MaximumPaolo += ViewModel_MaximumPaolo;
-            _viewModel.MinimumPaolo += ViewModel_MinimumPaolo;
-            _viewModel.PaoloCompleted += ViewModel_PaoloCompleted;
-            _viewModel.FadeLives += ViewModel_FadeLives;
-            _viewModel.DropCards += ViewModel_DropCards;
-            _viewModel.YourTurn += ViewModel_YourTurn;
-            _viewModel.DropTheCard += ViewModel_DropTheCard;
-            _viewModel.AddPoint += ViewModel_AddPoint;
-            _viewModel.Restart += ViewModel_Restart;
-            _viewModel.StrongCardsPopup += ViewModel_StrongCardsPopup;
-            _viewModel.PaoloPopup += ViewMode_PaoloPopup;
-            _viewModel.ShowPrediction += ViewModel_ShowPrediction;
-            _viewModel.ShowOtherPlayersPredictions += ViewModel_ShowOtherPlayersPredictions;
-            _viewModel.PredictionWinComparison += ViewModel_PredictionWinComparison;
-            _viewModel.LooseALife += ViewModel_LoseALife;
-            _viewModel.FadeOtherPlayersPrediction += ViewModel_FadeOtherPlayersPrediction;
-            _viewModel.AnimateSetupRound2 += ViewModel_AnimateRound2;
-            _viewModel.LastRound += ViewModel_LastRound;
 
-            await _viewModel.Start();
+            await _viewModel.Start(this);
         }
 
-        private async Task ViewModel_LastRound()
+
+
+
+
+        public async Task LastRound()
         {
             var fadeTasks = from card in Cards select card.FadeTo(0, FadeTime);
             await Task.WhenAll(fadeTasks);
         }
 
-        private async Task ViewModel_AnimateRound2()
+
+        public async Task AnimateRound2()
         {
             await WinLabel1.ScaleTo(2, FadeTime / 2);
             await WinLabel1.ScaleTo(1, FadeTime / 2);
@@ -101,12 +87,14 @@ namespace BischinoTheGame.View.Pages.Tutorial
             await Task.WhenAll(fadeOnTasks);
         }
 
-        private async Task ViewModel_FadeOtherPlayersPrediction()
+
+        public async Task FadeOtherPlayersPrediction()
         {
             await Task.WhenAll(Player1Bet.ScaleTo(0, FadeTime / 3), Player2Bet.ScaleTo(0, FadeTime / 3));
         }
 
-        private async Task ViewModel_LoseALife()
+
+        public async Task LoseALife()
         {
             _viewModel.Lives = 2;
             await LivesLabel1.ScaleTo(2, FadeTime);
@@ -117,7 +105,8 @@ namespace BischinoTheGame.View.Pages.Tutorial
                 BetLabel1.TranslateTo(0, 0, FadeTime, Easing.BounceOut), BetLabel2.TranslateTo(0, 0, FadeTime, Easing.BounceOut));
         }
 
-        private async Task ViewModel_PredictionWinComparison()
+
+        public async Task PredictionWinComparison()
         {
             var tasks = from card in Cards select card.FadeTo(0, FadeTime);
             await Task.WhenAll(tasks);
@@ -129,7 +118,8 @@ namespace BischinoTheGame.View.Pages.Tutorial
                 BetLabel1.TranslateTo(250, -50, FadeTime / 2, Easing.BounceOut), BetLabel2.TranslateTo(250, -50, FadeTime / 2, Easing.BounceOut));
         }
 
-        private async Task ViewModel_ShowOtherPlayersPredictions()
+
+        public async Task ShowOtherPlayersPredictions()
         {
             await Player1Bet.ScaleTo(1, FadeTime / 3);
 
@@ -141,25 +131,29 @@ namespace BischinoTheGame.View.Pages.Tutorial
             await Task.Delay(1200);
         }
 
-        private async Task ViewModel_ShowPrediction()
+
+        public async Task ShowPrediction()
         {
             await Card4.TranslateTo(0, 0, FadeTime / 3);
             await BetLabel2.ScaleTo(1, FadeTime / 3);
             await BetLabel1.ScaleTo(1, FadeTime / 3);
         }
 
-        private async Task ViewMode_PaoloPopup()
+
+        public async Task PaoloPopup()
         {
             await Task.WhenAll(Card2.TranslateTo(0, 0, FadeTime / 3), Card3.TranslateTo(0, 0, FadeTime / 3));
             await Card4.TranslateTo(0, -50, FadeTime / 3);
         }
 
-        private async Task ViewModel_StrongCardsPopup()
+
+        public async Task StrongCardsPopup()
         {
             await Task.WhenAll(Card2.TranslateTo(0, -50, FadeTime / 3), Card3.TranslateTo(0, -50, FadeTime / 3));
         }
 
-        private async Task ViewModel_Restart()
+
+        public async Task Restart()
         {
             await Task.WhenAll(Card3.ScaleTo(1, FadeTime, Easing.BounceOut), Card3.TranslateTo(0, 0, FadeTime));
             
@@ -168,13 +162,15 @@ namespace BischinoTheGame.View.Pages.Tutorial
             await WinLabel1.ScaleTo(1, FadeTime / 3);
         }
 
-        private async Task ViewModel_AddPoint()
+
+        public async Task AddPoint()
         {
             await WinLabel2.ScaleTo(1, FadeTime / 3);
             await WinLabel1.ScaleTo(1, FadeTime / 3);
         }
 
-        private async Task ViewModel_DropTheCard()
+
+        public async Task DropTheCard()
         {
             await Card3.ScaleTo(0, FadeTime / 3);
             AppController.AudioManager.PlaySound(SoundEffect.Pop);
@@ -183,12 +179,14 @@ namespace BischinoTheGame.View.Pages.Tutorial
             await DroppedStackLayout.FadeTo(0, FadeTime);
         }
 
-        private async Task ViewModel_YourTurn()
+
+        public async Task YourTurn()
         {
             await Card3.TranslateTo(0, -30, 600, Easing.BounceOut);
         }
 
-        private async Task ViewModel_DropCards()
+
+        public async Task DropCards()
         {
             await TutorialLabel.FadeTo(0, FadeTime);
             await Dropped1.ScaleTo(1, FadeTime / 3);
@@ -198,13 +196,15 @@ namespace BischinoTheGame.View.Pages.Tutorial
             AppController.AudioManager.PlaySound(SoundEffect.Pop);
         }
 
-        private async Task ViewModel_FadeLives()
+
+        public async Task FadeLives()
         {
             await LivesLabel2.ScaleTo(1, FadeTime/3);
             await LivesLabel1.ScaleTo(1, FadeTime/3);
         }
 
-        private async Task ViewModel_PaoloCompleted()
+
+        public async Task PaoloCompleted()
         {
             await Task.WhenAll(Paolo2Box.FadeTo(0, FadeTime), Paolo1Box.FadeTo(0, FadeTime));
             Paolo1Box.IsVisible = Paolo2Box.IsVisible = false;
@@ -214,7 +214,8 @@ namespace BischinoTheGame.View.Pages.Tutorial
             await Task.WhenAll(tasks);
         }
 
-        private async Task ViewModel_MinimumPaolo()
+
+        public async Task MinimumPaolo()
         {
             Paolo2Box.Opacity = 0;
             Paolo2Box.IsVisible = true;
@@ -223,7 +224,8 @@ namespace BischinoTheGame.View.Pages.Tutorial
             await Paolo2Box.ScaleTo(1);
         }
 
-        private async Task ViewModel_MaximumPaolo()
+
+        public async Task MaximumPaolo()
         {
             Paolo1Box.Opacity = 0;
             Paolo1Box.IsVisible = true;
@@ -232,19 +234,22 @@ namespace BischinoTheGame.View.Pages.Tutorial
             await Paolo1Box.ScaleTo(1);
         }
 
-        private async Task ViewModel_DuplicatePaolo()
+
+        public async Task DuplicatePaolo()
         {
             var tasks = from card in Cards where card != Card4 select card.FadeTo(0, FadeTime);
             await Task.WhenAll(tasks);
             await Paolo2.TranslateTo(-300, 0, 600, Easing.BounceOut);
         }
 
-        private async Task ViewModel_ShowFirstPaolo()
+
+        public async Task ShowFirstPaolo()
         {
             await Card4.TranslateTo(0, -50, 1000, Easing.BounceOut);
         }
 
-        private async Task ViewModel_FadeSeeds()
+
+        public async Task FadeSeeds()
         {
             await TutorialLabel.FadeTo(0, FadeTime);
 
@@ -264,7 +269,8 @@ namespace BischinoTheGame.View.Pages.Tutorial
                 await card.ScaleTo(0, FadeTime / 3);
         }
 
-        private async Task ViewModel_FadeOrderedCards()
+
+        public async Task FadeOrderedCards()
         {
             OrderedCardsScrollView.IsVisible = OrderedCardsStackLayout.IsVisible = true;
 
@@ -287,7 +293,8 @@ namespace BischinoTheGame.View.Pages.Tutorial
             OrderedCardsStackLayout.IsVisible = false;
         }
 
-        private async Task ViewModel_WelcomeCompleted()
+
+        public async Task WelcomeCompleted()
         {
             await TutorialLabel.FadeTo(0, FadeTime);
             await Card0.FadeTo(1,FadeTime);
@@ -296,15 +303,16 @@ namespace BischinoTheGame.View.Pages.Tutorial
             TutorialLabel.FontSize = 19;
         }
 
-        private async Task ViewModel_TextFade(string text)
+
+        public async Task WriteText(string text)
         {
             await TutorialLabel.FadeTo(0, FadeTime);
             _viewModel.TutorialText = text;
             await TutorialLabel.FadeTo(1, FadeTime);
         }
 
-        private Task ViewModel_AutoWriteText(string text)
-            => this.AutomateText(text, val => _viewModel.TutorialText = val, 60, Easing.CubicIn);
 
+        public Task AutoWriteText(string text)
+            => this.AutomateText(text, val => _viewModel.TutorialText = val, 60, Easing.CubicIn);
     }
 }

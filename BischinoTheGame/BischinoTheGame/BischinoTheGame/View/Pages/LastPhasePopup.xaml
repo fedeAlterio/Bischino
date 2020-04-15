@@ -17,7 +17,7 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" TextColor="White" FontSize="20"
+            <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" TextColor="White" FontSize="20" HorizontalOptions="Center"
                    Text="Other players cards"/>
             <CollectionView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" IsEnabled="{Binding IsPageEnabled}" ItemsSource="{Binding LastPhaseViewModel.Cards}" HorizontalOptions="Center" Footer="">
                 <CollectionView.ItemsLayout>

@@ -4,21 +4,30 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
-             xmlns:controller="clr-namespace:Rooms.Controller;assembly=BischinoTheGame"
+             xmlns:controller="clr-namespace:BischinoTheGame.Controller;assembly=BischinoTheGame"
              mc:Ignorable="d"
              BackgroundColor="transparent"
              x:Class="BischinoTheGame.View.Pages.AudioPopup">
-    <Frame CornerRadius="20" WidthRequest="250" HorizontalOptions="Center" VerticalOptions="Center" HeightRequest="110" BackgroundColor="{StaticResource GoodGray}" >
+    <Frame CornerRadius="20" WidthRequest="250" HorizontalOptions="Center" VerticalOptions="Center" HeightRequest="130" BackgroundColor="{StaticResource GoodGray}" >
         <StackLayout Spacing="10">
+
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                <Label TextColor="White" FontSize="19"
+                       Text="Track "/>
+                
+                <Label TextColor="White" FontSize="19" FontAttributes="Bold"
+                       Text="{Binding TrackNumber, Source={x:Static controller:AppController.AudioManager}}"/>
+            </StackLayout>
+
             <StackLayout HorizontalOptions="Center" VerticalOptions="Center" Orientation="Horizontal">
 
                 <ImageButton BackgroundColor="{StaticResource GoodGray}" HeightRequest="60" CornerRadius="30"
                              Source="back" Command="{Binding PreviousTrackCommand}"/>
                 <Grid Margin="20,0">
-                    <ImageButton IsVisible="{Binding AudioOn, Source={x:Static controller:AppController.AudioManager}, Converter={StaticResource NegationConverter}}" BackgroundColor="{StaticResource GoodGray}" HeightRequest="60" CornerRadius="30"
-                        Source="audio_on" Command="{Binding AudioOnCommand}"/>
                     <ImageButton IsVisible="{Binding AudioOn, Source={x:Static controller:AppController.AudioManager}}" BackgroundColor="{StaticResource GoodGray}" HeightRequest="60" CornerRadius="30"
                         Source="audio_off" Command="{Binding AudioOffCommand}"/>
+                    <ImageButton IsVisible="{Binding AudioOn, Source={x:Static controller:AppController.AudioManager}, Converter={StaticResource NegationConverter}}" BackgroundColor="{StaticResource GoodGray}" HeightRequest="60" CornerRadius="30"
+                        Source="audio_on" Command="{Binding AudioOnCommand}"/>
                 </Grid>
                 <ImageButton BackgroundColor="{StaticResource GoodGray}" HeightRequest="60" CornerRadius="30"
                              Source="forward" Command="{Binding NextTrackCommand}"/>

@@ -2,7 +2,8 @@
 
 using Android.App;
 using Android.Content.PM;
-using Android.Runtime;
+    using Android.Gms.Ads;
+    using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
@@ -11,10 +12,11 @@ using BischinoTheGame.View.Pages;
     using BischinoTheGame.View.Pages.Tutorial;
     using Lottie.Forms.Droid;
 using Xamarin.Forms;
+    using Application = Android.App.Application;
 
-namespace BischinoTheGame.Droid
+    namespace BischinoTheGame.Droid
 {
-    [Activity(Label = "BischinoTheGame", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+    [Activity(Label = "Bischino", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity, Android.Views.View.IOnSystemUiVisibilityChangeListener
     {
         int uiOptions;
@@ -29,10 +31,12 @@ namespace BischinoTheGame.Droid
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
            
+            MobileAds.Initialize(Application.Context, "ca-app-pub-7000661273633463~4636561772");
+
             LoadApplication(new App());
             Initialize();
             AnimationViewRenderer.Init();
-            this.Window.AddFlags(WindowManagerFlags.Fullscreen); // hide the status bar
+            this.Window.AddFlags(WindowManagerFlags.Fullscreen);
 
             uiOptions = (int)Window.DecorView.SystemUiVisibility;
 

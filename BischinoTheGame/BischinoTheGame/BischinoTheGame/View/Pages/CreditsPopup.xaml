@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+             mc:Ignorable="d"
+             x:Class="BischinoTheGame.View.Pages.CreditsPopup">
+    <Frame CornerRadius="10" WidthRequest="240" HeightRequest="210" HorizontalOptions="Center" VerticalOptions="Center" BackgroundColor="{StaticResource GoodGray}" >
+        <ScrollView>
+            <StackLayout HorizontalOptions="Center" Spacing="0" IsEnabled="{Binding IsPageEnabled}">
+                <Label TextColor="Cyan" FontSize="18" HorizontalOptions="Center"
+                       Text="Credits"/>
+
+                <StackLayout Orientation="Horizontal" Spacing="0" Margin="0" HorizontalOptions="Center">
+                    <Label TextColor="White" FontSize="15" HorizontalOptions="Center" Margin="0,15,0,0"
+                           Text="Credits to"/>
+
+                    <Button BackgroundColor="Transparent" Padding="0" Margin="0,1.2,0,0" TextColor="Cyan" WidthRequest="120" VerticalOptions="Center"
+                            Text="freesfx.co.uk" Command="{Binding MusicCreditsCommand}"/>
+                </StackLayout>
+                <Label TextColor="White" FontSize="15" HorizontalOptions="Center" HorizontalTextAlignment="Center"
+                       Text="For the background music and the sound effects played in this game"/>
+
+
+                <StackLayout Orientation="Horizontal" Spacing="0" Margin="0,30,0,0" HorizontalOptions="Center">
+                    <Label TextColor="White" FontSize="15" HorizontalOptions="Center" Margin="0,15,0,0"
+                           Text="Credits to"/>
+
+                    <Button BackgroundColor="Transparent" Padding="0" Margin="0,1.2,0,0" TextColor="Cyan" WidthRequest="120" VerticalOptions="Center"
+                            Text="Jiacheng Wang" Command="{Binding PlayAnimationCommand}"/>
+                </StackLayout>
+                <Label TextColor="White" FontSize="15" HorizontalOptions="Center" HorizontalTextAlignment="Center"
+                       Text="For the play button animation"/>
+
+
+                <StackLayout Orientation="Horizontal" Spacing="0" Margin="0,30,0,0" HorizontalOptions="Center">
+                    <Label TextColor="White" FontSize="15" HorizontalOptions="Center" Margin="0,15,0,0"
+                           Text="Credits to"/>
+
+                    <Button BackgroundColor="Transparent" Padding="0" Margin="0,1.2,0,0" TextColor="Cyan" WidthRequest="120" VerticalOptions="Center"
+                            Text="Emily Zhou" Command="{Binding FireWorksAnimationCommand}"/>
+                </StackLayout>
+                <Label TextColor="White" FontSize="15" HorizontalOptions="Center" HorizontalTextAlignment="Center"
+                       Text="For the fireworks animation"/>
+
+
+                <StackLayout Orientation="Horizontal" Spacing="0" Margin="0,30,0,0" HorizontalOptions="Center">
+                    <Label TextColor="White" FontSize="15" HorizontalOptions="Center" Margin="0,15,0,0"
+                           Text="Credits to"/>
+
+                    <Button BackgroundColor="Transparent" Padding="0" Margin="0,1.2,0,0" TextColor="Cyan" WidthRequest="120" VerticalOptions="Center"
+                            Text="the__creador" Command="{Binding BouncingCoinAnimationCommand}"/>
+                </StackLayout>
+                <Label TextColor="White" FontSize="15" HorizontalOptions="Center" HorizontalTextAlignment="Center"
+                       Text="For the bouncing coin animation"/>
+            </StackLayout>
+        </ScrollView>
+    </Frame>
+</pages:PopupPage>

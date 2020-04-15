@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+             mc:Ignorable="d"
+             x:Class="BischinoTheGame.View.Pages.BetInfoPopup">
+    <Frame CornerRadius="10" Padding="12" HeightRequest="200" WidthRequest="200" HorizontalOptions="Center" VerticalOptions="Center" BackgroundColor="{StaticResource GoodGray}" >
+        <StackLayout Spacing="6">
+            <Image HorizontalOptions="Center" HeightRequest="40"
+                Source="info"/>
+            <Label TextColor="White" FontSize="18" HorizontalOptions="Center" HorizontalTextAlignment="Center"
+                   Text="{Binding InfoQuestion}"/>
+            <Label TextColor="Cyan" FontSize="16" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontAttributes="Italic"
+                   Text="The sum of all players' bets cannot be equals to the number of cards in your hand"/>
+            <Label TextColor="Gray" FontSize="12" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontAttributes="Italic"
+                   Text="(Only for the last player to bet)"/>
+
+        </StackLayout>
+    </Frame>
+</pages:PopupPage>

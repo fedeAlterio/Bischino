@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using BischinoTheGame.Navigation.RoomNavigation;
 using BischinoTheGame.Navigation.TutorialNavigation;
 
-namespace Rooms.Controller.Navigation
+namespace BischinoTheGame.Navigation
 {
     public interface IAppNavigation
     {
         Task DisplayAlert(string title, string message);
-        IRoomNavigation RoomNavigation { get; }
+        IGameNavigation GameNavigation { get; }
         ITutorialNavigation TutorialNavigation { get; }
-        Task PopPopupAsync();
     }
 }
