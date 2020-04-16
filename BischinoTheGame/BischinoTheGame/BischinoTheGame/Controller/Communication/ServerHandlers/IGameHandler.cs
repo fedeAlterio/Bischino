@@ -11,7 +11,6 @@ namespace BischinoTheGame.Controller.Communication.ServerHandlers
 {
     public interface IGameHandler
     {
-        event EventHandler<MatchSnapshot> MatchSnapshotUpdated;
         Task Create(Room room);
         Task<IList<Room>> GetRooms(RoomSearchQuery query);
         Task Join(RoomQuery roomQuery);

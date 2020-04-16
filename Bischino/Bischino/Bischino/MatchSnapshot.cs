@@ -16,5 +16,6 @@ namespace Bischino.Bischino
         public string Host { get; set; }
         public PrivatePlayer PlayerTurn { get; set; }
         public IList<PrivatePlayer> Winners { get; set; }
+        public int Version { get; set; }
     }
 }

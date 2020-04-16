@@ -16,12 +16,14 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         }
 
 
+
         private ObservableCollection<Card> _droppedCards;
         public ObservableCollection<Card> DroppedCards
         {
             get => _droppedCards;
             set => SetProperty(ref _droppedCards, value);
         }
+
 
 
         private ObservableCollection<PrivatePlayer> _otherPlayers;
@@ -32,12 +34,15 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         }
 
 
+
+
         private bool _isMatchEnded;
         public bool IsMatchEnded
         {
             get => _isMatchEnded;
             set => SetProperty(ref _isMatchEnded, value);
         }
+
 
 
         private bool _isEndTurn;
@@ -48,12 +53,14 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         }
 
 
+
         private bool _isPhaseEnded;
         public bool IsPhaseEnded
         {
             get => _isPhaseEnded;
             set => SetProperty(ref _isPhaseEnded, value);
         }
+
 
 
         private PrivatePlayer _playerTurn;
@@ -64,11 +71,21 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         }
 
 
+
         private IList<PrivatePlayer> _winners;
         public IList<PrivatePlayer> Winners
         {
             get => _winners;
             set => SetProperty(ref _winners, value);
+        }
+
+
+
+        private int _version;
+        public int Version
+        {
+            get => _version;
+            set => SetProperty(ref _version, value);
         }
     }
 }

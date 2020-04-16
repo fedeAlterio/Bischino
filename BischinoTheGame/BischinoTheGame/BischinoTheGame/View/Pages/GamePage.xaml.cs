@@ -18,6 +18,7 @@ namespace BischinoTheGame.View.Pages
         private GameViewModel _viewModel;
         private ImageButton _clickedImageButton;
         private bool _isInitialized;
+        private bool _chronoStarted;
 
         public Task<bool> DeletingCardAnimation { get; set; }
 
@@ -35,10 +36,24 @@ namespace BischinoTheGame.View.Pages
             _viewModel.DroppedCardsUpdated += ViewModel_DroppedCardsUpdated;
             _viewModel.YourTurn += ViewModel_YourTurnEventHandler;
             _viewModel.NewMatchSnapshot += ViewModel_NewMatchSnapshot;
+            _viewModel.DropFailed += _viewModel_DropFailed;
+            _viewModel.ChronologyStarted += _viewModel_ChronologyStarted;
+            
             BouncingAnimationView.OnFinish += BouncingAnimationView_OnFinish;
         }
 
+        private void _viewModel_ChronologyStarted(object sender, EventArgs e)
+        {
+            _chronoStarted = true;
+            _viewModel.DropFailed -= _viewModel_DropFailed;
+            _viewModel.YourTurn -= ViewModel_YourTurnEventHandler;
+            _viewModel.NewMatchSnapshot -= ViewModel_NewMatchSnapshot;
+        }
 
+        private async Task _viewModel_DropFailed()
+        {
+            await _clickedImageButton.ScaleTo(1);
+        }
 
         protected override void OnAppearing()
         {
@@ -122,6 +137,9 @@ namespace BischinoTheGame.View.Pages
 
         private void ImageButton_OnClicked(object sender, EventArgs e)
         {
+            if (_chronoStarted)
+                return;
+
             _clickedImageButton = sender as ImageButton; 
             DeletingCardAnimation = _clickedImageButton.ScaleTo(0, 500U, Easing.CubicOut);
         }

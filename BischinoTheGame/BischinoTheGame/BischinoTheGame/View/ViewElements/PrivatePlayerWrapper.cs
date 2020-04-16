@@ -18,6 +18,7 @@ namespace BischinoTheGame.View.ViewElements
         private bool _isBackground;
         private bool _stopped;
         private int _clockTime = 15 * 1000;
+        public bool IsGameEnded { get; set; }
 
         public Color PlayingColor { get; set; } = Color.Transparent; //Color.FromHex("#212121");
         public Color IdledColor { get; set; } = Color.DarkRed;
@@ -32,7 +33,7 @@ namespace BischinoTheGame.View.ViewElements
             private set
             {
                 SetProperty(ref _player, value);
-                if (value != null && value.IsTurn)
+                if (value != null && value.IsTurn && IsGameEnded)
                     OnPlayerTurn();
             }
         }

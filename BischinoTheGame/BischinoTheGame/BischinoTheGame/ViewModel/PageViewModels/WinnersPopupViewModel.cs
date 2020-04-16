@@ -17,6 +17,7 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         }
 
 
+
         private Command _okCommand;
         public Command OkCommand
         {
@@ -25,10 +26,28 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         }
 
 
+
+        private Command _toChronologyCommand;
+        public Command ToChronologyCommand
+        {
+            get => _toChronologyCommand;
+            set => SetProperty(ref _toChronologyCommand, value);
+        }
+
+
+
         public WinnersPopupViewModel(MatchSnapshot matchSnapshot)
         {
             _matchSnapshot = matchSnapshot;
             OkCommand = new Command(_ => Ok());
+            ToChronologyCommand = new Command(_ => StartChronology());
+        }
+
+        private async void StartChronology()
+        {
+            IsPageEnabled = false;
+            await AppController.Navigation.GameNavigation.StartChronology();
+            IsPageEnabled = true;
         }
 
         private async void Ok()

@@ -13,11 +13,9 @@ namespace BischinoTheGame.Controller.Communication.ServerHandlers
 {
     public class GameHandler : ServerHandler, IGameHandler
     {
-        public event EventHandler<MatchSnapshot> MatchSnapshotUpdated;
-
         private static GameHandler _roomHandler;
         public static GameHandler Instance => _roomHandler ??= new GameHandler();
-        protected override string BaseUrl { get; } = "rooms/";
+        protected override string BaseUri { get; } = "rooms/";
         private bool _matchSnapshotLost;
 
         public Task Create(Room room)

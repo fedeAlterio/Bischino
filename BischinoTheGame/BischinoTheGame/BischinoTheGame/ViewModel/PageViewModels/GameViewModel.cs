@@ -21,12 +21,16 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         public event EventHandler PlayerCardsUpdated;
         public event EventHandler YourTurn;
         public event Func<MatchSnapshot, Task> NewMatchSnapshot;
+        public event Func<Task> DropFailed;
+        public event EventHandler ChronologyStarted;
+        
         private readonly Room _room;
         private readonly RoomManager _roomInfo;
         private readonly RoomQuery _roomQuery;
         private IList<string> _disconnectedPlayers = new List<string>();
         private CancellationTokenSource _pollingTokenSource;
         private Task _pollingTask;
+        private bool _isGameEnded;
 
 
         public ObservableCollection<Card> PlayerCards { get; set; } = new ObservableCollection<Card>();
@@ -43,12 +47,25 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         }
 
 
-
+        private readonly IList<MatchSnapshot> _matchChronology = new List<MatchSnapshot>();
         private MatchSnapshot _matchSnapshot;
         public MatchSnapshot MatchSnapshot
         {
             get => _matchSnapshot;
-            set => SetProperty(ref _matchSnapshot, value);
+            set
+            {
+                if (!_isGameEnded)
+                {
+                    _matchChronology.Add(value);
+                    SetProperty(ref _matchSnapshot, value);
+                }
+                else
+                {
+                    SetProperty(ref _matchSnapshot, value);
+                    Notify(nameof(ChronologySnapshotIndex));
+                }
+
+            }
         }
 
 
@@ -95,6 +112,78 @@ namespace BischinoTheGame.ViewModel.PageViewModels
             set => SetProperty(ref _dropCommand, value);
         }
 
+
+
+        private bool _isChronologyStarted;
+        public bool IsChronologyStarted
+        {
+            get => _isChronologyStarted;
+            set => SetProperty(ref _isChronologyStarted, value);
+        }
+
+
+
+        private Command _nextSnapshotCommand;
+        public Command NextSnapshotCommand
+        {
+            get => _nextSnapshotCommand;
+            set => SetProperty(ref _nextSnapshotCommand, value);
+        }
+        private async Task NextSnapshot()
+        {
+            IsPageEnabled = false;
+            var nextSnapshot = _matchChronology.Last() == _matchSnapshot
+                ? _matchChronology.First()
+                : _matchChronology[_matchChronology.IndexOf(_matchSnapshot) + 1];
+            await HandleChronologySnapshot(nextSnapshot);
+            IsPageEnabled = true;
+        }
+
+
+
+        private Command _previousSnapshotCommand;
+        public Command PreviousSnapshotCommand
+        {
+            get => _previousSnapshotCommand;
+            set => SetProperty(ref _previousSnapshotCommand, value);
+        }
+        private async Task PreviousSnapshot()
+        {
+            IsPageEnabled = false;
+            var previousSnapshot = _matchChronology.First() == _matchSnapshot
+                ? _matchChronology.Last()
+                : _matchChronology[_matchChronology.IndexOf(_matchSnapshot) - 1];
+            await HandleChronologySnapshot(previousSnapshot);
+            IsPageEnabled = true;
+        }
+
+
+
+        private Command<string> _goToSnapshotCommand;
+        public Command<string> GoToSnapshotCommand
+        {
+            get => _goToSnapshotCommand;
+            set => SetProperty(ref _goToSnapshotCommand, value);
+        }
+        private async void GoToSnapshot(string indexString)
+        {
+            if(!int.TryParse(indexString, out var index) || index < 0 || index >= _matchChronology.Count)
+                Notify(nameof(ChronologySnapshotIndex));
+            else
+            {
+                _matchSnapshot = _matchChronology[index];
+                Notify(nameof(ChronologySnapshotIndex));
+                await HandleChronologySnapshot(_matchSnapshot);
+                IsPageEnabled = true;
+            }
+        }
+
+
+
+        public int ChronologySnapshotIndex => _matchChronology.IndexOf(_matchSnapshot);
+
+
+
         private async void Drop(Card card)
         {
             IsPageEnabled = false;
@@ -111,10 +200,12 @@ namespace BischinoTheGame.ViewModel.PageViewModels
                 catch (ServerException e)
                 {
                     await AppController.Navigation.DisplayAlert(ErrorTitle, e.Message);
+                    await DropFailed.Invoke();
                 }
                 catch (Exception e)
                 {
-                    await AppController.Navigation.DisplayAlert(ErrorTitle, e.Message);
+                    await AppController.Navigation.DisplayAlert(ErrorTitle, "You can not drop this card, check your internet connection");
+                    await DropFailed.Invoke();
                 }
 
             IsPageEnabled = true;
@@ -166,6 +257,9 @@ namespace BischinoTheGame.ViewModel.PageViewModels
             DropCommand = new Command<Card>(Drop, _ => CanDrop());
             AudioSettingsCommand = new Command(_ => ToAudioSettings());
             ExitCommand = new Command(async _ => await Exit());
+            NextSnapshotCommand = new Command(async _ => await NextSnapshot());
+            PreviousSnapshotCommand = new Command(async _ => await PreviousSnapshot());
+            GoToSnapshotCommand = new Command<string>(GoToSnapshot);
         }
 
 
@@ -187,48 +281,46 @@ namespace BischinoTheGame.ViewModel.PageViewModels
 
         private async Task LongPolling(CancellationToken token)
         {
-            while (!token.IsCancellationRequested)
+            while (!token.IsCancellationRequested && !_isGameEnded)
             {
                 try
                 {
                     var snapshot = await AppController.RoomsHandler.GetMatchSnapshot(_roomQuery, token);
                     if (snapshot != null)
-                        HandleSnapshot(snapshot);
+                        await HandleSnapshot(snapshot);
                 }
                 catch (Exception e)
                 {
-                    await Task.Delay(500, token);
+                    await Task.Delay(500);
                 }
             }
         }
 
 
 
-        private async void HandleSnapshot(MatchSnapshot matchSnapshot)
+        private async Task HandleSnapshot(MatchSnapshot matchSnapshot)
         {
+            if (MatchSnapshot != null && matchSnapshot.Version <= MatchSnapshot.Version)
+                return;
+
             MatchSnapshot = matchSnapshot;
 
             await HandleDisconnectedPlayers();
+            await NewMatchSnapshot.Invoke(_matchSnapshot);
             await UpdateDroppedCards();
-            
-            if (matchSnapshot.Winners is { })
-            {
-                await OnWinnersPhase();
-                return;
-            }
-            
-            if (NewMatchSnapshot != null)
-                await NewMatchSnapshot.Invoke(_matchSnapshot);
-
             UpdatePrivatePlayers();
             UpdatePlayerCards();
-
-      
 
             IsBetPhase = matchSnapshot.Player.BetViewModel is { };
             IsDropPhase = matchSnapshot.Player.DropCardViewModel is { };
             IsLastPhase = matchSnapshot.Player.LastPhaseViewModel is { };
             DropCommand.ChangeCanExecute();
+
+            if (matchSnapshot.Winners is { })
+            {
+                await OnWinnersPhase();
+                return;
+            }
 
             HandleTurn(matchSnapshot.PlayerTurn);
             if (matchSnapshot.PlayerTurn.Name == Player.Name)
@@ -240,15 +332,23 @@ namespace BischinoTheGame.ViewModel.PageViewModels
 
 
 
+        public void StartChronology()
+        {
+            IsChronologyStarted = true;
+            ChronologyStarted?.Invoke(this, EventArgs.Empty);
+        }
+
+
+
         private async void ToLastPhase()
         {
             IsPageEnabled = false;
             await AppController.Navigation.GameNavigation.ToLastPhase(_room.Name, Player.Name,
-                MatchSnapshot.Player.LastPhaseViewModel);
+            MatchSnapshot.Player.LastPhaseViewModel);
             IsPageEnabled = true;
         }
 
-
+    
         private async void ToBetPhase()
         {
             IsPageEnabled = false;
@@ -278,9 +378,6 @@ namespace BischinoTheGame.ViewModel.PageViewModels
 
         private async Task UpdateDroppedCards()
         {
-            if (_matchSnapshot.DroppedCards.Count == DroppedCards.Count)
-                return;
-
             if (!_matchSnapshot.DroppedCards.Any())
                 await FadeDroppedCards();
 
@@ -321,14 +418,16 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         private async Task OnEndPhase()
         {
             await Task.Delay(3000);
-            const int attempts = 3;
+            const int attempts = 20;
             for(int i=0; i < attempts; i++)
                 if (await TryNotifyEndPhase())
                     return;
                 else
                     await Task.Delay(1000);
+
             await AppController.Navigation.DisplayAlert(ErrorTitle, "An error occurred, going back to room list");
-            await Exit();
+            _pollingTokenSource.Cancel();
+            await AppController.Navigation.GameNavigation.BackToRoomList(true);
         }
 
 
@@ -349,21 +448,21 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         private async Task OnEndTurn()
         {
             await Task.Delay(3000);
-            const int attempts = 3;
+            const int attempts = 20;
             for (int i = 0; i < attempts; i++)
                 if (await TryNotifyEndTurn())
                     return;
                 else
                     await Task.Delay(1000);
             await AppController.Navigation.DisplayAlert(ErrorTitle, "An error occurred, going back to room list");
-            await Exit();
+            _isGameEnded = true;
         }
 
 
 
         private void UpdatePrivatePlayers()
         {
-            var players = from player in _matchSnapshot.OtherPlayers select new PrivatePlayerWrapper(player, (uint)_roomInfo.InGameTimeout);
+            var players = from player in _matchSnapshot.OtherPlayers select new PrivatePlayerWrapper(player, (uint)_roomInfo.InGameTimeout){IsGameEnded = _isGameEnded};
             PrivatePlayers.Clear();
             foreach (var p in players)
                 PrivatePlayers.Add(p);
@@ -388,13 +487,14 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         {
             IsPageEnabled = false;
 
-            await StopPolling();
             foreach (var player in PrivatePlayers)
                 player.StopClock();
 
             await Task.Delay(3000);
             AppController.AudioManager.PlaySound(SoundEffect.Win);
             await AppController.Navigation.GameNavigation.ToWinnersPopup(MatchSnapshot);
+            
+            _isGameEnded = true;
             IsPageEnabled = true;
         }
 
@@ -407,7 +507,16 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         }
 
 
-        public async void OnDisappearing()
+        private async Task HandleChronologySnapshot (MatchSnapshot snapshot)
+        {
+            MatchSnapshot = snapshot;
+            await UpdateDroppedCards();
+            UpdatePrivatePlayers();
+            UpdatePlayerCards();
+        }
+
+
+        public void OnDisappearing()
         {
             foreach (var p in PrivatePlayers)
                 p.OnDisappearing();
@@ -420,5 +529,6 @@ namespace BischinoTheGame.ViewModel.PageViewModels
             foreach (var p in PrivatePlayers)
                 p.OnAppearing();
         }
+
     }
 }

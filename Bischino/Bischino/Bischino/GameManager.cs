@@ -22,6 +22,8 @@ namespace Bischino.Bischino
         public Player PhaseStarter { get; set; }
         public Player TurnStarter { get; set; }
         public IList<Player> Winners { get; set; }
+        public int Version { get; private set; } = 0;
+
 
 
         private Player _currentPlayer;
@@ -66,7 +68,7 @@ namespace Bischino.Bischino
                 player.DroppedCardEvent += Player_DroppedCardEvent;
                 player.HasLostEvent += Player_HasLostEvent;
                 player.PlayerWinEvent += Player_PlayerWinEvent;
-                    _players.Add(player);
+                _players.Add(player);
             }
         }
 
@@ -105,6 +107,7 @@ namespace Bischino.Bischino
                 CurrentPlayer.StartDropPhase();
             else 
                 CurrentPlayer.StartBetPhase();
+            Version++;
         }
 
 
@@ -119,12 +122,14 @@ namespace Bischino.Bischino
                     EndPhase();
             else 
                 CurrentPlayer.StartDropPhase();
+            Version++;
         }
 
         private void EndPhase()
         {
             PhaseEndedEvent?.Invoke(this, EventArgs.Empty);
             PhaseEnded = true;
+            Version++;
         }
 
 
@@ -135,6 +140,7 @@ namespace Bischino.Bischino
             RemovePlayers();
             SetupNextTurn();
             NewTurn();
+            Version++;
         }
 
         private void RemovePlayers()
@@ -166,6 +172,7 @@ namespace Bischino.Bischino
 
             RemovePlayers();
             SetupNextTurn();
+            Version++;
         }
 
 
@@ -176,6 +183,7 @@ namespace Bischino.Bischino
             var winners = winnersEnum.ToList();
             Winners = winners;
             EndOfMatch?.Invoke(this, winners);
+            Version++;
         }
 
 
@@ -184,6 +192,7 @@ namespace Bischino.Bischino
             _droppedCards = new List<Card>();
             PhaseEnded = false;
             CurrentPlayer.StartDropPhase();
+            Version++;
         }
 
         public void NewTurn()
@@ -197,6 +206,7 @@ namespace Bischino.Bischino
             _bets = new List<int>();
             TurnStartedEvent?.Invoke(this, EventArgs.Empty);
             CurrentPlayer.StartBetPhase();
+            Version++;
         }
 
         public IList<Card> GetOtherPlayersCards(Player player)
@@ -232,6 +242,7 @@ namespace Bischino.Bischino
                 IsPhaseEnded = PhaseEnded,
                 PlayerTurn = PrivatePlayer.FromPlayer(CurrentPlayer),
                 Winners = winners,
+                Version = Version
             };
             return ret;
         }

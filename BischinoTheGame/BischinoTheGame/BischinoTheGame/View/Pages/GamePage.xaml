@@ -162,6 +162,29 @@
                    Text="Your Turn!"/>
         </Grid>
 
+
+        <Grid IsVisible="{Binding IsChronologyStarted}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" HorizontalOptions="Center" VerticalOptions="End" ColumnSpacing="20" RowSpacing="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <ImageButton Grid.Row="0" Grid.Column="0" HorizontalOptions="Center" VerticalOptions="Center" BackgroundColor="Brown" Padding="4" HeightRequest="40" CornerRadius="40" 
+                    Source="back_arrow" Command="{Binding PreviousSnapshotCommand}"/>
+
+            <ImageButton Grid.Row="0" Grid.Column="2" HorizontalOptions="Center" VerticalOptions="Center" BackgroundColor="Brown" Padding="4" HeightRequest="40" CornerRadius="40" 
+                         Source="next_arrow" Command="{Binding NextSnapshotCommand}"/>
+
+            <Entry x:Name="SnapshotIndexEntry" Grid.Row="0" Grid.Column="1" HorizontalOptions="Center" WidthRequest="50" HorizontalTextAlignment="Center" BackgroundColor="Transparent" VerticalOptions="Center" TextColor="White" FontAttributes="Bold" FontSize="25"
+                   Keyboard="Numeric"
+                   Text="{Binding ChronologySnapshotIndex}" ReturnCommand="{Binding GoToSnapshotCommand}" ReturnCommandParameter="{Binding Text, Source={x:Reference SnapshotIndexEntry}}"/>
+
+        </Grid>
+
         <Button Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" HorizontalOptions="End" VerticalOptions="Start" WidthRequest="50" Margin="0,0,0,0" BackgroundColor="{StaticResource GoodGray}" TextColor="White" CornerRadius="30"
                 Text="X" Command="{Binding ExitCommand}"/>
     </Grid>

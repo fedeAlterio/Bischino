@@ -32,5 +32,6 @@ namespace BischinoTheGame.Navigation.RoomNavigation
         Task LaunchTutorial();
         Task ToBetInfoPopup(int missingNumber);
         Task ToCredits();
+        Task StartChronology();
     }
 }

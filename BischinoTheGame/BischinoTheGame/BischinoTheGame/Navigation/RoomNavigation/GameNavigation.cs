@@ -224,6 +224,13 @@ namespace BischinoTheGame.Navigation.RoomNavigation
 
 
 
+        public async Task StartChronology()
+        {
+            _gameViewModel.StartChronology();
+            await PopAllPopups();
+        }
+
+
         private async Task PushCorePage()
         {
             AppController.Settings.DeckChanged += (_, __) => _deckChanged = true;
