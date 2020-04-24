@@ -87,7 +87,7 @@
                         </CollectionView.ItemTemplate>
 
                         <CollectionView.Footer>
-                            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Spacing="15">
+                            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Spacing="15" IsVisible="{Binding IsHost}">
                                 <Image BackgroundColor="Transparent" HeightRequest="45" WidthRequest="45" Margin="20,0,0,0"
                                              Source="bot"/>
 

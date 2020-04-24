@@ -191,19 +191,22 @@ namespace Bischino.Bischino
 
 
 
-        private void ValidateAddBot(RoomManager roomManager)
+        private void ValidateAddBot(RoomManager roomManager, string playerName)
         {
             if (roomManager.IsRoomFull())
                 throw new ValidationException("The room is full");
 
             if (roomManager.IsGameStarted)
                 ThrowValidationEx("The game is already started");
+
+            if(roomManager.Room.Host != playerName)
+                ThrowValidationEx("Only the host can add a bot");
         }
 
         public void AddBot(RoomQuery roomQuery)
         {
             var roomManager = _roomsCollection.Get(roomQuery.RoomName);
-            ValidateAddBot(roomManager);
+            ValidateAddBot(roomManager, roomQuery.PlayerName);
 
             roomManager.AddBot();
         }
@@ -211,19 +214,22 @@ namespace Bischino.Bischino
 
 
 
-        public void ValidateRemoveABot(RoomManager roomManager)
+        public void ValidateRemoveABot(RoomManager roomManager, string playerName)
         {
             if (roomManager.Room.BotCounter == 0)
                 throw new ValidationException("There are no bot in this room");
 
             if (roomManager.IsGameStarted)
                 ThrowValidationEx("The game is already started");
+
+            if (roomManager.Room.Host != playerName)
+                ThrowValidationEx("Only the host can add a bot");
         }
 
         public void RemoveABot(RoomQuery roomQuery)
         {
             var roomManager = _roomsCollection.Get(roomQuery.RoomName);
-            ValidateRemoveABot(roomManager);
+            ValidateRemoveABot(roomManager, roomQuery.PlayerName);
 
             roomManager.RemoveABot();
         }
