@@ -13,7 +13,7 @@ namespace BischinoTheGame.Controller
 {
     public static class AppController
     {
-        public static IGameHandler RoomsHandler => GameHandler.Instance;
+        public static IGameHandler GameHandler => Communication.ServerHandlers.GameHandler.Instance;
         public static IAppNavigation Navigation { get; private set; }
         public static AudioManager AudioManager { get; private set; }
         public static SettingsManager Settings { get; private set; }

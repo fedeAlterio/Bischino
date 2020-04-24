@@ -7,6 +7,7 @@ using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using Bischino.Bischino;
+using Bischino.Controllers.Exeptions;
 using Bischino.Controllers.Extensions;
 using Bischino.Helpers;
 using Bischino.Model;
@@ -17,10 +18,10 @@ namespace Bischino.Controllers
     public class RoomManager
     {
         public event EventHandler<RoomQuery> WaitingRoomDisconnectedPlayer;
-        public event EventHandler RoomClosed;
+        public event EventHandler MatchEnded;
 
         public int InGameTimeout { get; set; } = 50 * 1000; //ms
-        private const int WaitingRoomTimeout = 10 * 1000; //ms
+        private const int WaitingRoomTimeout = 17 * 1000; //ms
         private const int WinPhaseTimeout = 40 * 1000;
 
         public string RoomName => Room.Name;
@@ -47,8 +48,21 @@ namespace Bischino.Controllers
 
 
 
+
+        public bool IsRoomFull()
+        {
+            var totPlayers = Room.PendingPlayers.Count;
+            if(totPlayers > Room.MaxPlayers)
+                throw new Exception("Too many players in this room");
+
+            return totPlayers == Room.MaxPlayers;
+        }
+
         public void NotifyToBePinged(string playerName, bool resetPing = true)
         {
+            if (_pendingPlayersTimerDictionary is null)
+                return;
+
             if(_pendingPlayersTimerDictionary.TryGetValue(playerName, out var timer))
             {
                 if (resetPing)
@@ -63,14 +77,14 @@ namespace Bischino.Controllers
                 timer.Elapsed += (sender, _) =>
                 {
                     (sender as Timer).Stop();
-                    Timer_TimeoutEvent(playerName);
+                    OnWaitingRoomTimeout(playerName);
                 };
                 if(_pendingPlayersTimerDictionary.TryAdd(playerName, timer))
                     timer.Start();
             }
         }
 
-        private void Timer_TimeoutEvent(string playerName)
+        private void OnWaitingRoomTimeout(string playerName)
         {
             WaitingRoomDisconnectedPlayer?.Invoke(this, new RoomQuery { PlayerName = playerName, RoomName = RoomName });
         }
@@ -86,7 +100,7 @@ namespace Bischino.Controllers
         public void NotifyDisconnected(string playerName)
         {
             _pendingPlayersTimerDictionary[playerName].Stop();
-            Timer_TimeoutEvent(playerName);
+            OnWaitingRoomTimeout(playerName);
         }
 
 
@@ -103,7 +117,8 @@ namespace Bischino.Controllers
                 var snapshot = GameManager.GetSnapshot(playerName);
                 snapshotWrapper.NotifyNew(snapshot);
                 _inGameTimer?.Stop();
-                _inGameTimer?.Start();
+                if(!GameManager.GameEnded)
+                    _inGameTimer?.Start();
             }
         }
 
@@ -119,8 +134,8 @@ namespace Bischino.Controllers
             StopWaitingRoomTimers();
             IsGameStarted = true;
             StartTime = DateTime.Now;
-            GameManager = new GameManager(roomName, roomPendingPlayers);
-            GameManager.CurrentPlayerChanged += GameManager_CurrentPlayerChangedEvent;
+            GameManager = new GameManager(roomName, roomPendingPlayers, Room.BotCounter ?? 0);
+            GameManager.CurrentPlayerChanged += OnCurrentPlayerChanged;
             GameManager.EndOfMatch += GameManager_EndOfMatch;
             GameManager.StartGame();
         }
@@ -129,28 +144,36 @@ namespace Bischino.Controllers
         {
             _inGameTimer?.Stop();
             await Task.Delay(WinPhaseTimeout);
-            RoomClosed?.Invoke(this, EventArgs.Empty);
+            MatchEnded?.Invoke(this, EventArgs.Empty);
         }
 
-        private void GameManager_CurrentPlayerChangedEvent(object sender, Player player)
+        private void OnCurrentPlayerChanged(object sender, Player player)
         {
             if (_currentPlayer == player)
                 return;
             _currentPlayer = player;
             _inGameTimer?.Stop();
             _inGameTimer = new TimeoutTimer<Player>(InGameTimeout, player);
-            _inGameTimer.TimeoutEvent += _inGameTimer_TimeoutEvent;
+            _inGameTimer.TimeoutEvent += OnInGameTimeout;
             _inGameTimer.Start();
         }
 
-        private void _inGameTimer_TimeoutEvent(object sender, Player player)
+        private void OnInGameTimeout(object sender, Player player)
         {
-            //NotifyAll(player.Name);
             _inGameTimer?.Stop();
             player.IsIdled = true;
             GameManager.NotifyIdled(player.Name);
             NotifyAll();
-            //RoomClosed?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void AddBot()
+        {
+            Room.AddBot();
+        }
+
+        public void RemoveABot()
+        {
+            Room.RemoveBot();
         }
     }
 }

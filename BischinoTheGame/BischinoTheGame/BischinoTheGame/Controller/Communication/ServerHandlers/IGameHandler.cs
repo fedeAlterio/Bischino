@@ -11,10 +11,11 @@ namespace BischinoTheGame.Controller.Communication.ServerHandlers
 {
     public interface IGameHandler
     {
-        Task Create(Room room);
+        Task<Room> Create(Room room);
         Task<IList<Room>> GetRooms(RoomSearchQuery query);
         Task Join(RoomQuery roomQuery);
-        Task<IList<string>> GetJoinedPLayers(RoomQuery roomQuery);
+        Task<Room> JoinPrivate(RoomQuery roomQuery);
+        Task<WaitingRoomInfo> GetWaitingRoomInfo(RoomQuery roomQuery);
         Task<bool> IsMatchStarted(string roomName);
         Task Start(string roomName);
         Task<MatchSnapshot> GetMatchSnapshot(RoomQuery roomQuery, CancellationToken token);
@@ -25,5 +26,9 @@ namespace BischinoTheGame.Controller.Communication.ServerHandlers
         Task DropPaolo(RoomQuery<bool> paoloQuery);
         Task UnJoin(RoomQuery roomQuery);
         Task<RoomManager> GetGameInfo(RoomQuery roomQuery);
+        Task<int> GetCurrentSnapshotNumber(RoomQuery roomQuery, CancellationToken token);
+        Task<MatchSnapshot> GetMatchSnapshotForced(RoomQuery roomQuery, CancellationToken token);
+        Task AddBot(RoomQuery roomQuery);
+        Task RemoveABot(RoomQuery roomQuery);
     }
 }

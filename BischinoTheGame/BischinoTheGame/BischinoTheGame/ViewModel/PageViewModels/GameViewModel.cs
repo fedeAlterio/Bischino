@@ -194,7 +194,7 @@ namespace BischinoTheGame.ViewModel.PageViewModels
                 try
                 {
                     var query = new RoomQuery<string> { PlayerName = Player.Name, RoomName = _room.Name, Data = card.Name };
-                    await AppController.RoomsHandler.DropCard(query);
+                    await AppController.GameHandler.DropCard(query);
                     IsDropPhase = false;
                 }
                 catch (ServerException e)
@@ -285,22 +285,62 @@ namespace BischinoTheGame.ViewModel.PageViewModels
             {
                 try
                 {
-                    var snapshot = await AppController.RoomsHandler.GetMatchSnapshot(_roomQuery, token);
+                    var snapshot = await AppController.GameHandler.GetMatchSnapshot(_roomQuery, token);
                     if (snapshot != null)
                         await HandleSnapshot(snapshot);
                 }
-                catch (Exception e)
+                catch (Exception)
+                {
+                    try
+                    {
+                        await UpdateToLastSnapshot(token);
+                    }
+                    catch (Exception) when (token.IsCancellationRequested)
+                    {
+                        await Task.Delay(500);
+                    }
+                }
+            }
+        }
+
+        private async Task UpdateToLastSnapshot(CancellationToken token)
+        {
+            var snapshotUpdated = false;
+            var versionNumber = await GetVersionNumber(token);
+            if (MatchSnapshot != null && versionNumber <= MatchSnapshot.Version)
+                return;
+
+            while (!snapshotUpdated)
+                try
+                {
+                    var snapshot = await AppController.GameHandler.GetMatchSnapshotForced(_roomQuery, token);
+                    await HandleSnapshot(snapshot);
+                    snapshotUpdated = true;
+                }
+                catch (Exception) when (!token.IsCancellationRequested)
                 {
                     await Task.Delay(500);
                 }
-            }
+        }
+
+        private async Task<int> GetVersionNumber(CancellationToken token)
+        {
+            while(true)
+                try
+                {
+                    return await AppController.GameHandler.GetCurrentSnapshotNumber(_roomQuery, token);
+                }
+                catch (Exception) when (!token.IsCancellationRequested)
+                {
+                    await Task.Delay(500);
+                }
         }
 
 
 
         private async Task HandleSnapshot(MatchSnapshot matchSnapshot)
         {
-            if (MatchSnapshot != null && matchSnapshot.Version <= MatchSnapshot.Version)
+            if (matchSnapshot is null || MatchSnapshot != null && matchSnapshot.Version <= MatchSnapshot.Version)
                 return;
 
             MatchSnapshot = matchSnapshot;
@@ -325,9 +365,9 @@ namespace BischinoTheGame.ViewModel.PageViewModels
             HandleTurn(matchSnapshot.PlayerTurn);
             if (matchSnapshot.PlayerTurn.Name == Player.Name)
                 if (matchSnapshot.IsEndTurn)
-                    await OnEndTurn();
+                    ;//await OnEndTurn();
                 else if (matchSnapshot.IsPhaseEnded)
-                    await OnEndPhase();
+                    ;//await OnEndPhase();
         }
 
 
@@ -407,7 +447,7 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         {
             try
             {
-                await AppController.RoomsHandler.NextPhase(_roomQuery);
+                await AppController.GameHandler.NextPhase(_roomQuery);
                 return true;
             }
             catch
@@ -436,7 +476,7 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         {
             try
             {
-                await AppController.RoomsHandler.NextTurn(_roomQuery);
+                await AppController.GameHandler.NextTurn(_roomQuery);
                 return true;
             }
             catch
@@ -529,6 +569,5 @@ namespace BischinoTheGame.ViewModel.PageViewModels
             foreach (var p in PrivatePlayers)
                 p.OnAppearing();
         }
-
     }
 }

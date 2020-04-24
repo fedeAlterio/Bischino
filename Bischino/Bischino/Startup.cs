@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Bischino.Base.Security;
 using Bischino.Base.Service;
+using Bischino.Bischino;
 using Bischino.Controllers;
 using Bischino.Settings;
 
@@ -47,6 +48,10 @@ namespace Bischino
             AddAuthService(services, jwtSettings);
             DBServiceFactory = new CollectionServiceFactory(dbSettings);
             DBServiceFactory.AddDBServices(services);
+
+
+            var gameHandler = new GameHandler();
+            services.AddSingleton<IGameHandler>(gameHandler);
         }
 
         private void AddAuthService(IServiceCollection services, JwtSettings jwtSettings)
@@ -70,6 +75,7 @@ namespace Bischino
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseDefaultFiles();
             app.UseAuthentication();
             app.UseMvc(routes =>
             {

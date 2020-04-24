@@ -33,7 +33,7 @@ namespace BischinoTheGame.View.ViewElements
             private set
             {
                 SetProperty(ref _player, value);
-                if (value != null && value.IsTurn && IsGameEnded)
+                if (value != null && value.IsTurn && !IsGameEnded)
                     OnPlayerTurn();
             }
         }

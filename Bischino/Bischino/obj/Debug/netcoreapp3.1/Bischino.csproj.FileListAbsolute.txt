@@ -210,3 +210,6 @@ C:\repo\Bischino\Bischino\Bischino\obj\Debug\netcoreapp3.1\Bischino.csproj.CopyC
 C:\repo\Bischino\Bischino\Bischino\obj\Debug\netcoreapp3.1\Bischino.dll
 C:\repo\Bischino\Bischino\Bischino\obj\Debug\netcoreapp3.1\Bischino.pdb
 C:\repo\Bischino\Bischino\Bischino\obj\Debug\netcoreapp3.1\Bischino.csprojAssemblyReference.cache
+C:\repo\Bischino\Bischino\Bischino\bin\Debug\netcoreapp3.1\app.yaml
+C:\repo\Bischino\Bischino\Bischino\obj\Debug\netcoreapp3.1\Bischino.csproj.CoreCompileInputs.cache
+C:\repo\Bischino\Bischino\Bischino\obj\Debug\netcoreapp3.1\Bischino.genruntimeconfig.cache

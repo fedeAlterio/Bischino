@@ -16,7 +16,7 @@ namespace Bischino.Bischino
         public event EventHandler PlayerWinEvent;
 
         private const int FirstTurnCardCount = 5;
-        private readonly GameManager _gameManager;
+        protected readonly GameManager GameManager;
         private IList<int> _possibleBets;
 
         public string Name { get; }
@@ -28,22 +28,25 @@ namespace Bischino.Bischino
         public DropCardViewModel DropCardViewModel { get; private set; }
         public BetViewModel BetViewModel { get; private set; }
         public LastPhaseViewModel LastPhaseViewModel { get; set; }
-
         public bool IsIdled { get; set; }
+
 
         private List<Card> _cards;
         public IReadOnlyList<Card> Cards => _cards;
 
 
+
         public Player(GameManager gameManager, string name)
         {
-            _gameManager = gameManager;
+            GameManager = gameManager;
             Name = name;
             gameManager.GameStartedEvent += StartGame;
             gameManager.TurnEndedEvent += EndTurn;
             gameManager.PhaseEndedEvent += EndPhase;
             gameManager.TurnStartedEvent += NewTurn;
         }
+
+
 
         private void NewTurn(object sender, EventArgs e)
         {
@@ -54,12 +57,14 @@ namespace Bischino.Bischino
             BetViewModel = null;
             LastPhaseViewModel = null;
             StartCardsCount = StartCardsCount == 1 ? 5 : StartCardsCount - 1;
-            _cards = new List<Card>(_gameManager.Deck.Draw(StartCardsCount, Name));
+            _cards = new List<Card>(GameManager.Deck.Draw(StartCardsCount, Name));
         }
+
+
 
         private void EndPhase(object sender, EventArgs e)
         {
-            var hasWin = _gameManager.DroppedCards.All(card => card.Value <= Dropped.Value);
+            var hasWin = GameManager.DroppedCards.All(card => card.Value <= Dropped.Value);
             if (hasWin)
             {
                 PhaseWin++;
@@ -67,6 +72,8 @@ namespace Bischino.Bischino
             }
             Dropped = null;
         }
+
+
 
         private void EndTurn(object sender, EventArgs e)
         {
@@ -80,6 +87,8 @@ namespace Bischino.Bischino
             }
         }
 
+
+
         private void StartGame(object sender, EventArgs e)
         {
             WinBet = null;
@@ -89,28 +98,32 @@ namespace Bischino.Bischino
             Dropped = null;
             DropCardViewModel = null;
             BetViewModel = null;
-            _cards = new List<Card>(_gameManager.Deck.Draw(StartCardsCount, Name));
+            _cards = new List<Card>(GameManager.Deck.Draw(StartCardsCount, Name));
             _possibleBets = null;
         }
 
 
-        public void StartBetPhase()
+
+        public virtual void StartBetPhase()
         {
+
             _possibleBets = CalculatePossibleBets();
             if (Cards.Count == 1)
             {
-                var cards = _gameManager.GetOtherPlayersCards(this);
+                var cards = GameManager.GetOtherPlayersCards(this);
                 LastPhaseViewModel = new LastPhaseViewModel {Cards = cards, CanBetLose = _possibleBets.Contains(0), CanBetWin = _possibleBets.Contains(1)};
             }
             else
                 BetViewModel = new BetViewModel {PossibleBets = _possibleBets};
         }
 
+
+
         private IList<int> CalculatePossibleBets()
         {
-            var currentBets = _gameManager.Bets;
+            var currentBets = GameManager.Bets;
             var sum = currentBets.Sum();
-            var isLastPlayer = currentBets.Count == _gameManager.PlayingPlayers.Count - 1;
+            var isLastPlayer = currentBets.Count == GameManager.PlayingPlayers.Count - 1;
             var ret = new List<int>();
             for(var i=0; i < Cards.Count + 1; i++)
                 if(!isLastPlayer || i + sum != Cards.Count)
@@ -119,11 +132,12 @@ namespace Bischino.Bischino
         }
 
 
+
         public void NewBet(int bet)
         {
             if (_possibleBets is null || !_possibleBets.Contains(bet))
                 throw new Exception("Impossible bet");
-            if (_gameManager.CurrentPlayer != this)
+            if (GameManager.CurrentPlayer != this)
                 throw new Exception("Wrong turn");
 
             WinBet = bet;
@@ -135,10 +149,11 @@ namespace Bischino.Bischino
 
 
 
-        public void StartDropPhase()
+        public virtual void StartDropPhase()
         {
             DropCardViewModel = new DropCardViewModel {Cards = _cards};
         }
+
 
 
         public void DropCard(string cardName)
@@ -150,7 +165,7 @@ namespace Bischino.Bischino
                 error = Cards.Aggregate(error, (current, c) => current + c.Name);
                 throw new ValidationException(error);
             }
-            if (_gameManager.CurrentPlayer != this)
+            if (GameManager.CurrentPlayer != this)
                 throw new ValidationException("Wrong turn");
 
             DropCardViewModel = null;
@@ -158,6 +173,7 @@ namespace Bischino.Bischino
             Dropped = card;
             DroppedCardEvent?.Invoke(this, card);
         }
+
 
 
         public void DropPaolo(bool isMax)
@@ -190,13 +206,16 @@ namespace Bischino.Bischino
             HasLostEvent?.Invoke(this, EventArgs.Empty);
         }
 
+
+
         private void UnsubscribeFromEvents()
         {
-            _gameManager.GameStartedEvent -= StartGame;
-            _gameManager.TurnEndedEvent -= EndTurn;
-            _gameManager.PhaseEndedEvent -= EndPhase;
-            _gameManager.TurnStartedEvent -= NewTurn;
+            GameManager.GameStartedEvent -= StartGame;
+            GameManager.TurnEndedEvent -= EndTurn;
+            GameManager.PhaseEndedEvent -= EndPhase;
+            GameManager.TurnStartedEvent -= NewTurn;
         }
+
 
 
         public void NotifyIdled()
@@ -212,7 +231,9 @@ namespace Bischino.Bischino
             NotifyLost();
         }
 
+
+
         public bool HasLost => IsIdled || TotLost >= 3;
-        public bool IsTurn => _gameManager.CurrentPlayer == this;
+        public bool IsTurn => GameManager.CurrentPlayer == this;
     }
 }

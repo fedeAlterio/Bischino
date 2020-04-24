@@ -13,467 +13,203 @@ using Bischino.Base.Service;
 using Bischino.Bischino;
 using Bischino.Controllers.Extensions;
 using Bischino.Controllers.Queries;
+using Bischino.Controllers.Responses;
 using Bischino.Model;
 using Bischino.Test;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ActionConstraints;
 using MongoDB.Driver;
 
 namespace Bischino.Controllers
 {
-    public class RoomsController : ModelController<Room>
+    public class RoomsController : ControllerBase
     {
-        private static readonly RoomsCollection RoomsCollection = new RoomsCollection();
-        
-        public RoomsController(IOwnedModelCollectionService<Room> collectionService) : base(collectionService)
+        private readonly IGameHandler _gameHandler;
+
+        public RoomsController(IGameHandler gameHandler)
         {
-            var index = Builders<Room>.IndexKeys.Ascending(room => room.CreationDate);
-            var options = new CreateIndexOptions { ExpireAfter = TimeSpan.FromHours(1) };
-            var createIndexModel = new CreateIndexModel<Room>(index, options);
-            MongoService.MongoCollection.Indexes.CreateOne(createIndexModel);
+            _gameHandler = gameHandler;
         }
 
 
 
-
-        private void ValidateCreate(Room room)
-        {
-            if (room.MinPlayers > room.MaxPlayers)
-                ThrowValidationEx("Max should be a value greater or equal to Min");
-           
-            if (room.Name.Any(char.IsWhiteSpace))
-               ThrowValidationEx("Please insert a valid room name");
-            
-        }
 
         [ValidateModel]
         public IActionResult Create([FromBody] Room room)
+            => TryValuedOk(() => _gameHandler.Create(room));
+
+
+
+        public IActionResult GetRooms([FromBody] RoomSearchQuery query) => TryValuedOk(() =>
         {
-            try
-            {
-                ValidateCreate(room);
-
-                room.PendingPlayers = new List<string>();
-                room.IsMatchStarted = false;
-                room.IsFull = false;
-                room.CreationDate = DateTime.Now;
-                var rm = new RoomManager(room);
-                rm.WaitingRoomDisconnectedPlayer += RoomManager_WaitingRoomDisconnectedPlayer;
-                rm.RoomClosed += RoomManager_RoomClosed;
-
-                RoomsCollection.Add(rm);
-                return Ok();
-            }
-            catch (ValidationException e)
-            {
-                return BadRequest(new ValuedResponse {Message = e.Message});
-            }
-            catch
-            {
-                return BadRequest();
-            }
-        }
+            var ret = _gameHandler.GetRooms(query);
+            return ret;
+        });
 
 
 
-        public IActionResult GetRooms([FromBody] RoomSearchQuery query)
+        public IActionResult GetJoinedPLayers([FromBody] RoomQuery roomQuery) => TryValuedOk(() =>
         {
-            try
-            {
-                var rooms = RoomsCollection.GetRooms(query);
-                return Ok(new ValuedResponse(rooms));
-            }
-            catch (Exception)
-            {
-                return BadRequest();
-            }
-        }
+            var waitingRoomInfo = _gameHandler.GetWaitingRoomInfo(roomQuery);
+            var joinedPlayers = new List<string>(waitingRoomInfo.NotBotPlayers);
+            for (int i = 0; i < waitingRoomInfo.BotCounter; i++)
+                joinedPlayers.Add($"bot{i}");
+
+            return joinedPlayers;
+        });
 
 
 
-
-        public IActionResult GetJoinedPLayers([FromBody] RoomQuery roomQuery)
-        {
-            try
-            {
-                var roomManager = RoomsCollection.Get(roomQuery.RoomName);
-                var joinedPlayers = roomManager.Room.PendingPlayers;
-
-                lock (roomManager)
-                {
-                    roomManager.NotifyToBePinged(roomQuery.PlayerName);
-                }
-                return Ok(new ValuedResponse(joinedPlayers));
-            }
-            catch (Exception)
-            {
-                return BadRequest();
-            }
-        }
-
-
+        public IActionResult GetWaitingRoomInfo([FromBody] RoomQuery roomQuery)
+            => TryValuedOk(() => _gameHandler.GetWaitingRoomInfo(roomQuery));
 
 
         public IActionResult IsMatchStarted([FromBody] string roomName)
-        {
-            try
-            {
-                var room = RoomsCollection.Get(roomName);
-                return Ok(new ValuedResponse(room.IsGameStarted));
-            }
-            catch (Exception)
-            {
-                return Ok(new ValuedResponse(false));
-            }
-        }
+            => TryValuedOk(() => _gameHandler.IsMatchStarted(roomName));
 
-
-
-        private void ValidateStart(Room room, RoomManager roomManager)
-        {
-            if (roomManager.IsGameStarted)
-                ThrowValidationEx("This game is already started");
-            
-            if (room.PendingPlayers.Count < room.MinPlayers)
-                ThrowValidationEx("There are not enough players to start the game");
-        }
 
         public IActionResult Start([FromBody] string roomName)
-        {
-            try
-            {
-                var roomManager = RoomsCollection.Get(roomName);
-                var room = roomManager.Room;
-                lock (roomManager)
-                {
-                    ValidateStart(room, roomManager);
+            => TryOk(() => _gameHandler.Start(roomName));
 
-                    roomManager.Start(room.Name, room.PendingPlayers);
-                    var first = RoomsCollection.First();
-                    if (first.StartTime <= DateTime.Now.Subtract(TimeSpan.FromDays(1)))
-                        RoomsCollection.Remove(first);
-                    
-                    foreach (var player in room.PendingPlayers)
-                        roomManager.NewSubscriber(player); 
-                    roomManager.NotifyAll();
-                }
-
-                return Ok();
-            }
-            catch (ValidationException e)
-            {
-                return BadRequest(new ValuedResponse {Message = e.Message});
-            }
-            catch(Exception)
-            {
-                return BadRequest();
-            }
-        }
-
-
-
-
-        private void ValidateJoin(Room room, RoomQuery roomQuery)
-        {
-            if (room.PendingPlayers.Count == room.MaxPlayers)
-                ThrowValidationEx("The room is full");
-
-            if (room.PendingPlayers.Contains(roomQuery.PlayerName))
-                ThrowValidationEx("A player with the same username has already joined the room");
-        }
 
         public IActionResult Join([FromBody] RoomQuery roomQuery)
-        {
-            try
-            {
-                var roomManager = RoomsCollection.Get(roomQuery.RoomName);
-                lock (roomManager)
-                {
-                    var room = roomManager.Room;
-                    ValidateJoin(room, roomQuery);
-
-                    roomManager.NotifyToBePinged(roomQuery.PlayerName);
-
-                    room.PendingPlayers.Add(roomQuery.PlayerName);
-                    room.IsFull = room.PendingPlayers.Count == room.MaxPlayers;
-                }
-
-                roomManager.NotifyToBePinged(roomQuery.PlayerName);
-                return Ok();
-            }
-            catch (ValidationException e)
-            {
-                return BadRequest(new ValuedResponse {Message = e.Message});
-            }
-            catch
-            {
-                return BadRequest();
-            }
-        }
+            => TryOk(() => _gameHandler.Join(roomQuery));
 
 
+        public IActionResult JoinPrivate([FromBody] RoomQuery roomQuery)
+            => TryValuedOk(() => _gameHandler.JoinPrivate(roomQuery));
 
-        private void UnJoinPlayer(RoomQuery roomQuery)
-        {
-            var roomManager = RoomsCollection.Get(roomQuery.RoomName);
-            lock (roomManager)
-            {
-                var room = roomManager.Room;
-
-                room.PendingPlayers.Remove(roomQuery.PlayerName);
-                room.IsFull = false;
-
-                if (!room.PendingPlayers.Any())
-                    RoomsCollection.Remove(roomManager);
-            }
-        }
 
         public IActionResult UnJoin([FromBody] RoomQuery roomQuery)
-        {
-            try
-            {
-                var roomManager = RoomsCollection.Get(roomQuery.RoomName);
-                roomManager.NotifyDisconnected(roomQuery.PlayerName);
-                return Ok();
-            }
-            catch (ValidationException e)
-            {
-                return BadRequest(new ValuedResponse {Message = e.Message});
-            }
-            catch(Exception e)
-            {
-                return BadRequest();
-            }
-        }
+            => TryOk(() => _gameHandler.UnJoin(roomQuery));
 
 
+        public IActionResult AddBot([FromBody] RoomQuery roomQuery)
+            => TryOk(() => _gameHandler.AddBot(roomQuery));
+
+
+        public IActionResult RemoveABot([FromBody] RoomQuery roomQuery)
+            => TryOk(() => _gameHandler.RemoveABot(roomQuery));
 
 
         public IActionResult MakeABet([FromBody] RoomQuery<int> betQuery)
-        {
-            try
-            {
-                var roomManager = RoomsCollection.Get(betQuery.RoomName);
-                var gameManager = roomManager.GameManager;
-                lock (roomManager)
-                {
-                    ValidateTurn(gameManager, betQuery.PlayerName);
-                    var bet = betQuery.Data;
-                    gameManager.CurrentPlayer.NewBet(bet);
-                }
-
-                roomManager.NotifyAll();
-                return Ok();
-            }
-            catch (ValidationException e)
-            {
-                return BadRequest(new ValuedResponse {Message = e.Message});
-            }
-            catch
-            {
-                return BadRequest();
-            }
-        }
-
-
+            => TryOk(() => _gameHandler.MakeABet(betQuery));
 
 
         public IActionResult DropCard([FromBody] RoomQuery<string> dropQuery)
-        {
-            try
-            {
-                var roomManager = RoomsCollection.Get(dropQuery.RoomName);
-                var gameManager = roomManager.GameManager;
-                lock (roomManager)
-                {
-                    ValidateTurn(gameManager, dropQuery.PlayerName);
-                    var cardName = dropQuery.Data;
-                    gameManager.CurrentPlayer.DropCard(cardName);
-                }
-
-                roomManager.NotifyAll();
-                return Ok();
-            }
-            catch (ValidationException e)
-            {
-                return BadRequest(new ValuedResponse {Message = e.Message});
-            }
-            catch(Exception e)
-            {
-                return BadRequest(new ValuedResponse { Message = e.Message });
-            }
-        }
-
-
+            => TryOk(() => _gameHandler.DropCard(dropQuery));
 
 
         public IActionResult DropPaolo([FromBody] RoomQuery<bool> dropPaolo)
-        {
-            try
-            {
-                var roomManager = RoomsCollection.Get(dropPaolo.RoomName);
-                var gameManager = roomManager.GameManager;
-                lock (roomManager)
-                {
-                    ValidateTurn(gameManager, dropPaolo.PlayerName);
-                    var isMax = dropPaolo.Data;
-                    gameManager.CurrentPlayer.DropPaolo(isMax);
-                }
-
-                roomManager.NotifyAll();
-                return Ok();
-            }
-            catch (ValidationException e)
-            {
-                return BadRequest(new ValuedResponse {Message = e.Message});
-            }
-            catch
-            {
-                return BadRequest();
-            }
-        }
-
-
+            => TryOk(() => _gameHandler.DropPaolo(dropPaolo));
 
 
         public IActionResult NextPhase([FromBody] RoomQuery roomQuery)
-        {
-            try
-            {
-                var roomManager = RoomsCollection.Get(roomQuery.RoomName);
-                var gameManager = roomManager.GameManager;
-                lock (roomManager)
-                {
-                    ValidateTurn(gameManager, roomQuery.PlayerName);
-
-                    gameManager.NewPhase();
-                }
-
-                roomManager.NotifyAll();
-                return Ok();
-            }
-            catch (ValidationException e)
-            {
-                return BadRequest(new ValuedResponse {Message = e.Message});
-            }
-            catch
-            {
-                return BadRequest();
-            }
-        }
-
-
+            => TryOk(() => _gameHandler.NextPhase(roomQuery));
 
 
         public IActionResult NextTurn([FromBody] RoomQuery<string> dropQuery)
+            => TryOk(() => _gameHandler.NextTurn(dropQuery));
+
+
+        public Task<IActionResult> GetMatchSnapshot([FromBody] RoomQuery roomQuery)
+            => TryValuedOkAsync( () => _gameHandler.GetMatchSnapshot(roomQuery));
+
+
+        public IActionResult GetMatchSnapshotForced([FromBody] RoomQuery roomQuery)
+            => TryValuedOk(() => _gameHandler.GetMatchSnapshotForced(roomQuery));
+
+
+        public IActionResult GetCurrentSnapshotNumber([FromBody] RoomQuery roomQuery)
+            => TryValuedOk(() => _gameHandler.GetCurrentSnapshotNumber(roomQuery));
+
+
+        public IActionResult GetGameInfo([FromBody] RoomQuery roomQuery)
+            => TryValuedOk(() => _gameHandler.GetGameInfo(roomQuery));
+
+
+
+
+        private IActionResult TryOk(Action action)
         {
             try
             {
-                var roomManager = RoomsCollection.Get(dropQuery.RoomName);
-                var gameManager = roomManager.GameManager;
-                lock (roomManager)
-                {
-                    ValidateTurn(gameManager, dropQuery.PlayerName);
-
-                    gameManager.NewTurn();
-                }
-
-                roomManager.NotifyAll();
+                action.Invoke();
                 return Ok();
             }
             catch (ValidationException e)
             {
-                return BadRequest(new ValuedResponse {Message = e.Message});
-            }
-            catch
-            {
-                return BadRequest();
-            }
-        }
-
-
-
-
-        public async Task<IActionResult> GetMatchSnapshot([FromBody] RoomQuery roomQuery)
-        {
-            try
-            {
-                var roomManager = RoomsCollection.Get(roomQuery.RoomName);
-                var snapshot = await roomManager.PopFirstSnapshotAsync(roomQuery.PlayerName);
-
-                return Ok(new ValuedResponse(snapshot));
-            }
-            catch (Exception e) 
-            {
-                return BadRequest();
-            }
-        }
-
-        public IActionResult GetMatchSnapshotForced([FromBody] RoomQuery roomQuery)
-        {
-            try
-            {
-                var roomManager = RoomsCollection.Get(roomQuery.RoomName);
-                var snapshot = roomManager.GameManager.GetSnapshot(roomQuery.PlayerName);
-
-                return Ok(new ValuedResponse(snapshot));
+                return BadRequest(new ValuedResponse { Message = e.Message });
             }
             catch (Exception e)
             {
-                return BadRequest();
+                return BadRequest(new ValuedResponse { Message = ErrorDefault });
             }
         }
 
 
 
-        public IActionResult GetGameInfo([FromBody] RoomQuery roomQuery)
+
+        private IActionResult TryValuedOk(Func<object> func)
         {
             try
             {
-                var roomManager = RoomsCollection.Get(roomQuery.RoomName);
-                return Ok(new ValuedResponse(roomManager));
+                var ret = func.Invoke();
+                return OkValued(ret);
             }
             catch (ValidationException e)
             {
-                return BadRequest(new ValuedResponse {Message = e.Message});
+                return BadRequest(new ValuedResponse { Message = e.Message });
             }
-            catch(Exception)
+            catch (Exception e)
             {
-                return BadRequest();
+                return BadRequest(new ValuedResponse { Message = ErrorDefault });
             }
         }
 
 
-        private void RoomManager_RoomClosed(object sender, EventArgs e)
-        {
-            var roomManager = sender as RoomManager;
-            RoomsCollection.Remove(roomManager);
-        }
 
-
-
-
-        private void RoomManager_WaitingRoomDisconnectedPlayer(object sender, RoomQuery roomQuery)
+        private async Task<IActionResult> TryOkAsync(Func<Task> action)
         {
             try
             {
-                UnJoinPlayer(roomQuery);
+                await action.Invoke();
+                return Ok();
             }
-            catch (Exception)
+            catch (ValidationException e)
             {
-
+                return BadRequest(new ValuedResponse { Message = e.Message });
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new ValuedResponse { Message = ErrorDefault });
             }
         }
 
 
 
 
-        private static void ValidateTurn(GameManager gameManager, string playerName)
+        private async Task<IActionResult> TryValuedOkAsync<T>(Func<Task<T>> func)
         {
-            if (gameManager.CurrentPlayer.Name != playerName)
-                ThrowValidationEx("It's not your turn");
+            try
+            {
+                var ret = await func.Invoke();
+                return OkValued(ret);
+            }
+            catch (ValidationException e)
+            {
+                return BadRequest(new ValuedResponse { Message = e.Message });
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new ValuedResponse { Message = ErrorDefault });
+            }
         }
 
 
-        private static void ThrowValidationEx(string message) => throw new ValidationException(message);
+
+
+        private IActionResult OkValued(object obj) => Ok(new ValuedResponse(obj));
+        private const string ErrorDefault = "An error occurred";
     }
 }

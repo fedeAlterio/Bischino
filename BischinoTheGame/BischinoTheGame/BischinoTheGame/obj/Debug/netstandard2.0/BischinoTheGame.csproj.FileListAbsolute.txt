@@ -54,3 +54,5 @@ C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame\obj\Debug\netst
 C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame\obj\Debug\netstandard2.0\ref\BischinoTheGame.dll
 C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame\obj\Debug\netstandard2.0\BischinoTheGame.pdb
 C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame\obj\Debug\netstandard2.0\BischinoTheGame.csprojAssemblyReference.cache
+C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame\obj\Debug\netstandard2.0\BischinoTheGame.csproj.CoreCompileInputs.cache
+C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame\obj\Debug\netstandard2.0\View\Pages\PrivateRoomLockerPage.xaml.g.cs

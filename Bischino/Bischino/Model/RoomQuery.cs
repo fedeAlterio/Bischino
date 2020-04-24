@@ -9,6 +9,7 @@ namespace Bischino.Model
     {
         public string RoomName { get; set; }
         public string PlayerName { get; set; }
+        public int? RoomNumber { get; set; }
     }
 
     public class RoomQuery<T> : RoomQuery

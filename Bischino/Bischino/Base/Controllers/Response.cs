@@ -16,6 +16,8 @@ namespace Bischino.Base.Controllers
     {
         public ValuedResponse(object value = null)
         {
+            if(value is null)
+                Value = new Object();
             Value = value;
         }
         public object Value { get; set; }

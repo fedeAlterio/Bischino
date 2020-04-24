@@ -6,6 +6,7 @@ using Bischino.Base.Controllers;
 using Bischino.Base.Model;
 using Bischino.Bischino;
 using Bischino.Controllers.Queries;
+using Bischino.Extensions;
 
 namespace Bischino.Controllers
 {
@@ -13,13 +14,38 @@ namespace Bischino.Controllers
     {
         private readonly IList<RoomManager> _roomManagers = new List<RoomManager>();
         private readonly object _lock = new object();
+        private readonly IList<int> Numbers;
+        private const int TotRooms = 99999;
 
+
+
+        public RoomsCollection()
+        {
+            Numbers = Enumerable.Range(0, TotRooms).ToList();
+            Numbers.Shuffle();
+        }
+
+
+
+        public RoomManager Get(int roomNumber)
+        {
+            lock (_lock)
+            {
+                var ret = _roomManagers.FirstOrDefault(rm => rm.Room.RoomNumber == roomNumber);
+                if (ret is null)
+                    throw new ValidationException($"The room {roomNumber} does not exist");
+                return ret;
+            }
+        }
 
         public RoomManager Get(string roomName)
         {
             lock (_lock)
             {
-                return _roomManagers.FirstOrDefault(rm => rm.Room.Name == roomName);
+                var ret = _roomManagers.FirstOrDefault(rm => rm.Room.Name == roomName);
+                if( ret is null)
+                    throw new ValidationException($"The room {roomName} does not exist");
+                return ret;
             }
         }
 
@@ -32,6 +58,10 @@ namespace Bischino.Controllers
                 if(_roomManagers.Any(rm => rm.Room.Name == roomManager.Room.Name))
                     throw new ValidationException("There is already a room with this name");
 
+                var roomNumber = Numbers[0];
+                Numbers.RemoveAt(0);
+                roomManager.Room.RoomNumber = roomNumber;
+
                 _roomManagers.Add(roomManager);
             }
         }
@@ -41,7 +71,12 @@ namespace Bischino.Controllers
         {
             lock (_lock)
             {
-                _roomManagers.Remove(roomManager);
+                if (!_roomManagers.Remove(roomManager))
+                    return;
+                if (roomManager.Room.RoomNumber is null)
+                    throw new Exception("Room number cannot be null");
+
+                Numbers.Add(roomManager.Room.RoomNumber.Value);
             }
         }
 
@@ -58,7 +93,7 @@ namespace Bischino.Controllers
                         where !p1.Value.Equals(p2.Value)
                         select rm
                     )
-                    where !rm.IsGameStarted
+                    where !rm.IsGameStarted && !rm.Room.IsPrivate.Value
                     select rm.Room)
                     .Skip(roomSearchQuery.Options.Skip)
                     .Take(roomSearchQuery.Options.Limit); 
@@ -77,5 +112,9 @@ namespace Bischino.Controllers
                 return _roomManagers[0];
             }
         }
+
+
+
+        public long Count => _roomManagers.Count;
     }
 }

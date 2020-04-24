@@ -42,7 +42,7 @@ namespace BischinoTheGame.ViewModel.PageViewModels
             try
             {
                 var query = new RoomQuery<bool> {RoomName = _roomName, PlayerName = _playerName, Data = isMax};
-                await AppController.RoomsHandler.DropPaolo(query);
+                await AppController.GameHandler.DropPaolo(query);
                 await AppController.Navigation.GameNavigation.NotifyPaoloSent();
             }
             catch (Exception e)

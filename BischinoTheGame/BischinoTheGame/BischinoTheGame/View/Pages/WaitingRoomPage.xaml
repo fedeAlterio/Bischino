@@ -22,9 +22,11 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="70"/>
                 </Grid.RowDefinitions>
-                <Frame Grid.Row="0"  Padding="15" Margin="0,0,0,10"  HorizontalOptions="Center" VerticalOptions="Center" BackgroundColor="{StaticResource GoodGray}" CornerRadius="20">
-                    <Label TextColor="White" FontSize="20" HorizontalOptions="Center" VerticalOptions="Center"
-                           Text="{Binding Room.Name}"/>
+
+                <Frame Grid.Row="0"  Padding="15" Margin="0,20,0,10"  HorizontalOptions="Center" VerticalOptions="Center" 
+                       BackgroundColor="White" CornerRadius="10">
+                    <Label TextColor="Black" FontSize="20" HorizontalOptions="Center" VerticalOptions="Center"
+                           Text="{Binding RoomName}"/>
                 </Frame> 
 
                 <Frame Grid.Row="1" Padding="10" CornerRadius="10" BackgroundColor="{StaticResource GoodGray}">
@@ -83,13 +85,25 @@
                                 </StackLayout>
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
+
+                        <CollectionView.Footer>
+                            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Spacing="15">
+                                <Image BackgroundColor="Transparent" HeightRequest="45" WidthRequest="45" Margin="20,0,0,0"
+                                             Source="bot"/>
+
+                                <Button BackgroundColor="White" TextColor="Black" VerticalOptions="Center" HeightRequest="40" CornerRadius="5"
+                                        Text="New bot" Command="{Binding AddBotCommand}"/>
+                                <Button BackgroundColor="White" TextColor="Black" VerticalOptions="Center" HeightRequest="40" CornerRadius="5"
+                                        Text="Remove a bot" Command="{Binding RemoveABotCommand}"/>
+                            </StackLayout>
+                        </CollectionView.Footer>
                     </CollectionView>
                 </Frame>
                 <forms:AnimationView Grid.Row="2" IsVisible="{Binding CanStart}" x:Name="AnimatedPlayButton" Animation="play.json" Loop="True" IsPlaying="True" HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="70" HeightRequest="70"/>
                 <Button IsVisible="{Binding CanStart}" Grid.Row="2" x:Name="StartButton" BackgroundColor="Transparent" TextColor="White" Padding="0" HorizontalOptions="Center" CornerRadius="20"
                         Text="" Command="{Binding StartMatchCommand}" Clicked="StartButton_OnClicked"/>
             </Grid>
-            <controls:AdControlView AdUnitId="ca-app-pub-7000661273633463/6858813709" Grid.Row="1" Grid.Column="0" BackgroundColor="Transparent" VerticalOptions="End" HeightRequest="90" Margin="0" HorizontalOptions="FillAndExpand"/>
+            <controls:AdControlView IsVisible="false" AdUnitId="ca-app-pub-7000661273633463/6858813709" Grid.Row="1" Grid.Column="0" BackgroundColor="Transparent" VerticalOptions="End" HeightRequest="90" Margin="0" HorizontalOptions="FillAndExpand"/>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

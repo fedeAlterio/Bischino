@@ -17,9 +17,10 @@ namespace BischinoTheGame.Controller.Communication.ServerHandlers
         public static GameHandler Instance => _roomHandler ??= new GameHandler();
         protected override string BaseUri { get; } = "rooms/";
         private bool _matchSnapshotLost;
+        private MatchSnapshot LastSnapshot;
 
-        public Task Create(Room room)
-            => Post(room);
+        public Task<Room> Create(Room room)
+            => Get<Room>(room);
 
         public Task<IList<Room>> GetRooms(RoomSearchQuery query)
             => Get<IList<Room>>(query);
@@ -27,8 +28,11 @@ namespace BischinoTheGame.Controller.Communication.ServerHandlers
         public Task Join(RoomQuery roomQuery)
             => Post(roomQuery);
 
-        public Task<IList<string>> GetJoinedPLayers(RoomQuery roomQuery)
-            => Get<IList<string>>(roomQuery);
+        public Task<Room> JoinPrivate(RoomQuery roomQuery)
+            => Get<Room>(roomQuery);
+
+        public Task<WaitingRoomInfo> GetWaitingRoomInfo(RoomQuery roomQuery)
+            => Get<WaitingRoomInfo>(roomQuery);
 
         public Task<bool> IsMatchStarted(string roomName)
             => Get<bool>(roomName);
@@ -36,30 +40,20 @@ namespace BischinoTheGame.Controller.Communication.ServerHandlers
         public Task Start(string roomName)
             => Post(roomName);
 
-        public async Task<MatchSnapshot> GetMatchSnapshot(RoomQuery roomQuery, CancellationToken token)
-        {
-            try
-            {
-                var ret = _matchSnapshotLost ?
-                     await GetMatchSnapshotForced(roomQuery, token) :
-                     await Get<MatchSnapshot>(roomQuery, token);
-                _matchSnapshotLost = false;
-                return ret;
-            }
-            catch (TimeoutException)
-            {
-                return await GetMatchSnapshotForced(roomQuery, token);
-            }
-            catch
-            {
-                _matchSnapshotLost = true;
-                throw;
-            }
-        }
+        public Task<int> GetCurrentSnapshotNumber(RoomQuery roomQuery, CancellationToken token)
+            => Get<int>(roomQuery, token);
 
-
-        private Task<MatchSnapshot> GetMatchSnapshotForced(RoomQuery roomQuery, CancellationToken token)
+        public Task<MatchSnapshot> GetMatchSnapshot(RoomQuery roomQuery, CancellationToken token)
             => Get<MatchSnapshot>(roomQuery, token);
+
+        public Task<MatchSnapshot> GetMatchSnapshotForced(RoomQuery roomQuery, CancellationToken token)
+            => Get<MatchSnapshot>(roomQuery, token);
+
+        public Task AddBot(RoomQuery roomQuery)
+            => Post(roomQuery);
+
+        public Task RemoveABot(RoomQuery roomQuery)
+            => Post(roomQuery);
 
         public Task MakeABet(RoomQuery roomQuery)
             => Post(roomQuery);

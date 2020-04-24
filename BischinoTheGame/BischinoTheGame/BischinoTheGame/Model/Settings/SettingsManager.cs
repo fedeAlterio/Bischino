@@ -48,9 +48,9 @@ namespace BischinoTheGame.Model.Settings
         public string GetCardIcon(string number) => GetCardIcon(number, DeckType);
         public string GetCardIcon(string number, DeckType deckType) => deckType switch
         {
-            DeckType.A => $"c{number}",
-            DeckType.B => $"D{number}",
-            DeckType.C => $"E{number}"
+            DeckType.A => $"c{number}.png",
+            DeckType.B => $"D{number}.png",
+            DeckType.C => $"E{number}.png"
         };
 }
 }

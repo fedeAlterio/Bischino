@@ -74,6 +74,7 @@ namespace BischinoTheGame.Navigation.RoomNavigation
 
         public async Task NotifyRoomJoined(Room room)
         {
+            await PopAllPopups();
             var vm = new WaitingRoomViewModel(room);
             var page = new WaitingRoomPage {BindingContext = vm};
             await Navigation.PushAsync(page);
@@ -158,8 +159,8 @@ namespace BischinoTheGame.Navigation.RoomNavigation
             await PushCorePage();
             _roomListVM.AsyncInitialization();
             Navigation.RemovePage(Navigation.NavigationStack.First());
-            if(bannerOn)
-                await AppController.AdHandler.ShowInterstitial1();
+            if (bannerOn)
+                ;//await AppController.AdHandler.ShowInterstitial1();
         }
 
 
@@ -228,6 +229,13 @@ namespace BischinoTheGame.Navigation.RoomNavigation
         {
             _gameViewModel.StartChronology();
             await PopAllPopups();
+        }
+
+        public async Task ToPrivateRoomLocker()
+        {
+            var vm = new PrivateRoomLockerViewModel();
+            var popup = new PrivateRoomLockerPage {BindingContext = vm};
+            await PopupNavigation.Instance.PushAsync(popup);
         }
 
 

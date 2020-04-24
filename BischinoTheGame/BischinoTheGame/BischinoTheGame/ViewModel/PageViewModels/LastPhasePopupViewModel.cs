@@ -54,7 +54,7 @@ namespace BischinoTheGame.ViewModel.PageViewModels
             try
             {
                 var roomQuery = new RoomQuery<int> {RoomName = _roomName, PlayerName = _playerName, Data = win ? 1 : 0};
-                await AppController.RoomsHandler.MakeABet(roomQuery);
+                await AppController.GameHandler.MakeABet(roomQuery);
                 await AppController.Navigation.GameNavigation.NotifyLastPhaseCompleted();
             }
             catch (Exception e)

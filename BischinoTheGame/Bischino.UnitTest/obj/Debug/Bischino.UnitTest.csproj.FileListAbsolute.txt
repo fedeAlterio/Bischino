@@ -1,0 +1,2 @@
+C:\repo\Bischino\BischinoTheGame\Bischino.UnitTest\obj\Debug\Bischino.UnitTest.csprojAssemblyReference.cache
+C:\repo\Bischino\BischinoTheGame\Bischino.UnitTest\obj\Debug\Bischino.UnitTest.csproj.CoreCompileInputs.cache

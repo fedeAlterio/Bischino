@@ -32,9 +32,65 @@ namespace Bischino.Bischino
 
         public bool IsFull { get; set; }
 
-        public IList<string> PendingPlayers { get; set; }
-
-
+        
         public bool IsMatchStarted { get; set; }
+        public bool? IsPrivate { get; set; }
+        public int? RoomNumber { get; set; }
+
+
+
+        private List<string> _pendingPlayers;
+        public IReadOnlyList<string> PendingPlayers
+        {
+            get => _pendingPlayers;
+            set => _pendingPlayers = value != null ? new List<string>(value) : null;
+        }
+
+
+
+        private List<string> _notBotPlayers;
+        public IReadOnlyList<string> NotBotPlayers
+        {
+            get => _notBotPlayers;
+            set => _notBotPlayers = value != null ? new List<string>(value) : null;
+        }
+
+
+
+        public int? BotCounter { get; set; }
+
+
+        public void AddBot()
+        {
+            BotCounter ??=0;
+            _pendingPlayers.Add($"bot{++BotCounter}");
+        }
+
+
+        public void RemoveBot()
+        {
+            BotCounter??=0;
+            _pendingPlayers.Remove($"bot{BotCounter--}");
+        }
+
+
+        public void AddPlayingPlayer(string name)
+        {
+            _pendingPlayers ??= new List<string>();
+            _notBotPlayers ??= new List<string>();
+
+            _notBotPlayers.Add(name);
+            _pendingPlayers.Add(name);
+        }
+
+
+        public void RemovePlayingPlayer(string name)
+        {
+            _notBotPlayers ??= new List<string>();
+
+            _notBotPlayers.Remove(name);
+            _pendingPlayers.Remove(name);
+        }
     }
 }
+

@@ -1,0 +1,1 @@
+C:\repo\Bischino\BischinoTheGame\BischinoTheGame.UWP\BischinoTheGame.UWP.csproj;x86

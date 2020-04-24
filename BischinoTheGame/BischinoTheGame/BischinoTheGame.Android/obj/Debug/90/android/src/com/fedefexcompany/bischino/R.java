@@ -521,12 +521,14 @@ public final class R {
      */
     public static final int backgroundStacked=0x7f030036;
     /**
+     * Tint to apply to the background.
      * <p>May be a color value, in the form of "<code>#<i>rgb</i></code>",
      * "<code>#<i>argb</i></code>", "<code>#<i>rrggbb</i></code>", or
      * "<code>#<i>aarrggbb</i></code>".
      */
     public static final int backgroundTint=0x7f030037;
     /**
+     * Blending mode used to apply the background tint.
      * <p>Must be one of the following constant values.</p>
      * <table>
      * <colgroup align="left" />
@@ -1051,6 +1053,7 @@ public final class R {
      */
     public static final int chipStyle=0x7f030079;
     /**
+     * Close button icon
      * <p>May be a reference to another resource, in the form
      * "<code>@[+][<i>package</i>:]<i>type</i>/<i>name</i></code>" or a theme
      * attribute in the form
@@ -1154,12 +1157,15 @@ public final class R {
      */
     public static final int color=0x7f030086;
     /**
+     * Bright complement to the primary branding color. By default, this is the color applied
+     * to framework controls (via colorControlActivated).
      * <p>May be a color value, in the form of "<code>#<i>rgb</i></code>",
      * "<code>#<i>argb</i></code>", "<code>#<i>rrggbb</i></code>", or
      * "<code>#<i>aarrggbb</i></code>".
      */
     public static final int colorAccent=0x7f030087;
     /**
+     * Default color of background imagery for floating components, ex. dialogs, popups, and cards.
      * <p>May be a color value, in the form of "<code>#<i>rgb</i></code>",
      * "<code>#<i>argb</i></code>", "<code>#<i>rrggbb</i></code>", or
      * "<code>#<i>aarrggbb</i></code>".
@@ -1206,12 +1212,16 @@ public final class R {
      */
     public static final int colorError=0x7f03008d;
     /**
+     * The primary branding color for the app. By default, this is the color applied to the
+     * action bar background.
      * <p>May be a color value, in the form of "<code>#<i>rgb</i></code>",
      * "<code>#<i>argb</i></code>", "<code>#<i>rrggbb</i></code>", or
      * "<code>#<i>aarrggbb</i></code>".
      */
     public static final int colorPrimary=0x7f03008e;
     /**
+     * Dark variant of the primary branding color. By default, this is the color applied to
+     * the status bar (via statusBarColor) and navigation bar (via navigationBarColor).
      * <p>May be a color value, in the form of "<code>#<i>rgb</i></code>",
      * "<code>#<i>argb</i></code>", "<code>#<i>rrggbb</i></code>", or
      * "<code>#<i>aarrggbb</i></code>".
@@ -1546,6 +1556,7 @@ public final class R {
      */
     public static final int editTextColor=0x7f0300b6;
     /**
+     * Default EditText style.
      * <p>May be a reference to another resource, in the form
      * "<code>@[+][<i>package</i>:]<i>type</i>/<i>name</i></code>" or a theme
      * attribute in the form
@@ -1553,6 +1564,7 @@ public final class R {
      */
     public static final int editTextStyle=0x7f0300b7;
     /**
+     * Elevation for the action bar itself
      * <p>May be a dimension value, which is a floating point number appended with a
      * unit such as "<code>14.5sp</code>".
      * Available units are: px (pixels), dp (density-independent pixels),
@@ -2026,6 +2038,7 @@ public final class R {
      */
     public static final int hoveredFocusedTranslationZ=0x7f0300ee;
     /**
+     * Specifies the drawable used for the application icon.
      * <p>May be a reference to another resource, in the form
      * "<code>@[+][<i>package</i>:]<i>type</i>/<i>name</i></code>" or a theme
      * attribute in the form
@@ -2077,12 +2090,14 @@ public final class R {
      */
     public static final int iconStartPadding=0x7f0300f4;
     /**
+     * Tint to apply to the icon.
      * <p>May be a color value, in the form of "<code>#<i>rgb</i></code>",
      * "<code>#<i>argb</i></code>", "<code>#<i>rrggbb</i></code>", or
      * "<code>#<i>aarrggbb</i></code>".
      */
     public static final int iconTint=0x7f0300f5;
     /**
+     * Blending mode used to apply the icon tint.
      * <p>Must be one of the following constant values.</p>
      * <table>
      * <colgroup align="left" />
@@ -4635,178 +4650,182 @@ public final class R {
     public static final int abc_textfield_search_material=0x7f070058;
     public static final int abc_vector_test=0x7f070059;
     public static final int add=0x7f07005a;
-    public static final int app_icon=0x7f07005b;
-    public static final int audio_off=0x7f07005c;
-    public static final int audio_on=0x7f07005d;
-    public static final int avd_hide_password=0x7f07005e;
-    public static final int avd_show_password=0x7f07005f;
-    public static final int back=0x7f070060;
-    public static final int back_arrow=0x7f070061;
-    public static final int blackboard=0x7f070062;
-    public static final int c0=0x7f070063;
-    public static final int c1=0x7f070064;
-    public static final int c10=0x7f070065;
-    public static final int c11=0x7f070066;
-    public static final int c12=0x7f070067;
-    public static final int c13=0x7f070068;
-    public static final int c14=0x7f070069;
-    public static final int c15=0x7f07006a;
-    public static final int c16=0x7f07006b;
-    public static final int c17=0x7f07006c;
-    public static final int c18=0x7f07006d;
-    public static final int c19=0x7f07006e;
-    public static final int c2=0x7f07006f;
-    public static final int c20=0x7f070070;
-    public static final int c21=0x7f070071;
-    public static final int c22=0x7f070072;
-    public static final int c23=0x7f070073;
-    public static final int c24=0x7f070074;
-    public static final int c25=0x7f070075;
-    public static final int c26=0x7f070076;
-    public static final int c27=0x7f070077;
-    public static final int c28=0x7f070078;
-    public static final int c29=0x7f070079;
-    public static final int c3=0x7f07007a;
-    public static final int c30=0x7f07007b;
-    public static final int c31=0x7f07007c;
-    public static final int c32=0x7f07007d;
-    public static final int c33=0x7f07007e;
-    public static final int c34=0x7f07007f;
-    public static final int c35=0x7f070080;
-    public static final int c36=0x7f070081;
-    public static final int c37=0x7f070082;
-    public static final int c38=0x7f070083;
-    public static final int c39=0x7f070084;
-    public static final int c4=0x7f070085;
-    public static final int c5=0x7f070086;
-    public static final int c6=0x7f070087;
-    public static final int c7=0x7f070088;
-    public static final int c8=0x7f070089;
-    public static final int c9=0x7f07008a;
-    public static final int circle=0x7f07008b;
-    public static final int d0=0x7f07008c;
-    public static final int d1=0x7f07008d;
-    public static final int d10=0x7f07008e;
-    public static final int d11=0x7f07008f;
-    public static final int d12=0x7f070090;
-    public static final int d13=0x7f070091;
-    public static final int d14=0x7f070092;
-    public static final int d15=0x7f070093;
-    public static final int d16=0x7f070094;
-    public static final int d17=0x7f070095;
-    public static final int d18=0x7f070096;
-    public static final int d19=0x7f070097;
-    public static final int d2=0x7f070098;
-    public static final int d20=0x7f070099;
-    public static final int d21=0x7f07009a;
-    public static final int d22=0x7f07009b;
-    public static final int d23=0x7f07009c;
-    public static final int d24=0x7f07009d;
-    public static final int d25=0x7f07009e;
-    public static final int d26=0x7f07009f;
-    public static final int d27=0x7f0700a0;
-    public static final int d28=0x7f0700a1;
-    public static final int d29=0x7f0700a2;
-    public static final int d3=0x7f0700a3;
-    public static final int d30=0x7f0700a4;
-    public static final int d31=0x7f0700a5;
-    public static final int d32=0x7f0700a6;
-    public static final int d33=0x7f0700a7;
-    public static final int d34=0x7f0700a8;
-    public static final int d35=0x7f0700a9;
-    public static final int d36=0x7f0700aa;
-    public static final int d37=0x7f0700ab;
-    public static final int d38=0x7f0700ac;
-    public static final int d39=0x7f0700ad;
-    public static final int d4=0x7f0700ae;
-    public static final int d5=0x7f0700af;
-    public static final int d6=0x7f0700b0;
-    public static final int d7=0x7f0700b1;
-    public static final int d8=0x7f0700b2;
-    public static final int d9=0x7f0700b3;
-    public static final int design_bottom_navigation_item_background=0x7f0700b4;
-    public static final int design_fab_background=0x7f0700b5;
-    public static final int design_ic_visibility=0x7f0700b6;
-    public static final int design_ic_visibility_off=0x7f0700b7;
-    public static final int design_password_eye=0x7f0700b8;
-    public static final int design_snackbar_background=0x7f0700b9;
-    public static final int e0=0x7f0700ba;
-    public static final int e1=0x7f0700bb;
-    public static final int e10=0x7f0700bc;
-    public static final int e11=0x7f0700bd;
-    public static final int e12=0x7f0700be;
-    public static final int e13=0x7f0700bf;
-    public static final int e14=0x7f0700c0;
-    public static final int e15=0x7f0700c1;
-    public static final int e16=0x7f0700c2;
-    public static final int e17=0x7f0700c3;
-    public static final int e18=0x7f0700c4;
-    public static final int e19=0x7f0700c5;
-    public static final int e2=0x7f0700c6;
-    public static final int e20=0x7f0700c7;
-    public static final int e21=0x7f0700c8;
-    public static final int e22=0x7f0700c9;
-    public static final int e23=0x7f0700ca;
-    public static final int e24=0x7f0700cb;
-    public static final int e25=0x7f0700cc;
-    public static final int e26=0x7f0700cd;
-    public static final int e27=0x7f0700ce;
-    public static final int e28=0x7f0700cf;
-    public static final int e29=0x7f0700d0;
-    public static final int e3=0x7f0700d1;
-    public static final int e30=0x7f0700d2;
-    public static final int e31=0x7f0700d3;
-    public static final int e32=0x7f0700d4;
-    public static final int e33=0x7f0700d5;
-    public static final int e34=0x7f0700d6;
-    public static final int e35=0x7f0700d7;
-    public static final int e36=0x7f0700d8;
-    public static final int e37=0x7f0700d9;
-    public static final int e38=0x7f0700da;
-    public static final int e39=0x7f0700db;
-    public static final int e4=0x7f0700dc;
-    public static final int e5=0x7f0700dd;
-    public static final int e6=0x7f0700de;
-    public static final int e7=0x7f0700df;
-    public static final int e8=0x7f0700e0;
-    public static final int e9=0x7f0700e1;
-    public static final int explore=0x7f0700e2;
-    public static final int forward=0x7f0700e3;
-    public static final int host_user=0x7f0700e4;
-    public static final int ic_mtrl_chip_checked_black=0x7f0700e5;
-    public static final int ic_mtrl_chip_checked_circle=0x7f0700e6;
-    public static final int ic_mtrl_chip_close_circle=0x7f0700e7;
-    public static final int info=0x7f0700e8;
-    public static final int lives=0x7f0700e9;
-    public static final int logo=0x7f0700ea;
-    public static final int mtrl_snackbar_background=0x7f0700eb;
-    public static final int mtrl_tabs_default_indicator=0x7f0700ec;
-    public static final int navigation_empty_icon=0x7f0700ed;
-    public static final int next_arrow=0x7f0700ee;
-    public static final int notification_action_background=0x7f0700ef;
-    public static final int notification_bg=0x7f0700f0;
-    public static final int notification_bg_low=0x7f0700f1;
-    public static final int notification_bg_low_normal=0x7f0700f2;
-    public static final int notification_bg_low_pressed=0x7f0700f3;
-    public static final int notification_bg_normal=0x7f0700f4;
-    public static final int notification_bg_normal_pressed=0x7f0700f5;
-    public static final int notification_icon_background=0x7f0700f6;
-    public static final int notification_template_icon_bg=0x7f0700f7;
-    public static final int notification_template_icon_low_bg=0x7f0700f8;
-    public static final int notification_tile_bg=0x7f0700f9;
-    public static final int notify_panel_notification_icon_bg=0x7f0700fa;
-    public static final int people=0x7f0700fb;
-    public static final int room_blackboard=0x7f0700fc;
-    public static final int rules=0x7f0700fd;
-    public static final int settings=0x7f0700fe;
-    public static final int standard_user=0x7f0700ff;
-    public static final int thumbdown=0x7f070100;
-    public static final int thumbup=0x7f070101;
-    public static final int tooltip_frame_dark=0x7f070102;
-    public static final int tooltip_frame_light=0x7f070103;
-    public static final int winnings=0x7f070104;
-    public static final int wood=0x7f070105;
-    public static final int your_bet=0x7f070106;
+    public static final int add_black=0x7f07005b;
+    public static final int add_white=0x7f07005c;
+    public static final int app_icon=0x7f07005d;
+    public static final int audio_off=0x7f07005e;
+    public static final int audio_on=0x7f07005f;
+    public static final int avd_hide_password=0x7f070060;
+    public static final int avd_show_password=0x7f070061;
+    public static final int back=0x7f070062;
+    public static final int back_arrow=0x7f070063;
+    public static final int blackboard=0x7f070064;
+    public static final int bot=0x7f070065;
+    public static final int c0=0x7f070066;
+    public static final int c1=0x7f070067;
+    public static final int c10=0x7f070068;
+    public static final int c11=0x7f070069;
+    public static final int c12=0x7f07006a;
+    public static final int c13=0x7f07006b;
+    public static final int c14=0x7f07006c;
+    public static final int c15=0x7f07006d;
+    public static final int c16=0x7f07006e;
+    public static final int c17=0x7f07006f;
+    public static final int c18=0x7f070070;
+    public static final int c19=0x7f070071;
+    public static final int c2=0x7f070072;
+    public static final int c20=0x7f070073;
+    public static final int c21=0x7f070074;
+    public static final int c22=0x7f070075;
+    public static final int c23=0x7f070076;
+    public static final int c24=0x7f070077;
+    public static final int c25=0x7f070078;
+    public static final int c26=0x7f070079;
+    public static final int c27=0x7f07007a;
+    public static final int c28=0x7f07007b;
+    public static final int c29=0x7f07007c;
+    public static final int c3=0x7f07007d;
+    public static final int c30=0x7f07007e;
+    public static final int c31=0x7f07007f;
+    public static final int c32=0x7f070080;
+    public static final int c33=0x7f070081;
+    public static final int c34=0x7f070082;
+    public static final int c35=0x7f070083;
+    public static final int c36=0x7f070084;
+    public static final int c37=0x7f070085;
+    public static final int c38=0x7f070086;
+    public static final int c39=0x7f070087;
+    public static final int c4=0x7f070088;
+    public static final int c5=0x7f070089;
+    public static final int c6=0x7f07008a;
+    public static final int c7=0x7f07008b;
+    public static final int c8=0x7f07008c;
+    public static final int c9=0x7f07008d;
+    public static final int circle=0x7f07008e;
+    public static final int d0=0x7f07008f;
+    public static final int d1=0x7f070090;
+    public static final int d10=0x7f070091;
+    public static final int d11=0x7f070092;
+    public static final int d12=0x7f070093;
+    public static final int d13=0x7f070094;
+    public static final int d14=0x7f070095;
+    public static final int d15=0x7f070096;
+    public static final int d16=0x7f070097;
+    public static final int d17=0x7f070098;
+    public static final int d18=0x7f070099;
+    public static final int d19=0x7f07009a;
+    public static final int d2=0x7f07009b;
+    public static final int d20=0x7f07009c;
+    public static final int d21=0x7f07009d;
+    public static final int d22=0x7f07009e;
+    public static final int d23=0x7f07009f;
+    public static final int d24=0x7f0700a0;
+    public static final int d25=0x7f0700a1;
+    public static final int d26=0x7f0700a2;
+    public static final int d27=0x7f0700a3;
+    public static final int d28=0x7f0700a4;
+    public static final int d29=0x7f0700a5;
+    public static final int d3=0x7f0700a6;
+    public static final int d30=0x7f0700a7;
+    public static final int d31=0x7f0700a8;
+    public static final int d32=0x7f0700a9;
+    public static final int d33=0x7f0700aa;
+    public static final int d34=0x7f0700ab;
+    public static final int d35=0x7f0700ac;
+    public static final int d36=0x7f0700ad;
+    public static final int d37=0x7f0700ae;
+    public static final int d38=0x7f0700af;
+    public static final int d39=0x7f0700b0;
+    public static final int d4=0x7f0700b1;
+    public static final int d5=0x7f0700b2;
+    public static final int d6=0x7f0700b3;
+    public static final int d7=0x7f0700b4;
+    public static final int d8=0x7f0700b5;
+    public static final int d9=0x7f0700b6;
+    public static final int design_bottom_navigation_item_background=0x7f0700b7;
+    public static final int design_fab_background=0x7f0700b8;
+    public static final int design_ic_visibility=0x7f0700b9;
+    public static final int design_ic_visibility_off=0x7f0700ba;
+    public static final int design_password_eye=0x7f0700bb;
+    public static final int design_snackbar_background=0x7f0700bc;
+    public static final int e0=0x7f0700bd;
+    public static final int e1=0x7f0700be;
+    public static final int e10=0x7f0700bf;
+    public static final int e11=0x7f0700c0;
+    public static final int e12=0x7f0700c1;
+    public static final int e13=0x7f0700c2;
+    public static final int e14=0x7f0700c3;
+    public static final int e15=0x7f0700c4;
+    public static final int e16=0x7f0700c5;
+    public static final int e17=0x7f0700c6;
+    public static final int e18=0x7f0700c7;
+    public static final int e19=0x7f0700c8;
+    public static final int e2=0x7f0700c9;
+    public static final int e20=0x7f0700ca;
+    public static final int e21=0x7f0700cb;
+    public static final int e22=0x7f0700cc;
+    public static final int e23=0x7f0700cd;
+    public static final int e24=0x7f0700ce;
+    public static final int e25=0x7f0700cf;
+    public static final int e26=0x7f0700d0;
+    public static final int e27=0x7f0700d1;
+    public static final int e28=0x7f0700d2;
+    public static final int e29=0x7f0700d3;
+    public static final int e3=0x7f0700d4;
+    public static final int e30=0x7f0700d5;
+    public static final int e31=0x7f0700d6;
+    public static final int e32=0x7f0700d7;
+    public static final int e33=0x7f0700d8;
+    public static final int e34=0x7f0700d9;
+    public static final int e35=0x7f0700da;
+    public static final int e36=0x7f0700db;
+    public static final int e37=0x7f0700dc;
+    public static final int e38=0x7f0700dd;
+    public static final int e39=0x7f0700de;
+    public static final int e4=0x7f0700df;
+    public static final int e5=0x7f0700e0;
+    public static final int e6=0x7f0700e1;
+    public static final int e7=0x7f0700e2;
+    public static final int e8=0x7f0700e3;
+    public static final int e9=0x7f0700e4;
+    public static final int explore=0x7f0700e5;
+    public static final int forward=0x7f0700e6;
+    public static final int host_user=0x7f0700e7;
+    public static final int ic_mtrl_chip_checked_black=0x7f0700e8;
+    public static final int ic_mtrl_chip_checked_circle=0x7f0700e9;
+    public static final int ic_mtrl_chip_close_circle=0x7f0700ea;
+    public static final int info=0x7f0700eb;
+    public static final int lives=0x7f0700ec;
+    public static final int lock=0x7f0700ed;
+    public static final int logo=0x7f0700ee;
+    public static final int mtrl_snackbar_background=0x7f0700ef;
+    public static final int mtrl_tabs_default_indicator=0x7f0700f0;
+    public static final int navigation_empty_icon=0x7f0700f1;
+    public static final int next_arrow=0x7f0700f2;
+    public static final int notification_action_background=0x7f0700f3;
+    public static final int notification_bg=0x7f0700f4;
+    public static final int notification_bg_low=0x7f0700f5;
+    public static final int notification_bg_low_normal=0x7f0700f6;
+    public static final int notification_bg_low_pressed=0x7f0700f7;
+    public static final int notification_bg_normal=0x7f0700f8;
+    public static final int notification_bg_normal_pressed=0x7f0700f9;
+    public static final int notification_icon_background=0x7f0700fa;
+    public static final int notification_template_icon_bg=0x7f0700fb;
+    public static final int notification_template_icon_low_bg=0x7f0700fc;
+    public static final int notification_tile_bg=0x7f0700fd;
+    public static final int notify_panel_notification_icon_bg=0x7f0700fe;
+    public static final int people=0x7f0700ff;
+    public static final int room_blackboard=0x7f070100;
+    public static final int rules=0x7f070101;
+    public static final int settings=0x7f070102;
+    public static final int standard_user=0x7f070103;
+    public static final int thumbdown=0x7f070104;
+    public static final int thumbup=0x7f070105;
+    public static final int tooltip_frame_dark=0x7f070106;
+    public static final int tooltip_frame_light=0x7f070107;
+    public static final int winnings=0x7f070108;
+    public static final int wood=0x7f070109;
+    public static final int your_bet=0x7f07010a;
   }
   public static final class id {
     public static final int ALT=0x7f080000;
@@ -5717,12 +5736,12 @@ public final class R {
      * <tr><td><code>{@link #ActionBar_customNavigationLayout com.fedefexcompany.bischino:customNavigationLayout}</code></td><td>Specifies a layout for custom navigation.</td></tr>
      * <tr><td><code>{@link #ActionBar_displayOptions com.fedefexcompany.bischino:displayOptions}</code></td><td>Options affecting how the action bar is displayed.</td></tr>
      * <tr><td><code>{@link #ActionBar_divider com.fedefexcompany.bischino:divider}</code></td><td>Specifies the drawable used for item dividers.</td></tr>
-     * <tr><td><code>{@link #ActionBar_elevation com.fedefexcompany.bischino:elevation}</code></td><td></td></tr>
+     * <tr><td><code>{@link #ActionBar_elevation com.fedefexcompany.bischino:elevation}</code></td><td>Elevation for the action bar itself</td></tr>
      * <tr><td><code>{@link #ActionBar_height com.fedefexcompany.bischino:height}</code></td><td></td></tr>
      * <tr><td><code>{@link #ActionBar_hideOnContentScroll com.fedefexcompany.bischino:hideOnContentScroll}</code></td><td>Set true to hide the action bar on a vertical nested scroll of content.</td></tr>
      * <tr><td><code>{@link #ActionBar_homeAsUpIndicator com.fedefexcompany.bischino:homeAsUpIndicator}</code></td><td>Specifies a drawable to use for the 'home as up' indicator.</td></tr>
      * <tr><td><code>{@link #ActionBar_homeLayout com.fedefexcompany.bischino:homeLayout}</code></td><td>Specifies a layout to use for the "home" section of the action bar.</td></tr>
-     * <tr><td><code>{@link #ActionBar_icon com.fedefexcompany.bischino:icon}</code></td><td></td></tr>
+     * <tr><td><code>{@link #ActionBar_icon com.fedefexcompany.bischino:icon}</code></td><td>Specifies the drawable used for the application icon.</td></tr>
      * <tr><td><code>{@link #ActionBar_indeterminateProgressStyle com.fedefexcompany.bischino:indeterminateProgressStyle}</code></td><td>Specifies a style resource to use for an indeterminate progress spinner.</td></tr>
      * <tr><td><code>{@link #ActionBar_itemPadding com.fedefexcompany.bischino:itemPadding}</code></td><td>Specifies padding that should be applied to the left and right sides of
      * system-provided items in the bar.</td></tr>
@@ -6806,7 +6825,7 @@ public final class R {
      * <tr><td><code>{@link #AppBarLayout_android_background android:background}</code></td><td></td></tr>
      * <tr><td><code>{@link #AppBarLayout_android_touchscreenBlocksFocus android:touchscreenBlocksFocus}</code></td><td></td></tr>
      * <tr><td><code>{@link #AppBarLayout_android_keyboardNavigationCluster android:keyboardNavigationCluster}</code></td><td></td></tr>
-     * <tr><td><code>{@link #AppBarLayout_elevation com.fedefexcompany.bischino:elevation}</code></td><td></td></tr>
+     * <tr><td><code>{@link #AppBarLayout_elevation com.fedefexcompany.bischino:elevation}</code></td><td>Elevation for the action bar itself</td></tr>
      * <tr><td><code>{@link #AppBarLayout_expanded com.fedefexcompany.bischino:expanded}</code></td><td></td></tr>
      * <tr><td><code>{@link #AppBarLayout_liftOnScroll com.fedefexcompany.bischino:liftOnScroll}</code></td><td></td></tr>
      * </table>
@@ -6857,8 +6876,9 @@ public final class R {
      */
     public static final int AppBarLayout_android_keyboardNavigationCluster=2;
     /**
-     * <p>This symbol is the offset where the {@link com.fedefexcompany.bischino.R.attr#elevation}
-     * attribute's value can be found in the {@link #AppBarLayout} array.
+     * <p>
+     * @attr description
+     * Elevation for the action bar itself
      *
      * <p>May be a dimension value, which is a floating point number appended with a
      * unit such as "<code>14.5sp</code>".
@@ -7559,16 +7579,16 @@ public final class R {
      * <tr><td><code>{@link #AppCompatTheme_buttonStyleSmall com.fedefexcompany.bischino:buttonStyleSmall}</code></td><td>Small Button style.</td></tr>
      * <tr><td><code>{@link #AppCompatTheme_checkboxStyle com.fedefexcompany.bischino:checkboxStyle}</code></td><td>Default Checkbox style.</td></tr>
      * <tr><td><code>{@link #AppCompatTheme_checkedTextViewStyle com.fedefexcompany.bischino:checkedTextViewStyle}</code></td><td>Default CheckedTextView style.</td></tr>
-     * <tr><td><code>{@link #AppCompatTheme_colorAccent com.fedefexcompany.bischino:colorAccent}</code></td><td></td></tr>
-     * <tr><td><code>{@link #AppCompatTheme_colorBackgroundFloating com.fedefexcompany.bischino:colorBackgroundFloating}</code></td><td></td></tr>
+     * <tr><td><code>{@link #AppCompatTheme_colorAccent com.fedefexcompany.bischino:colorAccent}</code></td><td>Bright complement to the primary branding color.</td></tr>
+     * <tr><td><code>{@link #AppCompatTheme_colorBackgroundFloating com.fedefexcompany.bischino:colorBackgroundFloating}</code></td><td>Default color of background imagery for floating components, ex.</td></tr>
      * <tr><td><code>{@link #AppCompatTheme_colorButtonNormal com.fedefexcompany.bischino:colorButtonNormal}</code></td><td>The color applied to framework buttons in their normal state.</td></tr>
      * <tr><td><code>{@link #AppCompatTheme_colorControlActivated com.fedefexcompany.bischino:colorControlActivated}</code></td><td>The color applied to framework controls in their activated (ex.</td></tr>
      * <tr><td><code>{@link #AppCompatTheme_colorControlHighlight com.fedefexcompany.bischino:colorControlHighlight}</code></td><td>The color applied to framework control highlights (ex.</td></tr>
      * <tr><td><code>{@link #AppCompatTheme_colorControlNormal com.fedefexcompany.bischino:colorControlNormal}</code></td><td>The color applied to framework controls in their normal state.</td></tr>
      * <tr><td><code>{@link #AppCompatTheme_colorError com.fedefexcompany.bischino:colorError}</code></td><td>Color used for error states and things that need to be drawn to
      * the user's attention.</td></tr>
-     * <tr><td><code>{@link #AppCompatTheme_colorPrimary com.fedefexcompany.bischino:colorPrimary}</code></td><td></td></tr>
-     * <tr><td><code>{@link #AppCompatTheme_colorPrimaryDark com.fedefexcompany.bischino:colorPrimaryDark}</code></td><td></td></tr>
+     * <tr><td><code>{@link #AppCompatTheme_colorPrimary com.fedefexcompany.bischino:colorPrimary}</code></td><td>The primary branding color for the app.</td></tr>
+     * <tr><td><code>{@link #AppCompatTheme_colorPrimaryDark com.fedefexcompany.bischino:colorPrimaryDark}</code></td><td>Dark variant of the primary branding color.</td></tr>
      * <tr><td><code>{@link #AppCompatTheme_colorSwitchThumbNormal com.fedefexcompany.bischino:colorSwitchThumbNormal}</code></td><td>The color applied to framework switch thumbs in their normal state.</td></tr>
      * <tr><td><code>{@link #AppCompatTheme_controlBackground com.fedefexcompany.bischino:controlBackground}</code></td><td>The background used by framework controls.</td></tr>
      * <tr><td><code>{@link #AppCompatTheme_dialogCornerRadius com.fedefexcompany.bischino:dialogCornerRadius}</code></td><td>Preferred corner radius of dialogs.</td></tr>
@@ -7580,7 +7600,7 @@ public final class R {
      * <tr><td><code>{@link #AppCompatTheme_dropdownListPreferredItemHeight com.fedefexcompany.bischino:dropdownListPreferredItemHeight}</code></td><td>The preferred item height for dropdown lists.</td></tr>
      * <tr><td><code>{@link #AppCompatTheme_editTextBackground com.fedefexcompany.bischino:editTextBackground}</code></td><td>EditText background drawable.</td></tr>
      * <tr><td><code>{@link #AppCompatTheme_editTextColor com.fedefexcompany.bischino:editTextColor}</code></td><td>EditText text foreground color.</td></tr>
-     * <tr><td><code>{@link #AppCompatTheme_editTextStyle com.fedefexcompany.bischino:editTextStyle}</code></td><td></td></tr>
+     * <tr><td><code>{@link #AppCompatTheme_editTextStyle com.fedefexcompany.bischino:editTextStyle}</code></td><td>Default EditText style.</td></tr>
      * <tr><td><code>{@link #AppCompatTheme_homeAsUpIndicator com.fedefexcompany.bischino:homeAsUpIndicator}</code></td><td>Specifies a drawable to use for the 'home as up' indicator.</td></tr>
      * <tr><td><code>{@link #AppCompatTheme_imageButtonStyle com.fedefexcompany.bischino:imageButtonStyle}</code></td><td>ImageButton background drawable.</td></tr>
      * <tr><td><code>{@link #AppCompatTheme_listChoiceBackgroundIndicator com.fedefexcompany.bischino:listChoiceBackgroundIndicator}</code></td><td>Drawable used as a background for selected list items.</td></tr>
@@ -9448,7 +9468,7 @@ public final class R {
      * <colgroup align="left" />
      * <colgroup align="left" />
      * <tr><th>Attribute</th><th>Description</th></tr>
-     * <tr><td><code>{@link #BottomAppBar_backgroundTint com.fedefexcompany.bischino:backgroundTint}</code></td><td></td></tr>
+     * <tr><td><code>{@link #BottomAppBar_backgroundTint com.fedefexcompany.bischino:backgroundTint}</code></td><td>Tint to apply to the background.</td></tr>
      * <tr><td><code>{@link #BottomAppBar_fabAlignmentMode com.fedefexcompany.bischino:fabAlignmentMode}</code></td><td></td></tr>
      * <tr><td><code>{@link #BottomAppBar_fabCradleMargin com.fedefexcompany.bischino:fabCradleMargin}</code></td><td></td></tr>
      * <tr><td><code>{@link #BottomAppBar_fabCradleRoundedCornerRadius com.fedefexcompany.bischino:fabCradleRoundedCornerRadius}</code></td><td></td></tr>
@@ -9467,8 +9487,9 @@ public final class R {
       0x7f0300c9, 0x7f0300e8
     };
     /**
-     * <p>This symbol is the offset where the {@link com.fedefexcompany.bischino.R.attr#backgroundTint}
-     * attribute's value can be found in the {@link #BottomAppBar} array.
+     * <p>
+     * @attr description
+     * Tint to apply to the background.
      *
      * <p>May be a color value, in the form of "<code>#<i>rgb</i></code>",
      * "<code>#<i>argb</i></code>", "<code>#<i>rrggbb</i></code>", or
@@ -9550,7 +9571,7 @@ public final class R {
      * <colgroup align="left" />
      * <colgroup align="left" />
      * <tr><th>Attribute</th><th>Description</th></tr>
-     * <tr><td><code>{@link #BottomNavigationView_elevation com.fedefexcompany.bischino:elevation}</code></td><td></td></tr>
+     * <tr><td><code>{@link #BottomNavigationView_elevation com.fedefexcompany.bischino:elevation}</code></td><td>Elevation for the action bar itself</td></tr>
      * <tr><td><code>{@link #BottomNavigationView_itemBackground com.fedefexcompany.bischino:itemBackground}</code></td><td></td></tr>
      * <tr><td><code>{@link #BottomNavigationView_itemHorizontalTranslationEnabled com.fedefexcompany.bischino:itemHorizontalTranslationEnabled}</code></td><td></td></tr>
      * <tr><td><code>{@link #BottomNavigationView_itemIconSize com.fedefexcompany.bischino:itemIconSize}</code></td><td></td></tr>
@@ -9578,8 +9599,9 @@ public final class R {
       0x7f03010a, 0x7f03013c
     };
     /**
-     * <p>This symbol is the offset where the {@link com.fedefexcompany.bischino.R.attr#elevation}
-     * attribute's value can be found in the {@link #BottomNavigationView} array.
+     * <p>
+     * @attr description
+     * Elevation for the action bar itself
      *
      * <p>May be a dimension value, which is a floating point number appended with a
      * unit such as "<code>14.5sp</code>".
@@ -10042,7 +10064,7 @@ public final class R {
      * <tr><td><code>{@link #Chip_chipStartPadding com.fedefexcompany.bischino:chipStartPadding}</code></td><td></td></tr>
      * <tr><td><code>{@link #Chip_chipStrokeColor com.fedefexcompany.bischino:chipStrokeColor}</code></td><td></td></tr>
      * <tr><td><code>{@link #Chip_chipStrokeWidth com.fedefexcompany.bischino:chipStrokeWidth}</code></td><td></td></tr>
-     * <tr><td><code>{@link #Chip_closeIcon com.fedefexcompany.bischino:closeIcon}</code></td><td></td></tr>
+     * <tr><td><code>{@link #Chip_closeIcon com.fedefexcompany.bischino:closeIcon}</code></td><td>Close button icon</td></tr>
      * <tr><td><code>{@link #Chip_closeIconEnabled com.fedefexcompany.bischino:closeIconEnabled}</code></td><td></td></tr>
      * <tr><td><code>{@link #Chip_closeIconEndPadding com.fedefexcompany.bischino:closeIconEndPadding}</code></td><td></td></tr>
      * <tr><td><code>{@link #Chip_closeIconSize com.fedefexcompany.bischino:closeIconSize}</code></td><td></td></tr>
@@ -10344,8 +10366,9 @@ public final class R {
      */
     public static final int Chip_chipStrokeWidth=19;
     /**
-     * <p>This symbol is the offset where the {@link com.fedefexcompany.bischino.R.attr#closeIcon}
-     * attribute's value can be found in the {@link #Chip} array.
+     * <p>
+     * @attr description
+     * Close button icon
      *
      * <p>May be a reference to another resource, in the form
      * "<code>@[+][<i>package</i>:]<i>type</i>/<i>name</i></code>" or a theme
@@ -11445,10 +11468,10 @@ public final class R {
      * <colgroup align="left" />
      * <colgroup align="left" />
      * <tr><th>Attribute</th><th>Description</th></tr>
-     * <tr><td><code>{@link #FloatingActionButton_backgroundTint com.fedefexcompany.bischino:backgroundTint}</code></td><td></td></tr>
-     * <tr><td><code>{@link #FloatingActionButton_backgroundTintMode com.fedefexcompany.bischino:backgroundTintMode}</code></td><td></td></tr>
+     * <tr><td><code>{@link #FloatingActionButton_backgroundTint com.fedefexcompany.bischino:backgroundTint}</code></td><td>Tint to apply to the background.</td></tr>
+     * <tr><td><code>{@link #FloatingActionButton_backgroundTintMode com.fedefexcompany.bischino:backgroundTintMode}</code></td><td>Blending mode used to apply the background tint.</td></tr>
      * <tr><td><code>{@link #FloatingActionButton_borderWidth com.fedefexcompany.bischino:borderWidth}</code></td><td></td></tr>
-     * <tr><td><code>{@link #FloatingActionButton_elevation com.fedefexcompany.bischino:elevation}</code></td><td></td></tr>
+     * <tr><td><code>{@link #FloatingActionButton_elevation com.fedefexcompany.bischino:elevation}</code></td><td>Elevation for the action bar itself</td></tr>
      * <tr><td><code>{@link #FloatingActionButton_fabCustomSize com.fedefexcompany.bischino:fabCustomSize}</code></td><td></td></tr>
      * <tr><td><code>{@link #FloatingActionButton_fabSize com.fedefexcompany.bischino:fabSize}</code></td><td></td></tr>
      * <tr><td><code>{@link #FloatingActionButton_hideMotionSpec com.fedefexcompany.bischino:hideMotionSpec}</code></td><td></td></tr>
@@ -11480,8 +11503,9 @@ public final class R {
       0x7f0301e1
     };
     /**
-     * <p>This symbol is the offset where the {@link com.fedefexcompany.bischino.R.attr#backgroundTint}
-     * attribute's value can be found in the {@link #FloatingActionButton} array.
+     * <p>
+     * @attr description
+     * Tint to apply to the background.
      *
      * <p>May be a color value, in the form of "<code>#<i>rgb</i></code>",
      * "<code>#<i>argb</i></code>", "<code>#<i>rrggbb</i></code>", or
@@ -11491,8 +11515,9 @@ public final class R {
      */
     public static final int FloatingActionButton_backgroundTint=0;
     /**
-     * <p>This symbol is the offset where the {@link com.fedefexcompany.bischino.R.attr#backgroundTintMode}
-     * attribute's value can be found in the {@link #FloatingActionButton} array.
+     * <p>
+     * @attr description
+     * Blending mode used to apply the background tint.
      *
      * <p>Must be one of the following constant values.</p>
      * <table>
@@ -11530,8 +11555,9 @@ public final class R {
      */
     public static final int FloatingActionButton_borderWidth=2;
     /**
-     * <p>This symbol is the offset where the {@link com.fedefexcompany.bischino.R.attr#elevation}
-     * attribute's value can be found in the {@link #FloatingActionButton} array.
+     * <p>
+     * @attr description
+     * Elevation for the action bar itself
      *
      * <p>May be a dimension value, which is a floating point number appended with a
      * unit such as "<code>14.5sp</code>".
@@ -12867,15 +12893,15 @@ public final class R {
      * <tr><td><code>{@link #MaterialButton_android_insetRight android:insetRight}</code></td><td></td></tr>
      * <tr><td><code>{@link #MaterialButton_android_insetTop android:insetTop}</code></td><td></td></tr>
      * <tr><td><code>{@link #MaterialButton_android_insetBottom android:insetBottom}</code></td><td></td></tr>
-     * <tr><td><code>{@link #MaterialButton_backgroundTint com.fedefexcompany.bischino:backgroundTint}</code></td><td></td></tr>
-     * <tr><td><code>{@link #MaterialButton_backgroundTintMode com.fedefexcompany.bischino:backgroundTintMode}</code></td><td></td></tr>
+     * <tr><td><code>{@link #MaterialButton_backgroundTint com.fedefexcompany.bischino:backgroundTint}</code></td><td>Tint to apply to the background.</td></tr>
+     * <tr><td><code>{@link #MaterialButton_backgroundTintMode com.fedefexcompany.bischino:backgroundTintMode}</code></td><td>Blending mode used to apply the background tint.</td></tr>
      * <tr><td><code>{@link #MaterialButton_cornerRadius com.fedefexcompany.bischino:cornerRadius}</code></td><td></td></tr>
-     * <tr><td><code>{@link #MaterialButton_icon com.fedefexcompany.bischino:icon}</code></td><td></td></tr>
+     * <tr><td><code>{@link #MaterialButton_icon com.fedefexcompany.bischino:icon}</code></td><td>Specifies the drawable used for the application icon.</td></tr>
      * <tr><td><code>{@link #MaterialButton_iconGravity com.fedefexcompany.bischino:iconGravity}</code></td><td></td></tr>
      * <tr><td><code>{@link #MaterialButton_iconPadding com.fedefexcompany.bischino:iconPadding}</code></td><td></td></tr>
      * <tr><td><code>{@link #MaterialButton_iconSize com.fedefexcompany.bischino:iconSize}</code></td><td></td></tr>
-     * <tr><td><code>{@link #MaterialButton_iconTint com.fedefexcompany.bischino:iconTint}</code></td><td></td></tr>
-     * <tr><td><code>{@link #MaterialButton_iconTintMode com.fedefexcompany.bischino:iconTintMode}</code></td><td></td></tr>
+     * <tr><td><code>{@link #MaterialButton_iconTint com.fedefexcompany.bischino:iconTint}</code></td><td>Tint to apply to the icon.</td></tr>
+     * <tr><td><code>{@link #MaterialButton_iconTintMode com.fedefexcompany.bischino:iconTintMode}</code></td><td>Blending mode used to apply the icon tint.</td></tr>
      * <tr><td><code>{@link #MaterialButton_rippleColor com.fedefexcompany.bischino:rippleColor}</code></td><td></td></tr>
      * <tr><td><code>{@link #MaterialButton_strokeColor com.fedefexcompany.bischino:strokeColor}</code></td><td></td></tr>
      * <tr><td><code>{@link #MaterialButton_strokeWidth com.fedefexcompany.bischino:strokeWidth}</code></td><td></td></tr>
@@ -12972,8 +12998,9 @@ public final class R {
      */
     public static final int MaterialButton_android_insetBottom=3;
     /**
-     * <p>This symbol is the offset where the {@link com.fedefexcompany.bischino.R.attr#backgroundTint}
-     * attribute's value can be found in the {@link #MaterialButton} array.
+     * <p>
+     * @attr description
+     * Tint to apply to the background.
      *
      * <p>May be a color value, in the form of "<code>#<i>rgb</i></code>",
      * "<code>#<i>argb</i></code>", "<code>#<i>rrggbb</i></code>", or
@@ -12983,8 +13010,9 @@ public final class R {
      */
     public static final int MaterialButton_backgroundTint=4;
     /**
-     * <p>This symbol is the offset where the {@link com.fedefexcompany.bischino.R.attr#backgroundTintMode}
-     * attribute's value can be found in the {@link #MaterialButton} array.
+     * <p>
+     * @attr description
+     * Blending mode used to apply the background tint.
      *
      * <p>Must be one of the following constant values.</p>
      * <table>
@@ -13022,8 +13050,9 @@ public final class R {
      */
     public static final int MaterialButton_cornerRadius=6;
     /**
-     * <p>This symbol is the offset where the {@link com.fedefexcompany.bischino.R.attr#icon}
-     * attribute's value can be found in the {@link #MaterialButton} array.
+     * <p>
+     * @attr description
+     * Specifies the drawable used for the application icon.
      *
      * <p>May be a reference to another resource, in the form
      * "<code>@[+][<i>package</i>:]<i>type</i>/<i>name</i></code>" or a theme
@@ -13077,8 +13106,9 @@ public final class R {
      */
     public static final int MaterialButton_iconSize=10;
     /**
-     * <p>This symbol is the offset where the {@link com.fedefexcompany.bischino.R.attr#iconTint}
-     * attribute's value can be found in the {@link #MaterialButton} array.
+     * <p>
+     * @attr description
+     * Tint to apply to the icon.
      *
      * <p>May be a color value, in the form of "<code>#<i>rgb</i></code>",
      * "<code>#<i>argb</i></code>", "<code>#<i>rrggbb</i></code>", or
@@ -13088,8 +13118,9 @@ public final class R {
      */
     public static final int MaterialButton_iconTint=11;
     /**
-     * <p>This symbol is the offset where the {@link com.fedefexcompany.bischino.R.attr#iconTintMode}
-     * attribute's value can be found in the {@link #MaterialButton} array.
+     * <p>
+     * @attr description
+     * Blending mode used to apply the icon tint.
      *
      * <p>Must be one of the following constant values.</p>
      * <table>
@@ -13200,12 +13231,12 @@ public final class R {
      * <tr><td><code>{@link #MaterialComponentsTheme_chipGroupStyle com.fedefexcompany.bischino:chipGroupStyle}</code></td><td></td></tr>
      * <tr><td><code>{@link #MaterialComponentsTheme_chipStandaloneStyle com.fedefexcompany.bischino:chipStandaloneStyle}</code></td><td></td></tr>
      * <tr><td><code>{@link #MaterialComponentsTheme_chipStyle com.fedefexcompany.bischino:chipStyle}</code></td><td></td></tr>
-     * <tr><td><code>{@link #MaterialComponentsTheme_colorAccent com.fedefexcompany.bischino:colorAccent}</code></td><td></td></tr>
-     * <tr><td><code>{@link #MaterialComponentsTheme_colorBackgroundFloating com.fedefexcompany.bischino:colorBackgroundFloating}</code></td><td></td></tr>
-     * <tr><td><code>{@link #MaterialComponentsTheme_colorPrimary com.fedefexcompany.bischino:colorPrimary}</code></td><td></td></tr>
-     * <tr><td><code>{@link #MaterialComponentsTheme_colorPrimaryDark com.fedefexcompany.bischino:colorPrimaryDark}</code></td><td></td></tr>
+     * <tr><td><code>{@link #MaterialComponentsTheme_colorAccent com.fedefexcompany.bischino:colorAccent}</code></td><td>Bright complement to the primary branding color.</td></tr>
+     * <tr><td><code>{@link #MaterialComponentsTheme_colorBackgroundFloating com.fedefexcompany.bischino:colorBackgroundFloating}</code></td><td>Default color of background imagery for floating components, ex.</td></tr>
+     * <tr><td><code>{@link #MaterialComponentsTheme_colorPrimary com.fedefexcompany.bischino:colorPrimary}</code></td><td>The primary branding color for the app.</td></tr>
+     * <tr><td><code>{@link #MaterialComponentsTheme_colorPrimaryDark com.fedefexcompany.bischino:colorPrimaryDark}</code></td><td>Dark variant of the primary branding color.</td></tr>
      * <tr><td><code>{@link #MaterialComponentsTheme_colorSecondary com.fedefexcompany.bischino:colorSecondary}</code></td><td></td></tr>
-     * <tr><td><code>{@link #MaterialComponentsTheme_editTextStyle com.fedefexcompany.bischino:editTextStyle}</code></td><td></td></tr>
+     * <tr><td><code>{@link #MaterialComponentsTheme_editTextStyle com.fedefexcompany.bischino:editTextStyle}</code></td><td>Default EditText style.</td></tr>
      * <tr><td><code>{@link #MaterialComponentsTheme_floatingActionButtonStyle com.fedefexcompany.bischino:floatingActionButtonStyle}</code></td><td></td></tr>
      * <tr><td><code>{@link #MaterialComponentsTheme_materialButtonStyle com.fedefexcompany.bischino:materialButtonStyle}</code></td><td></td></tr>
      * <tr><td><code>{@link #MaterialComponentsTheme_materialCardViewStyle com.fedefexcompany.bischino:materialCardViewStyle}</code></td><td></td></tr>
@@ -13332,8 +13363,10 @@ public final class R {
      */
     public static final int MaterialComponentsTheme_chipStyle=4;
     /**
-     * <p>This symbol is the offset where the {@link com.fedefexcompany.bischino.R.attr#colorAccent}
-     * attribute's value can be found in the {@link #MaterialComponentsTheme} array.
+     * <p>
+     * @attr description
+     * Bright complement to the primary branding color. By default, this is the color applied
+     * to framework controls (via colorControlActivated).
      *
      * <p>May be a color value, in the form of "<code>#<i>rgb</i></code>",
      * "<code>#<i>argb</i></code>", "<code>#<i>rrggbb</i></code>", or
@@ -13343,8 +13376,9 @@ public final class R {
      */
     public static final int MaterialComponentsTheme_colorAccent=5;
     /**
-     * <p>This symbol is the offset where the {@link com.fedefexcompany.bischino.R.attr#colorBackgroundFloating}
-     * attribute's value can be found in the {@link #MaterialComponentsTheme} array.
+     * <p>
+     * @attr description
+     * Default color of background imagery for floating components, ex. dialogs, popups, and cards.
      *
      * <p>May be a color value, in the form of "<code>#<i>rgb</i></code>",
      * "<code>#<i>argb</i></code>", "<code>#<i>rrggbb</i></code>", or
@@ -13354,8 +13388,10 @@ public final class R {
      */
     public static final int MaterialComponentsTheme_colorBackgroundFloating=6;
     /**
-     * <p>This symbol is the offset where the {@link com.fedefexcompany.bischino.R.attr#colorPrimary}
-     * attribute's value can be found in the {@link #MaterialComponentsTheme} array.
+     * <p>
+     * @attr description
+     * The primary branding color for the app. By default, this is the color applied to the
+     * action bar background.
      *
      * <p>May be a color value, in the form of "<code>#<i>rgb</i></code>",
      * "<code>#<i>argb</i></code>", "<code>#<i>rrggbb</i></code>", or
@@ -13365,8 +13401,10 @@ public final class R {
      */
     public static final int MaterialComponentsTheme_colorPrimary=7;
     /**
-     * <p>This symbol is the offset where the {@link com.fedefexcompany.bischino.R.attr#colorPrimaryDark}
-     * attribute's value can be found in the {@link #MaterialComponentsTheme} array.
+     * <p>
+     * @attr description
+     * Dark variant of the primary branding color. By default, this is the color applied to
+     * the status bar (via statusBarColor) and navigation bar (via navigationBarColor).
      *
      * <p>May be a color value, in the form of "<code>#<i>rgb</i></code>",
      * "<code>#<i>argb</i></code>", "<code>#<i>rrggbb</i></code>", or
@@ -13387,8 +13425,9 @@ public final class R {
      */
     public static final int MaterialComponentsTheme_colorSecondary=9;
     /**
-     * <p>This symbol is the offset where the {@link com.fedefexcompany.bischino.R.attr#editTextStyle}
-     * attribute's value can be found in the {@link #MaterialComponentsTheme} array.
+     * <p>
+     * @attr description
+     * Default EditText style.
      *
      * <p>May be a reference to another resource, in the form
      * "<code>@[+][<i>package</i>:]<i>type</i>/<i>name</i></code>" or a theme
@@ -13809,8 +13848,8 @@ public final class R {
      * action view.</td></tr>
      * <tr><td><code>{@link #MenuItem_alphabeticModifiers com.fedefexcompany.bischino:alphabeticModifiers}</code></td><td>The alphabetic modifier key.</td></tr>
      * <tr><td><code>{@link #MenuItem_contentDescription com.fedefexcompany.bischino:contentDescription}</code></td><td>The content description associated with the item.</td></tr>
-     * <tr><td><code>{@link #MenuItem_iconTint com.fedefexcompany.bischino:iconTint}</code></td><td></td></tr>
-     * <tr><td><code>{@link #MenuItem_iconTintMode com.fedefexcompany.bischino:iconTintMode}</code></td><td></td></tr>
+     * <tr><td><code>{@link #MenuItem_iconTint com.fedefexcompany.bischino:iconTint}</code></td><td>Tint to apply to the icon.</td></tr>
+     * <tr><td><code>{@link #MenuItem_iconTintMode com.fedefexcompany.bischino:iconTintMode}</code></td><td>Blending mode used to apply the icon tint.</td></tr>
      * <tr><td><code>{@link #MenuItem_numericModifiers com.fedefexcompany.bischino:numericModifiers}</code></td><td>The numeric modifier key.</td></tr>
      * <tr><td><code>{@link #MenuItem_showAsAction com.fedefexcompany.bischino:showAsAction}</code></td><td>How this item should display in the Action Bar, if present.</td></tr>
      * <tr><td><code>{@link #MenuItem_tooltipText com.fedefexcompany.bischino:tooltipText}</code></td><td>The tooltip text associated with the item.</td></tr>
@@ -14349,7 +14388,7 @@ public final class R {
      * <tr><td><code>{@link #NavigationView_android_background android:background}</code></td><td></td></tr>
      * <tr><td><code>{@link #NavigationView_android_fitsSystemWindows android:fitsSystemWindows}</code></td><td></td></tr>
      * <tr><td><code>{@link #NavigationView_android_maxWidth android:maxWidth}</code></td><td></td></tr>
-     * <tr><td><code>{@link #NavigationView_elevation com.fedefexcompany.bischino:elevation}</code></td><td></td></tr>
+     * <tr><td><code>{@link #NavigationView_elevation com.fedefexcompany.bischino:elevation}</code></td><td>Elevation for the action bar itself</td></tr>
      * <tr><td><code>{@link #NavigationView_headerLayout com.fedefexcompany.bischino:headerLayout}</code></td><td></td></tr>
      * <tr><td><code>{@link #NavigationView_itemBackground com.fedefexcompany.bischino:itemBackground}</code></td><td></td></tr>
      * <tr><td><code>{@link #NavigationView_itemHorizontalPadding com.fedefexcompany.bischino:itemHorizontalPadding}</code></td><td></td></tr>
@@ -14416,8 +14455,9 @@ public final class R {
      */
     public static final int NavigationView_android_maxWidth=2;
     /**
-     * <p>This symbol is the offset where the {@link com.fedefexcompany.bischino.R.attr#elevation}
-     * attribute's value can be found in the {@link #NavigationView} array.
+     * <p>
+     * @attr description
+     * Elevation for the action bar itself
      *
      * <p>May be a dimension value, which is a floating point number appended with a
      * unit such as "<code>14.5sp</code>".
@@ -14893,7 +14933,7 @@ public final class R {
      * <tr><td><code>{@link #SearchView_android_maxWidth android:maxWidth}</code></td><td></td></tr>
      * <tr><td><code>{@link #SearchView_android_inputType android:inputType}</code></td><td></td></tr>
      * <tr><td><code>{@link #SearchView_android_imeOptions android:imeOptions}</code></td><td></td></tr>
-     * <tr><td><code>{@link #SearchView_closeIcon com.fedefexcompany.bischino:closeIcon}</code></td><td></td></tr>
+     * <tr><td><code>{@link #SearchView_closeIcon com.fedefexcompany.bischino:closeIcon}</code></td><td>Close button icon</td></tr>
      * <tr><td><code>{@link #SearchView_commitIcon com.fedefexcompany.bischino:commitIcon}</code></td><td>Commit icon shown in the query suggestion row</td></tr>
      * <tr><td><code>{@link #SearchView_defaultQueryHint com.fedefexcompany.bischino:defaultQueryHint}</code></td><td>Default query hint used when {@code queryHint} is undefined and
      * the search view's {@code SearchableInfo} does not provide a hint.</td></tr>
@@ -15259,7 +15299,7 @@ public final class R {
      * <colgroup align="left" />
      * <tr><th>Attribute</th><th>Description</th></tr>
      * <tr><td><code>{@link #SnackbarLayout_android_maxWidth android:maxWidth}</code></td><td></td></tr>
-     * <tr><td><code>{@link #SnackbarLayout_elevation com.fedefexcompany.bischino:elevation}</code></td><td></td></tr>
+     * <tr><td><code>{@link #SnackbarLayout_elevation com.fedefexcompany.bischino:elevation}</code></td><td>Elevation for the action bar itself</td></tr>
      * <tr><td><code>{@link #SnackbarLayout_maxActionInlineWidth com.fedefexcompany.bischino:maxActionInlineWidth}</code></td><td></td></tr>
      * </table>
      * @see #SnackbarLayout_android_maxWidth
@@ -15283,8 +15323,9 @@ public final class R {
      */
     public static final int SnackbarLayout_android_maxWidth=0;
     /**
-     * <p>This symbol is the offset where the {@link com.fedefexcompany.bischino.R.attr#elevation}
-     * attribute's value can be found in the {@link #SnackbarLayout} array.
+     * <p>
+     * @attr description
+     * Elevation for the action bar itself
      *
      * <p>May be a dimension value, which is a floating point number appended with a
      * unit such as "<code>14.5sp</code>".
@@ -17505,8 +17546,8 @@ public final class R {
      * <colgroup align="left" />
      * <tr><th>Attribute</th><th>Description</th></tr>
      * <tr><td><code>{@link #ViewBackgroundHelper_android_background android:background}</code></td><td></td></tr>
-     * <tr><td><code>{@link #ViewBackgroundHelper_backgroundTint com.fedefexcompany.bischino:backgroundTint}</code></td><td></td></tr>
-     * <tr><td><code>{@link #ViewBackgroundHelper_backgroundTintMode com.fedefexcompany.bischino:backgroundTintMode}</code></td><td></td></tr>
+     * <tr><td><code>{@link #ViewBackgroundHelper_backgroundTint com.fedefexcompany.bischino:backgroundTint}</code></td><td>Tint to apply to the background.</td></tr>
+     * <tr><td><code>{@link #ViewBackgroundHelper_backgroundTintMode com.fedefexcompany.bischino:backgroundTintMode}</code></td><td>Blending mode used to apply the background tint.</td></tr>
      * </table>
      * @see #ViewBackgroundHelper_android_background
      * @see #ViewBackgroundHelper_backgroundTint

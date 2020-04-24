@@ -11,7 +11,6 @@ public class MonoPackageManager_Resources {
 		"Plugin.SimpleAudioPlayer.Abstractions.dll",
 		"Plugin.SimpleAudioPlayer.dll",
 		"Rg.Plugins.Popup.dll",
-		"Rg.Plugins.Popup.Droid.dll",
 		"System.Net.Http.Formatting.dll",
 		"Xamarin.Android.Arch.Core.Common.dll",
 		"Xamarin.Android.Arch.Core.Runtime.dll",

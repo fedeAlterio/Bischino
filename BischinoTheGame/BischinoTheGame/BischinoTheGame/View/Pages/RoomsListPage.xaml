@@ -23,14 +23,22 @@
                 </Grid.ColumnDefinitions>
                 
                 <Image x:Name="Logo" Grid.Row="0" Grid.RowSpan="3" Grid.Column="0" Grid.ColumnSpan="3"  HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="350" Margin="0,0,0,115" Opacity="0.15"
-                       Source="logo"/>
+                       Source="logo.png"/>
 
                 <Button Padding="0" BackgroundColor="{StaticResource BackgroundBlack}" Grid.Row="0" Grid.Column="2" Margin="0,20,0,0" FontSize="20" TextColor="White" HorizontalOptions="Center"
                             Text="Filters" Command="{Binding ShowFiltersCommand}"/>
-                <Label TextColor="White" Grid.Row="0"  Grid.Column="1" Margin="0,30,0,0" FontSize="24" HorizontalOptions="Center"
-                           Text="Room list"/>
-                <Button Padding="0" BackgroundColor="{StaticResource BackgroundBlack}" Grid.Row="0" Grid.Column="0" Margin="0,20,0,0" FontSize="20" TextColor="White" HorizontalOptions="Center"
-                            Text="Refresh" Command="{Binding RefreshCommand}"/>
+
+                <Frame Grid.Row="0"  Grid.Column="1" Padding="10,0" Margin="0,20,0,0" BackgroundColor="White" HorizontalOptions="Center"
+                           CornerRadius="10">
+                        <Entry BackgroundColor="Transparent" HorizontalTextAlignment="Center" VerticalOptions="Center" VerticalTextAlignment="Center"
+                               FontSize="20" FontAttributes="Bold"  Placeholder="Saladino"
+                               PlaceholderColor="Black" Text="Match list"/>
+                </Frame>
+
+
+                 <Button Padding="0" BackgroundColor="{StaticResource BackgroundBlack}" Grid.Row="0" Grid.Column="0" 
+                         Margin="0,20,0,0" FontSize="20" TextColor="White" HorizontalOptions="Center"
+                        Text="Refresh" Command="{Binding RefreshCommand}"/>
             <ContentView Grid.Row="1" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="3" Margin="20, 10" WidthRequest="290" HorizontalOptions="Center">
                     <RefreshView IsRefreshing="{Binding IsBusy}" Command="{Binding RefreshCommand}">
                         <CollectionView SelectedItem="{Binding SelectedRoom}" ItemsSource="{Binding Rooms}" SelectionMode="Single" SelectionChangedCommand="{Binding VisualizeRoomCommand}" SelectionChangedCommandParameter="{Binding Source={RelativeSource Self}, Path=SelectedItem}" RemainingItemsThreshold="3" RemainingItemsThresholdReachedCommand="{Binding EndOfListCommand}">
@@ -74,11 +82,18 @@
                     </RefreshView>
                 </ContentView>
 
-                <ImageButton Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Grid.ColumnSpan="3" HorizontalOptions="End" VerticalOptions="End" BackgroundColor="Transparent" Margin="0,0,20,0" HeightRequest="80"
-                             Source="add" Command="{Binding CreateRoomCommand}"/>
+                <ImageButton Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Grid.ColumnSpan="3" HorizontalOptions="End" VerticalOptions="End" 
+                             Margin="0,0,20,20" Padding="8" HeightRequest="60" CornerRadius="30"
+                             BackgroundColor="#303f9f"
+                             Source="add_white.png" Command="{Binding CreateRoomCommand}"/>
+
+                <ImageButton  Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" HorizontalOptions="Start" VerticalOptions="End" 
+                             Margin="20,0,0,20" Padding="15" HeightRequest="60" CornerRadius="30"
+                             BackgroundColor="DarkRed"
+                             Source="lock.png" Command="{Binding ToPrivateRoomLockerCommand}"/>
 
 
-            <controls:AdControlView AdUnitId="ca-app-pub-7000661273633463/5947921246" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" BackgroundColor="Transparent" VerticalOptions="End" HeightRequest="90" Margin="0" WidthRequest="300"/>
+            <controls:AdControlView IsVisible="false" AdUnitId="ca-app-pub-7000661273633463/5947921246" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" BackgroundColor="Transparent" VerticalOptions="End" HeightRequest="90" Margin="0" WidthRequest="300"/>
             </Grid>
     </ContentPage.Content>
 </ContentPage>

@@ -7,6 +7,7 @@ using BischinoTheGame.Controller;
 using BischinoTheGame.Controller.Communication.Exceptions;
 using BischinoTheGame.Controller.Communication.Queries;
 using BischinoTheGame.Model;
+using BischinoTheGame.View.ViewElements;
 using Rooms.Controller;
 using Xamarin.Forms;
 
@@ -14,6 +15,9 @@ namespace BischinoTheGame.ViewModel.PageViewModels
 {
     public class RoomCreationViewModel : PageViewModel
     {
+        private static readonly Color NotSelectedColor = Color.FromHex("#303f9f");
+        private static readonly Color SelectedColor = Color.DarkRed;
+
         private Room _room;
         public Room Room
         {
@@ -26,12 +30,14 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         }
 
 
+
         private Command _createRoomCommand;
         public Command CreateRoomCommand
         {
             get => _createRoomCommand;
             set => SetProperty(ref _createRoomCommand, value);
         }
+
 
 
         private string _errorMessage;
@@ -42,19 +48,64 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         }
 
 
-        private ObservableCollection<int> _possibleMinPlayers;
-        public ObservableCollection<int> PossibleMinPlayers
+
+        private ObservableCollection<ColorWrapper<int>> _possibleMinPlayers;
+        public ObservableCollection<ColorWrapper<int>> PossibleMinPlayers
         {
             get => _possibleMinPlayers;
             set => SetProperty(ref _possibleMinPlayers, value);
         }
 
 
-        private ObservableCollection<int> _possibleMaxPlayers;
-        public ObservableCollection<int> PossibleMaxPlayers
+
+        private ObservableCollection<ColorWrapper<int>> _possibleMaxPlayers;
+        public ObservableCollection<ColorWrapper<int>> PossibleMaxPlayers
         {
             get => _possibleMaxPlayers;
             set => SetProperty(ref _possibleMaxPlayers, value);
+        }
+
+
+
+
+        private ColorWrapper<int> _selectedMinPlayer;
+        public ColorWrapper<int> SelectedMinPlayer
+        {
+            get => _selectedMinPlayer;
+            set
+            {
+                foreach (var colorWrapper in _possibleMinPlayers)
+                    colorWrapper.Color = NotSelectedColor;
+                
+                value.Color = SelectedColor;
+                
+                _room.MinPlayers = value.Model;
+                _selectedMinPlayer = null;
+                CreateRoomCommand.ChangeCanExecute();
+
+                SetProperty(ref _selectedMinPlayer, value);
+            }
+        }
+
+
+
+
+        private ColorWrapper<int> _selectedMaxPlayer;
+        public ColorWrapper<int> SelectedMaxPlayer
+        {
+            get => _selectedMaxPlayer;
+            set
+            {
+                foreach (var colorWrapper in _possibleMaxPlayers)
+                    colorWrapper.Color = NotSelectedColor;
+                value.Color = SelectedColor;
+                
+                _room.MaxPlayers = value.Model;
+                _selectedMaxPlayer = null;
+                CreateRoomCommand.ChangeCanExecute();
+
+                SetProperty(ref _selectedMaxPlayer, value);
+            }
         }
 
 
@@ -64,8 +115,14 @@ namespace BischinoTheGame.ViewModel.PageViewModels
             var user = AppController.Navigation.GameNavigation.LoggedPlayer;
             Room = new Room {Host = user.Name};
             CreateRoomCommand = new Command(_=>CreateRoom(), _=>CanCreateRoom());
-            PossibleMinPlayers = new ObservableCollection<int> {2, 3, 4, 5, 6};
-            PossibleMaxPlayers = new ObservableCollection<int>{2,3,4,5,6};
+            var minColors = from val in new List<int> {2, 3, 4, 5, 6}
+                select new ColorWrapper<int>{ Color = NotSelectedColor, Model = val};
+
+            var maxColors = from val in new List<int> { 2, 3, 4, 5, 6 }
+                select new ColorWrapper<int> { Color = NotSelectedColor, Model = val };
+
+            PossibleMinPlayers = new ObservableCollection<ColorWrapper<int>>(minColors);
+            PossibleMaxPlayers = new ObservableCollection<ColorWrapper<int>>(maxColors);
         }
 
 
@@ -75,17 +132,17 @@ namespace BischinoTheGame.ViewModel.PageViewModels
             IsPageEnabled = false;
             try
             {
-                await AppController.RoomsHandler.Create(_room);
+                Room = await AppController.GameHandler.Create(_room);
 
                 var query = new RoomQuery {PlayerName = Room.Host, RoomName = Room.Name};
-                await AppController.RoomsHandler.Join(query);
+                await AppController.GameHandler.Join(query);
                 await AppController.Navigation.GameNavigation.NotifyRoomCreated(_room);
             }
             catch (ServerException e)
             {
                 await AppController.Navigation.DisplayAlert(ErrorTitle, e.Message);
             }
-            catch
+            catch ( Exception e)
             {
                 await AppController.Navigation.DisplayAlert(ErrorTitle, ErrorDefault);
             }
@@ -95,6 +152,7 @@ namespace BischinoTheGame.ViewModel.PageViewModels
 
         private bool CanCreateRoom()
         {
+            ErrorMessage = string.Empty;
             if (string.IsNullOrWhiteSpace(_room.Name))
             {
                 ErrorMessage = string.Empty;

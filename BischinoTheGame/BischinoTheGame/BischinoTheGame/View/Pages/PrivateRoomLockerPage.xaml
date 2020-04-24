@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+             mc:Ignorable="d"
+             x:Class="BischinoTheGame.View.Pages.PrivateRoomLockerPage">
+
+    <ScrollView WidthRequest="190" HorizontalOptions="Center" VerticalOptions="Center" >
+        <StackLayout Spacing="20" IsEnabled="{Binding IsPageEnabled}">
+            <Image Source="lock" HeightRequest="70"/>
+            <Frame Padding="10,5" Margin="0,5,0,0" BackgroundColor="White" HorizontalOptions="Center"
+                   CornerRadius="30">
+            <Label HorizontalOptions="Center" BackgroundColor="Transparent" TextColor="Black" WidthRequest="70"
+                   HorizontalTextAlignment="Center" FontSize="20"
+                   Text="{Binding Code}" />
+            </Frame>
+
+            <Grid ColumnSpacing="15" RowSpacing="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Button Grid.Row="0" Grid.Column="0" BackgroundColor="{StaticResource GoodViolet}"
+                        FontSize="25" HorizontalOptions="Center" TextColor="White" CornerRadius="30"
+                        Text="1" Command="{Binding OneCommand}"/>
+
+                <Button Grid.Row="0" Grid.Column="1" BackgroundColor="{StaticResource GoodViolet}"
+                        FontSize="25" HorizontalOptions="Center" TextColor="White" CornerRadius="30"
+                        Text="2" Command="{Binding TwoCommand}"/>
+
+                <Button Grid.Row="0" Grid.Column="2" BackgroundColor="{StaticResource GoodViolet}"
+                        FontSize="25" HorizontalOptions="Center" TextColor="White" CornerRadius="30"
+                        Text="3" Command="{Binding ThreeCommand}"/>
+
+
+                <Button Grid.Row="1" Grid.Column="0" BackgroundColor="{StaticResource GoodViolet}"
+                        FontSize="25" HorizontalOptions="Center" TextColor="White" CornerRadius="30"
+                        Text="4" Command="{Binding FourCommand}"/>
+
+                <Button Grid.Row="1" Grid.Column="1" BackgroundColor="{StaticResource GoodViolet}"
+                        FontSize="25" HorizontalOptions="Center" TextColor="White" CornerRadius="30"
+                        Text="5" Command="{Binding FiveCommand}"/>
+
+                <Button Grid.Row="1" Grid.Column="2" BackgroundColor="{StaticResource GoodViolet}"
+                        FontSize="25" HorizontalOptions="Center" TextColor="White" CornerRadius="30"
+                        Text="6" Command="{Binding SixCommand}"/>
+
+
+                <Button Grid.Row="2" Grid.Column="0" BackgroundColor="{StaticResource GoodViolet}"
+                        FontSize="25" HorizontalOptions="Center" TextColor="White" CornerRadius="30"
+                        Text="7" Command="{Binding SevenCommand}"/>
+
+                <Button Grid.Row="2" Grid.Column="1" BackgroundColor="{StaticResource GoodViolet}"
+                        FontSize="25" HorizontalOptions="Center" TextColor="White" CornerRadius="30"
+                        Text="8" Command="{Binding EightCommand}"/>
+
+                <Button Grid.Row="2" Grid.Column="2" BackgroundColor="{StaticResource GoodViolet}"
+                        FontSize="25" HorizontalOptions="Center" TextColor="White" CornerRadius="30"
+                        Text="9" Command="{Binding NineCommand}"/>
+
+
+                <Button Grid.Row="3" Grid.Column="0" BackgroundColor="White" 
+                        FontSize="25" HorizontalOptions="Center" TextColor="Black" CornerRadius="30"
+                        Text="X" Command="{Binding DeleteCommand}"/>
+
+                <Button Grid.Row="3" Grid.Column="1" BackgroundColor="{StaticResource GoodViolet}"
+                        FontSize="25" HorizontalOptions="Center" TextColor="White" CornerRadius="30"
+                        Text="0" Command="{Binding ZeroCommand}"/>
+
+                <Button Grid.Row="3" Grid.Column="2" BackgroundColor="DarkRed" 
+                        FontSize="18" HorizontalOptions="Center" TextColor="White" CornerRadius="30"
+                        Text="GO" Command="{Binding GoCommand}"/>
+            </Grid>
+        </StackLayout>
+    </ScrollView>
+
+</pages:PopupPage>

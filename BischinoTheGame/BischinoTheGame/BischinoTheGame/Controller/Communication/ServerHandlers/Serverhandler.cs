@@ -22,7 +22,7 @@ namespace BischinoTheGame.Controller.Communication.ServerHandlers
         /// <summary>
         /// Timeout in milliseconds of each http operation. 
         /// </summary>
-        protected static int Timeout = 10 * 1000;
+        protected static int Timeout = 23 * 1000;
 
 
 
@@ -61,9 +61,10 @@ namespace BischinoTheGame.Controller.Communication.ServerHandlers
         /// </summary>
         static ServerHandler()
         {
-            RestServerUri = new UriBuilder(@"https://bischino20200324045818.azurewebsites.net").Uri;
+             RestServerUri = new UriBuilder(@"http://89.34.16.77/plesk-site-preview/bischinocardgame.com/").Uri;
+            // RestServerUri = new UriBuilder(@"https://bischino20200324045818.azurewebsites.net").Uri;
             //RestServerUri = new UriBuilder(@"https://10.0.2.2:5001").Uri;
-            //RestServerUri = new UriBuilder(@"https://192.168.1.67:5001").Uri;
+           // RestServerUri = new UriBuilder(@"http://192.168.1.67").Uri;
         }
             
 
@@ -100,7 +101,7 @@ namespace BischinoTheGame.Controller.Communication.ServerHandlers
         protected static async Task PostWithUri(Uri relativeUri, object toSend, CancellationToken token = default)
         {
             var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(token);
-            var uri = new Uri(RestServerUri, relativeUri);
+            var uri = new Uri(RestServerUri.ToString() + relativeUri.ToString());
             var resp = await Client.PostAsJsonAsync(uri, toSend, linkedTokenSource.Token).TimeoutAfter(TimeSpan.FromMilliseconds(Timeout), linkedTokenSource);
 
             if (!resp.IsSuccessStatusCode)
@@ -121,7 +122,7 @@ namespace BischinoTheGame.Controller.Communication.ServerHandlers
         {
             var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(token);
 
-            var uri = new Uri(RestServerUri, relativeUri);
+            var uri = new Uri(RestServerUri.ToString() + relativeUri.ToString());
             var resp = await Client.PostAsJsonAsync(uri, body, linkedTokenSource.Token).TimeoutAfter(TimeSpan.FromMilliseconds(Timeout), linkedTokenSource);
 
             if (!resp.IsSuccessStatusCode)
@@ -144,7 +145,7 @@ namespace BischinoTheGame.Controller.Communication.ServerHandlers
         {
             var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(token);
 
-            var uri = new Uri(RestServerUri, relativeUri);
+            var uri = new Uri(RestServerUri.ToString() + relativeUri.ToString());
             var resp = await Client.GetAsync(uri, linkedTokenSource.Token).TimeoutAfter(TimeSpan.FromMilliseconds(Timeout), linkedTokenSource);
 
             if (!resp.IsSuccessStatusCode)

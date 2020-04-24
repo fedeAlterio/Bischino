@@ -32,12 +32,14 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         }
 
 
+
         private RoomSearchQuery _query;
         public RoomSearchQuery Query
         {
             get => _query;
             set => SetProperty(ref _query, value);
         }
+
 
 
         private Room _selectedRoom;
@@ -48,12 +50,14 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         }
 
 
+
         private Command _refreshCommand;
         public Command RefreshCommand
         {
             get => _refreshCommand;
             set => SetProperty(ref _refreshCommand, value);
         }
+
 
 
         private Command _endOfListCommand;
@@ -64,13 +68,14 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         }
 
 
-        private Command<Room> _visualizeRoomCommand;
 
+        private Command<Room> _visualizeRoomCommand;
         public Command<Room> VisualizeRoomCommand
         {
             get => _visualizeRoomCommand;
             set => SetProperty(ref _visualizeRoomCommand, value);
         }
+
 
 
         private Command _showFiltersCommand;
@@ -81,12 +86,23 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         }
 
 
+
         private Command _createRoomCommand;
         public Command CreateRoomCommand
         {
             get => _createRoomCommand;
             set => SetProperty(ref _createRoomCommand, value);
         }
+
+
+
+        private Command _toPrivateRoomLockerCommand;
+        public Command ToPrivateRoomLockerCommand
+        {
+            get => _toPrivateRoomLockerCommand;
+            set => SetProperty(ref _toPrivateRoomLockerCommand, value);
+        }
+
 
 
         public RoomsListViewModel()
@@ -101,8 +117,15 @@ namespace BischinoTheGame.ViewModel.PageViewModels
             VisualizeRoomCommand = new Command<Room>(OnRoomSelected);
             ShowFiltersCommand = new Command(_ => ShowFilters());
             CreateRoomCommand = new Command(_ => CreateRoom());
+            ToPrivateRoomLockerCommand = new Command(_ => ToPrivateRoomLocker());
         }
 
+        private async void ToPrivateRoomLocker()
+        {
+            IsPageEnabled = false;
+            await AppController.Navigation.GameNavigation.ToPrivateRoomLocker();
+            IsPageEnabled = true;
+        }
 
 
         private async void CreateRoom()
@@ -137,7 +160,7 @@ namespace BischinoTheGame.ViewModel.PageViewModels
             {
                 var player = AppController.Navigation.GameNavigation.LoggedPlayer;
                 var roomQuery = new RoomQuery { PlayerName = player.Name, RoomName = room.Name };
-                await AppController.RoomsHandler.Join(roomQuery);
+                await AppController.GameHandler.Join(roomQuery);
                 await AppController.Navigation.GameNavigation.NotifyRoomJoined(room);
             }
             catch (ServerException e)
@@ -174,7 +197,7 @@ namespace BischinoTheGame.ViewModel.PageViewModels
             IsUpdatingList = true;
             try
             {
-                var result = await AppController.RoomsHandler.GetRooms(Query);
+                var result = await AppController.GameHandler.GetRooms(Query);
                 var rooms = result;
                 Query.Options.Skip += rooms.Count;
                 foreach (var room in rooms)

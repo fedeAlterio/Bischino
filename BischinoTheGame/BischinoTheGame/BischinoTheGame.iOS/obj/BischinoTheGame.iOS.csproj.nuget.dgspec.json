@@ -48,7 +48,7 @@
             },
             "Rg.Plugins.Popup": {
               "target": "Package",
-              "version": "[1.2.0.223, )"
+              "version": "[2.0.0.2, )"
             },
             "WinInsider.System.Net.Http.Formatting": {
               "target": "Package",
@@ -64,7 +64,7 @@
             },
             "Xamarin.Forms": {
               "target": "Package",
-              "version": "[4.5.0.530, )"
+              "version": "[4.5.0.617, )"
             }
           }
         }
@@ -132,7 +132,7 @@
             },
             "Rg.Plugins.Popup": {
               "target": "Package",
-              "version": "[1.2.0.223, )"
+              "version": "[2.0.0.2, )"
             },
             "WinInsider.System.Net.Http.Formatting": {
               "target": "Package",
@@ -148,7 +148,7 @@
             },
             "Xamarin.Forms": {
               "target": "Package",
-              "version": "[4.5.0.530, )"
+              "version": "[4.5.0.617, )"
             }
           },
           "imports": [
@@ -161,7 +161,7 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
         }
       }
     }

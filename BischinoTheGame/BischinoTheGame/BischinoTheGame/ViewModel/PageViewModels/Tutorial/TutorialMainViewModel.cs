@@ -295,7 +295,7 @@ namespace BischinoTheGame.ViewModel.PageViewModels.Tutorial
         private async Task DropTime()
         {
             await WriteAndAwait("Okay, now let's assume you're playing with 2 players", 2500);
-            await WriteAndAwait("Every player must play one card at time", 2000);
+            await WriteAndAwait("Each player must play one card at time", 2000);
             await _tutorial.DropCards();
             DropCommand = new Command(_ => OnDrop());
             await _tutorial.YourTurn();
@@ -311,7 +311,7 @@ namespace BischinoTheGame.ViewModel.PageViewModels.Tutorial
             await _tutorial.DropTheCard();
             await WriteAndAwait("Great", 500);
             
-            await WriteText("Because your card has an higher rank, you are awarded a point");
+            await WriteText("Because your card has a higher rank, you are awarded a point");
             await _tutorial.AddPoint();
             await Task.Delay(2000);
 

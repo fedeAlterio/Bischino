@@ -19,6 +19,10 @@ namespace BischinoTheGame.Controller.Communication.Queries
         /// The username of a player in the room referenced by <see cref="RoomName"/>
         /// </summary>
         public string PlayerName { get; set; }
+
+
+
+        public int? RoomNumber { get; set; }
     }
 
 

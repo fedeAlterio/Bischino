@@ -558,8 +558,6 @@ C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.Android\obj\Deb
 C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.Android\obj\Debug\90\BischinoTheGame.Android.csprojAssemblyReference.cache
 C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.Android\obj\Debug\90\_VerifyXamarinAndroidSupportVersions.stamp
 C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.Android\obj\Debug\90\stamp\_BuildLibraryImportsCache.stamp
-C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.Android\obj\Debug\90\resourcepaths.cache
-C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.Android\obj\Debug\90\resourcecache.stamp
 C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.Android\obj\Debug\90\res.flag
 C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.Android\obj\Debug\90\flata\A91FD40D96CC108E.stamp
 C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.Android\obj\Debug\90\flata\1BF9AB8873420FB3.stamp
@@ -785,8 +783,6 @@ C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.Android\obj\Deb
 C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.Android\obj\Debug\90\android\assets\Plugin.SimpleAudioPlayer.dll
 C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.Android\obj\Debug\90\android\assets\Plugin.SimpleAudioPlayer.dll.mdb
 C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.Android\obj\Debug\90\android\assets\Rg.Plugins.Popup.dll
-C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.Android\obj\Debug\90\android\assets\Rg.Plugins.Popup.Droid.dll
-C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.Android\obj\Debug\90\android\assets\Rg.Plugins.Popup.Droid.dll.mdb
 C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.Android\obj\Debug\90\android\assets\Rg.Plugins.Popup.pdb
 C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.Android\obj\Debug\90\android\assets\System.Collections.Concurrent.dll
 C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.Android\obj\Debug\90\android\assets\System.Collections.dll
@@ -822,7 +818,6 @@ C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.Android\obj\Deb
 C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.Android\obj\Debug\90\android\assets\System.Numerics.Vectors.pdb
 C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.Android\obj\Debug\90\android\assets\System.pdb
 C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.Android\obj\Debug\90\android\assets\System.Reflection.dll
-C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.Android\obj\Debug\90\android\assets\System.Reflection.Extensions.dll
 C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.Android\obj\Debug\90\android\assets\System.Resources.ResourceManager.dll
 C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.Android\obj\Debug\90\android\assets\System.Runtime.dll
 C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.Android\obj\Debug\90\android\assets\System.Runtime.Extensions.dll
@@ -1029,7 +1024,6 @@ C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.Android\obj\Deb
 C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.Android\obj\Debug\90\android\src\crc64720bb2db43a66fe9\ViewRenderer_2.java
 C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.Android\obj\Debug\90\android\src\mono\android\support\design\chip\ChipGroup_OnCheckedChangeListenerImplementor.java
 C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.Android\obj\Debug\90\android\src\android\support\design\widget\Snackbar_SnackbarActionClickImplementor.java
-C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.Android\obj\Debug\90\android\src\crc6460d2b0234674b457\PopupPageRenderer.java
 C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.Android\obj\Debug\90\android\src\android\support\design\R.java
 C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.Android\obj\Debug\90\android\src\xamarin\essentials\fileProvider.java
 C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.Android\obj\Debug\90\android\src\crc6450e07d0e82e86181\AwaitableResultCallback_1.java
@@ -1231,7 +1225,6 @@ C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.Android\obj\Deb
 C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.Android\obj\Debug\90\android\src\crc64cd8b23a5a735fc0f\AnimationViewRenderer.java
 C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.Android\obj\Debug\90\android\src\crc64cd8b23a5a735fc0f\AnimationViewRenderer_ClickListener.java
 C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.Android\obj\Debug\90\android\src\crc64cd8b23a5a735fc0f\AnimatorListener.java
-C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.Android\obj\Debug\90\android\src\crc647a155f775cb6802f\RgGestureDetectorListener.java
 C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.Android\obj\Debug\90\android\src\crc64c8303c9f3ad44612\BetterPickerRenderer.java
 C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.Android\obj\Debug\90\android\src\crc64c8303c9f3ad44612\MainActivity.java
 C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.Android\obj\Debug\90\android\bin\packaged_resources
@@ -1253,7 +1246,6 @@ C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.Android\obj\Deb
 C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.Android\obj\Debug\90\app_shared_libraries\x86\libxamarin-app.so
 C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.Android\obj\Debug\90\app_shared_libraries\x86_64\libxamarin-app.so
 C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.Android\obj\Debug\90\android\bin\classes.dex
-C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.Android\obj\Debug\90\stamp\_BuildAdditionalResourcesCache.stamp
 C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.Android\obj\Debug\90\stamp\_CleanIntermediateIfNuGetsChange.stamp
 C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.Android\obj\Debug\90\stamp\_CompileToDalvik.stamp
 C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.Android\obj\Debug\90\stamp\_ConvertCustomView.stamp
@@ -1264,3 +1256,13 @@ C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.Android\obj\Deb
 C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.Android\obj\Debug\90\stamp\_ResolveLibraryProjectImports.stamp
 C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.Android\obj\Debug\90\res\drawable\back_arrow.png
 C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.Android\obj\Debug\90\res\drawable\next_arrow.png
+C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.Android\bin\Debug\com.fedefexcompany.bischino.aab
+C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.Android\obj\Debug\90\BischinoTheGame.Android.csproj.CoreCompileInputs.cache
+C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.Android\obj\Debug\90\android\AndroidManifest.xml
+C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.Android\obj\Debug\90\android\src\crc643dd37f507f3d9710\PopupPageRenderer.java
+C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.Android\obj\Debug\90\android\src\crc64fdbeeba101bd56dc\RgGestureDetectorListener.java
+C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.Android\obj\Debug\90\res\drawable\add_black.png
+C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.Android\obj\Debug\90\res\drawable\add_white.png
+C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.Android\obj\Debug\90\res\drawable\lock.png
+C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.Android\obj\Debug\90\android\src\crc642ed3489bd735f6b2\EntryRenderer.java
+C:\repo\Bischino\BischinoTheGame\BischinoTheGame\BischinoTheGame.Android\obj\Debug\90\res\drawable\bot.png

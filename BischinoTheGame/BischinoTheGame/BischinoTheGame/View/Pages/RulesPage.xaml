@@ -80,7 +80,7 @@
                        Text="The game starts by dealing 5 cards to each player. "/>
 
                 <Label TextColor="White" LineBreakMode="WordWrap" FontSize="15" Margin="0,10,0,0" Style="{StaticResource DescriptionLabel}"
-                       Text="At this point, based on the cards in his hand, each player must predict how many tricks he will win by the end of the game. Each player then bets the orther players he will win the number of tricks he predicts"/>
+                       Text="At this point, based on the cards in his hand, each player must predict how many tricks he will win by the end of the game. Each player then bets the other players he will win the number of tricks he predicts"/>
                 <Label TextColor="White" LineBreakMode="WordWrap" FontSize="15" Margin="0,10,0,0" Style="{StaticResource DescriptionLabel}"
                        Text="The last player to bet has an extra constraint: "/>
                 <Label TextColor="Wheat" LineBreakMode="WordWrap" HorizontalTextAlignment="Center" FontAttributes="Italic" FontSize="15" Margin="0,10" Style="{StaticResource DescriptionLabel}"
@@ -93,12 +93,12 @@
                        Text="After every round the highest card wins the trick and the winner is awarded a point. That's also the player who must start the following round."/>
 
                 <Label TextColor="White" LineBreakMode="WordWrap" FontSize="15" Style="{StaticResource DescriptionLabel}"
-                       Text="When the last turn ends, the predictions made are compared to the number of points won. Any difference will be deduct from the players' lives."/>
+                       Text="When the last turn ends, the predictions made are compared to the number of points won. Any difference will be deducted from the players' lives."/>
                 <Label TextColor="White" LineBreakMode="WordWrap" FontSize="15" Style="{StaticResource DescriptionLabel}"
                        Text="Each player starts with a total of three lives. At the end of every hand the lives are recalculated:"/>
 
                 <Label TextColor="Wheat" LineBreakMode="WordWrap" HorizontalTextAlignment="Center" FontAttributes="Italic" FontSize="15" Margin="0,10" Style="{StaticResource DescriptionLabel}"
-                       Text="New Lives = old lives - prediction error"/>
+                       Text="New Lives = current lives - prediction error"/>
 
                 <Label TextColor="White" LineBreakMode="WordWrap" FontSize="15" Margin="0,10" Style="{StaticResource DescriptionLabel}"
                        Text="At every hand the number of cards dealt is decreased by one. The one-card round has different rules:"/>
@@ -108,7 +108,7 @@
                        Text="Each player sees the cards of all the others, but not his own and on this basis he must make his prediction."/>
 
 
-                <Button TextColor="White" BackgroundColor="{StaticResource GoodPink}" CornerRadius="30" Margin="10,10"
+                <Button TextColor="White" BackgroundColor="{StaticResource GoodViolet}" CornerRadius="30" Margin="10,10"
                         Text="Play the tutorial" Command="{Binding TutorialCommand}"/>
             </StackLayout>
         </Grid>
