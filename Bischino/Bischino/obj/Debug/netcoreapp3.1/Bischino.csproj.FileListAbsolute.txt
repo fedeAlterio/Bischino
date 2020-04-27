@@ -209,7 +209,7 @@ C:\repo\Bischino\Bischino\Bischino\obj\Debug\netcoreapp3.1\Bischino.RazorTargetA
 C:\repo\Bischino\Bischino\Bischino\obj\Debug\netcoreapp3.1\Bischino.csproj.CopyComplete
 C:\repo\Bischino\Bischino\Bischino\obj\Debug\netcoreapp3.1\Bischino.dll
 C:\repo\Bischino\Bischino\Bischino\obj\Debug\netcoreapp3.1\Bischino.pdb
-C:\repo\Bischino\Bischino\Bischino\obj\Debug\netcoreapp3.1\Bischino.csprojAssemblyReference.cache
 C:\repo\Bischino\Bischino\Bischino\bin\Debug\netcoreapp3.1\app.yaml
 C:\repo\Bischino\Bischino\Bischino\obj\Debug\netcoreapp3.1\Bischino.csproj.CoreCompileInputs.cache
 C:\repo\Bischino\Bischino\Bischino\obj\Debug\netcoreapp3.1\Bischino.genruntimeconfig.cache
+C:\repo\Bischino\Bischino\Bischino\obj\Debug\netcoreapp3.1\Bischino.csprojAssemblyReference.cache

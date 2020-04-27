@@ -17,8 +17,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Bischino.Base.Security;
 using Bischino.Base.Service;
-using Bischino.Bischino;
-using Bischino.Controllers;
+using Bischino.Model;
 using Bischino.Settings;
 
 namespace Bischino

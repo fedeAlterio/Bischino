@@ -10,17 +10,14 @@ using Bischino.Base.Controllers;
 using Bischino.Base.Controllers.Filters;
 using Bischino.Base.Security;
 using Bischino.Base.Service;
-using Bischino.Bischino;
-using Bischino.Controllers.Extensions;
-using Bischino.Controllers.Queries;
-using Bischino.Controllers.Responses;
 using Bischino.Model;
+using Bischino.Model.Exeptions;
 using Bischino.Test;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ActionConstraints;
 using MongoDB.Driver;
 
-namespace Bischino.Controllers
+namespace Bischino.Model
 {
     public class RoomsController : ControllerBase
     {
@@ -105,11 +102,11 @@ namespace Bischino.Controllers
 
 
         public IActionResult NextPhase([FromBody] RoomQuery roomQuery)
-            => TryOk(() => _gameHandler.NextPhase(roomQuery));
+            => Ok();
 
 
         public IActionResult NextTurn([FromBody] RoomQuery<string> dropQuery)
-            => TryOk(() => _gameHandler.NextTurn(dropQuery));
+            => Ok();
 
 
         public Task<IActionResult> GetMatchSnapshot([FromBody] RoomQuery roomQuery)
@@ -137,7 +134,7 @@ namespace Bischino.Controllers
                 action.Invoke();
                 return Ok();
             }
-            catch (ValidationException e)
+            catch (GameException e)
             {
                 return BadRequest(new ValuedResponse { Message = e.Message });
             }
@@ -157,7 +154,7 @@ namespace Bischino.Controllers
                 var ret = func.Invoke();
                 return OkValued(ret);
             }
-            catch (ValidationException e)
+            catch (GameException e)
             {
                 return BadRequest(new ValuedResponse { Message = e.Message });
             }
@@ -176,7 +173,7 @@ namespace Bischino.Controllers
                 await action.Invoke();
                 return Ok();
             }
-            catch (ValidationException e)
+            catch (GameException e)
             {
                 return BadRequest(new ValuedResponse { Message = e.Message });
             }
@@ -196,7 +193,7 @@ namespace Bischino.Controllers
                 var ret = await func.Invoke();
                 return OkValued(ret);
             }
-            catch (ValidationException e)
+            catch (GameException e)
             {
                 return BadRequest(new ValuedResponse { Message = e.Message });
             }

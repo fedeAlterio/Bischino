@@ -210,7 +210,6 @@ namespace BischinoTheGame.ViewModel.PageViewModels
 
             IsPageEnabled = true;
         }
-
         private bool CanDrop() => IsDropPhase;
 
 
@@ -270,7 +269,7 @@ namespace BischinoTheGame.ViewModel.PageViewModels
             _pollingTask = LongPolling(_pollingTokenSource.Token);
         }
 
-        private async Task StopPolling()
+        public async Task StopPolling()
         {
             if (_pollingTokenSource is null)
                 return;
@@ -281,15 +280,27 @@ namespace BischinoTheGame.ViewModel.PageViewModels
 
         private async Task LongPolling(CancellationToken token)
         {
+            var isUpdated = false;
             while (!token.IsCancellationRequested && !_isGameEnded)
             {
                 try
                 {
-                    var snapshot = await AppController.GameHandler.GetMatchSnapshot(_roomQuery, token);
-                    if (snapshot != null)
+                    if (!isUpdated)
+                    {
+                        await UpdateToLastSnapshot(token);
+                        isUpdated = true;
+                    }
+                    else
+                    {
+                        var snapshot = await AppController.GameHandler.GetMatchSnapshot(_roomQuery, token);
                         await HandleSnapshot(snapshot);
+                    }
                 }
-                catch (Exception)
+                catch (OperationCanceledException e)
+                {
+                    return;
+                }
+                catch (Exception) 
                 {
                     try
                     {
@@ -297,7 +308,7 @@ namespace BischinoTheGame.ViewModel.PageViewModels
                     }
                     catch (Exception) when (token.IsCancellationRequested)
                     {
-                        await Task.Delay(500);
+                        return;
                     }
                 }
             }
@@ -455,21 +466,6 @@ namespace BischinoTheGame.ViewModel.PageViewModels
                 return false;
             }
         }
-        private async Task OnEndPhase()
-        {
-            await Task.Delay(3000);
-            const int attempts = 20;
-            for(int i=0; i < attempts; i++)
-                if (await TryNotifyEndPhase())
-                    return;
-                else
-                    await Task.Delay(1000);
-
-            await AppController.Navigation.DisplayAlert(ErrorTitle, "An error occurred, going back to room list");
-            _pollingTokenSource.Cancel();
-            await AppController.Navigation.GameNavigation.BackToRoomList(true);
-        }
-
 
 
         private async Task<bool> TryNotifyEndTurn()
@@ -484,20 +480,6 @@ namespace BischinoTheGame.ViewModel.PageViewModels
                 return false;
             }
         }
-
-        private async Task OnEndTurn()
-        {
-            await Task.Delay(3000);
-            const int attempts = 20;
-            for (int i = 0; i < attempts; i++)
-                if (await TryNotifyEndTurn())
-                    return;
-                else
-                    await Task.Delay(1000);
-            await AppController.Navigation.DisplayAlert(ErrorTitle, "An error occurred, going back to room list");
-            _isGameEnded = true;
-        }
-
 
 
         private void UpdatePrivatePlayers()
@@ -556,10 +538,11 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         }
 
 
-        public void OnDisappearing()
+        public async Task OnDisappearing()
         {
             foreach (var p in PrivatePlayers)
                 p.OnDisappearing();
+            await StopPolling();
         }
 
 
@@ -568,6 +551,7 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         {
             foreach (var p in PrivatePlayers)
                 p.OnAppearing();
+            StartPolling();
         }
     }
 }

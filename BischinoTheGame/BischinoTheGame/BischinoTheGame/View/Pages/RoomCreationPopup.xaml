@@ -82,7 +82,7 @@
                            Text="Private"/>
                 </Frame>
 
-                <Switch IsToggled="{Binding IsPrivate}"/>
+                <Switch IsToggled="{Binding Room.IsPrivate}"/>
             </StackLayout>
                 
             

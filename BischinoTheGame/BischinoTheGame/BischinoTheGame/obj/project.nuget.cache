@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "91BURnXasrjQ2Piin0x1h0HFWA+0qQdu5ZMlnZcjVaa1ayUHJ0xPNDyTwwRVqnACB8BRhFmeCQJ+4/dMtblNcA==",
+  "dgSpecHash": "jaD/FS0MI9M/AcV9JJgK1ODXbbo8Gq89Od3nnEt1WubxdO2GRaCkMibpzDiVoXAvL/TqtLP1J8EN9XTvuVxpiQ==",
   "success": true,
   "projectFilePath": "C:\\repo\\Bischino\\BischinoTheGame\\BischinoTheGame\\BischinoTheGame\\BischinoTheGame.csproj",
   "expectedPackageFiles": [
@@ -50,8 +50,8 @@
     "C:\\Users\\fedea\\.nuget\\packages\\system.xml.xmlserializer\\4.3.0\\system.xml.xmlserializer.4.3.0.nupkg.sha512",
     "C:\\Users\\fedea\\.nuget\\packages\\wininsider.system.net.http.formatting\\1.0.14\\wininsider.system.net.http.formatting.1.0.14.nupkg.sha512",
     "C:\\Users\\fedea\\.nuget\\packages\\xam.plugin.simpleaudioplayer\\1.4.0\\xam.plugin.simpleaudioplayer.1.4.0.nupkg.sha512",
-    "C:\\Users\\fedea\\.nuget\\packages\\xamarin.essentials\\1.5.2\\xamarin.essentials.1.5.2.nupkg.sha512",
-    "C:\\Users\\fedea\\.nuget\\packages\\xamarin.forms\\4.5.0.617\\xamarin.forms.4.5.0.617.nupkg.sha512"
+    "C:\\Users\\fedea\\.nuget\\packages\\xamarin.essentials\\1.5.3.1\\xamarin.essentials.1.5.3.1.nupkg.sha512",
+    "C:\\Users\\fedea\\.nuget\\packages\\xamarin.forms\\4.5.0.657\\xamarin.forms.4.5.0.657.nupkg.sha512"
   ],
   "logs": []
 }

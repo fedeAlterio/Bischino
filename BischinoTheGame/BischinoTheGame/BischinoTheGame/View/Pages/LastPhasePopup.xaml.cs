@@ -16,6 +16,7 @@ namespace BischinoTheGame.View.Pages
         {
             InitializeComponent();
             CloseWhenBackgroundIsClicked = false;
+            BackgroundInputTransparent = true;
         }
     }
 }

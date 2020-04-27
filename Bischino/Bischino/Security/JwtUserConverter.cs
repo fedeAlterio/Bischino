@@ -11,14 +11,13 @@ namespace Bischino.Security
 {
     public class JwtUserConverter
     {
-        public static Jwt FromModel(User model)
+        public static Jwt FromModel(IUserBaseIdentity model)
         {
             var claims = new List<Claim>
             {
-                new Claim(nameof(User.Id), model.Id),
-                new Claim(nameof(User.Username), model.Username)
+                new Claim(nameof(model.Id), model.Id),
             };
-            var jwt = new Jwt(DateTime.Now.AddDays(1), RoleAttribute.GetRole(typeof(User)), claims);
+            var jwt = new Jwt(DateTime.Now.AddDays(1), RoleAttribute.GetRole(typeof(IUserBaseIdentity)), claims);
             return jwt;
         }
 
@@ -26,8 +25,7 @@ namespace Bischino.Security
         {
             var identity = new UserIdentity
             {
-                Id = claimsIdentity.FindFirst(nameof(User.Id)).Value,
-                Username = claimsIdentity.FindFirst(nameof(User.Username)).Value,
+                Id = claimsIdentity.FindFirst(nameof(IUserBaseIdentity.Id)).Value,
                 Role = claimsIdentity.FindFirst(ClaimTypes.Role).Value
             };
             return identity;

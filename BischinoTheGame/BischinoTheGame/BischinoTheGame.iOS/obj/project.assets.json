@@ -768,8 +768,8 @@
           "Rg.Plugins.Popup": "2.0.0.2",
           "WinInsider.System.Net.Http.Formatting": "1.0.14",
           "Xam.Plugin.SimpleAudioPlayer": "1.4.0",
-          "Xamarin.Essentials": "1.5.2",
-          "Xamarin.Forms": "4.5.0.617"
+          "Xamarin.Essentials": "1.5.3.1",
+          "Xamarin.Forms": "4.5.0.657"
         },
         "compile": {
           "bin/placeholder/BischinoTheGame.dll": {}
@@ -1482,8 +1482,8 @@
           "Rg.Plugins.Popup": "2.0.0.2",
           "WinInsider.System.Net.Http.Formatting": "1.0.14",
           "Xam.Plugin.SimpleAudioPlayer": "1.4.0",
-          "Xamarin.Essentials": "1.5.2",
-          "Xamarin.Forms": "4.5.0.617"
+          "Xamarin.Essentials": "1.5.3.1",
+          "Xamarin.Forms": "4.5.0.657"
         },
         "compile": {
           "bin/placeholder/BischinoTheGame.dll": {}
@@ -2196,8 +2196,8 @@
           "Rg.Plugins.Popup": "2.0.0.2",
           "WinInsider.System.Net.Http.Formatting": "1.0.14",
           "Xam.Plugin.SimpleAudioPlayer": "1.4.0",
-          "Xamarin.Essentials": "1.5.2",
-          "Xamarin.Forms": "4.5.0.617"
+          "Xamarin.Essentials": "1.5.3.1",
+          "Xamarin.Forms": "4.5.0.657"
         },
         "compile": {
           "bin/placeholder/BischinoTheGame.dll": {}
@@ -2910,8 +2910,8 @@
           "Rg.Plugins.Popup": "2.0.0.2",
           "WinInsider.System.Net.Http.Formatting": "1.0.14",
           "Xam.Plugin.SimpleAudioPlayer": "1.4.0",
-          "Xamarin.Essentials": "1.5.2",
-          "Xamarin.Forms": "4.5.0.617"
+          "Xamarin.Essentials": "1.5.3.1",
+          "Xamarin.Forms": "4.5.0.657"
         },
         "compile": {
           "bin/placeholder/BischinoTheGame.dll": {}
@@ -6523,5 +6523,33 @@
         "#import": []
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "NU1605",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "È stato rilevato il downgrade del pacchetto Xamarin.Essentials da 1.5.3.1 a 1.5.2. Fare riferimento al pacchetto direttamente dal progetto per selezionare una versione diversa. \r\n BischinoTheGame.iOS -> BischinoTheGame -> Xamarin.Essentials (>= 1.5.3.1) \r\n BischinoTheGame.iOS -> Xamarin.Essentials (>= 1.5.2)",
+      "libraryId": "Xamarin.Essentials",
+      "targetGraphs": [
+        "Xamarin.iOS,Version=v1.0",
+        "Xamarin.iOS,Version=v1.0/win",
+        "Xamarin.iOS,Version=v1.0/win-x64",
+        "Xamarin.iOS,Version=v1.0/win-x86"
+      ]
+    },
+    {
+      "code": "NU1605",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "È stato rilevato il downgrade del pacchetto Xamarin.Forms da 4.5.0.657 a 4.5.0.617. Fare riferimento al pacchetto direttamente dal progetto per selezionare una versione diversa. \r\n BischinoTheGame.iOS -> BischinoTheGame -> Xamarin.Forms (>= 4.5.0.657) \r\n BischinoTheGame.iOS -> Xamarin.Forms (>= 4.5.0.617)",
+      "libraryId": "Xamarin.Forms",
+      "targetGraphs": [
+        "Xamarin.iOS,Version=v1.0",
+        "Xamarin.iOS,Version=v1.0/win",
+        "Xamarin.iOS,Version=v1.0/win-x64",
+        "Xamarin.iOS,Version=v1.0/win-x86"
+      ]
+    }
+  ]
 }

@@ -1529,8 +1529,8 @@
           "Rg.Plugins.Popup": "2.0.0.2",
           "WinInsider.System.Net.Http.Formatting": "1.0.14",
           "Xam.Plugin.SimpleAudioPlayer": "1.4.0",
-          "Xamarin.Essentials": "1.5.2",
-          "Xamarin.Forms": "4.5.0.617"
+          "Xamarin.Essentials": "1.5.3.1",
+          "Xamarin.Forms": "4.5.0.657"
         },
         "compile": {
           "bin/placeholder/BischinoTheGame.dll": {}
@@ -5980,6 +5980,26 @@
       "warningLevel": 1,
       "message": "È stato rilevato il downgrade del pacchetto Com.Airbnb.Xamarin.Forms.Lottie da 3.1.0 a 3.0.4. Fare riferimento al pacchetto direttamente dal progetto per selezionare una versione diversa. \r\n BischinoTheGame.Android -> BischinoTheGame -> Com.Airbnb.Xamarin.Forms.Lottie (>= 3.1.0) \r\n BischinoTheGame.Android -> Com.Airbnb.Xamarin.Forms.Lottie (>= 3.0.4)",
       "libraryId": "Com.Airbnb.Xamarin.Forms.Lottie",
+      "targetGraphs": [
+        "MonoAndroid,Version=v9.0"
+      ]
+    },
+    {
+      "code": "NU1605",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "È stato rilevato il downgrade del pacchetto Xamarin.Essentials da 1.5.3.1 a 1.5.2. Fare riferimento al pacchetto direttamente dal progetto per selezionare una versione diversa. \r\n BischinoTheGame.Android -> BischinoTheGame -> Xamarin.Essentials (>= 1.5.3.1) \r\n BischinoTheGame.Android -> Xamarin.Essentials (>= 1.5.2)",
+      "libraryId": "Xamarin.Essentials",
+      "targetGraphs": [
+        "MonoAndroid,Version=v9.0"
+      ]
+    },
+    {
+      "code": "NU1605",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "È stato rilevato il downgrade del pacchetto Xamarin.Forms da 4.5.0.657 a 4.5.0.617. Fare riferimento al pacchetto direttamente dal progetto per selezionare una versione diversa. \r\n BischinoTheGame.Android -> BischinoTheGame -> Xamarin.Forms (>= 4.5.0.657) \r\n BischinoTheGame.Android -> Xamarin.Forms (>= 4.5.0.617)",
+      "libraryId": "Xamarin.Forms",
       "targetGraphs": [
         "MonoAndroid,Version=v9.0"
       ]

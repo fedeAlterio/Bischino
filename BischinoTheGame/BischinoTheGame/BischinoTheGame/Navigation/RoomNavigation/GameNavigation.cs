@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using BischinoTheGame.Controller;
 using BischinoTheGame.Controller.Communication.Queries;
@@ -273,8 +274,8 @@ namespace BischinoTheGame.Navigation.RoomNavigation
 
         private async Task PopAllPopups()
         {
-            if (PopupNavigation.Instance.PopupStack.Count > 0)
-                await PopupNavigation.Instance.PopAllAsync();
+            foreach (var popup in PopupNavigation.Instance.PopupStack)
+                /* await Rg.Popup issue when going background*/ PopupNavigation.Instance.PopAsync();
         }
     }
 }

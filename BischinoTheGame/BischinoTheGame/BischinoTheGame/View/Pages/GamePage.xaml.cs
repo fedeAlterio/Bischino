@@ -14,7 +14,6 @@ namespace BischinoTheGame.View.Pages
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class GamePage : ContentPage
     {
-        public const double PlayerCardWidth = 400 / 5.0;
         private GameViewModel _viewModel;
         private ImageButton _clickedImageButton;
         private bool _isInitialized;
@@ -42,6 +41,8 @@ namespace BischinoTheGame.View.Pages
             BouncingAnimationView.OnFinish += BouncingAnimationView_OnFinish;
         }
 
+
+
         private void _viewModel_ChronologyStarted(object sender, EventArgs e)
         {
             _chronoStarted = true;
@@ -50,10 +51,14 @@ namespace BischinoTheGame.View.Pages
             _viewModel.NewMatchSnapshot -= ViewModel_NewMatchSnapshot;
         }
 
+
+
         private async Task _viewModel_DropFailed()
         {
             await _clickedImageButton.ScaleTo(1);
         }
+
+
 
         protected override void OnAppearing()
         {
@@ -64,19 +69,18 @@ namespace BischinoTheGame.View.Pages
             if(!_isInitialized)
             {
                  SetupEvents();
-                 _viewModel.StartPolling();
-                _isInitialized = true;
+                 _isInitialized = true;
             }
             _viewModel.OnAppearing();
         }
 
 
 
-        protected override void OnDisappearing()
+        protected override async void OnDisappearing()
         {
-            base.OnDisappearing();
             MessagingCenter.Send(this, ViewMessagingConstants.Unspecified);
-            _viewModel.OnDisappearing();
+            await _viewModel.OnDisappearing();
+            base.OnDisappearing();
         }
 
 

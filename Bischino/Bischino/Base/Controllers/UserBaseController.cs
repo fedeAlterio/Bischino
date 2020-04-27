@@ -14,7 +14,6 @@ using Bischino.Base.Security;
 using Bischino.Base.Service;
 using Bischino.Model;
 using Bischino.Service;
-using WebApi.Model;
 
 namespace Bischino.Base.Controllers
 {
@@ -42,6 +41,7 @@ namespace Bischino.Base.Controllers
 
         protected async Task<IActionResult> LoginBase(T user)
         {
+            //todo
             try
             {
                 var results = await MongoService.GetAll(CredentialsCheckExpression(user), new CollectionQueryOptions());
@@ -50,8 +50,8 @@ namespace Bischino.Base.Controllers
                     throw ValidationException.Default;
 
                 var jwt = GetJwt(collectionUser);
-                var loginData = new LoginData<T> {Token = jwt.TokenString, LoggedUser = collectionUser};
-                return Ok(new ValuedResponse(loginData));
+                //var loginData = null;//; new LoginData<T> {Token = jwt.TokenString, LoggedUser = collectionUser};
+                return Ok(new ValuedResponse(null));
             }
             catch (ValidationException e)
             {

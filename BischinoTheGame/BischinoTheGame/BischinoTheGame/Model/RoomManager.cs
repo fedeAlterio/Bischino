@@ -15,12 +15,14 @@ namespace BischinoTheGame.Model
         }
 
 
+
         private DateTime? _startTime;
         public DateTime? StartTime
         {
             get => _startTime;
             set => SetProperty(ref _startTime, value);
         }
+
 
 
         private int _inGameTimeout;

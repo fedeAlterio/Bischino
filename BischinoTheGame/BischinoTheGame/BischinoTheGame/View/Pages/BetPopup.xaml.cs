@@ -62,11 +62,5 @@ namespace BischinoTheGame.View.Pages
             await _animateInfoTask;
             _animateInfoTask = null;
         }
-
-
-        protected override bool OnBackButtonPressed()
-        {
-            return true; // Disable back button
-        }
     }
 }
