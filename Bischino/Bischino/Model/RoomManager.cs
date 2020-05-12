@@ -17,7 +17,7 @@ namespace Bischino.Model
         public event EventHandler<RoomQuery> WaitingRoomDisconnectedPlayer;
         public event EventHandler MatchEnded;
 
-        public int InGameTimeout { get; set; } = 70000 * 1000; //ms
+        public int InGameTimeout { get; set; } = 50 * 1000; //ms
         private const int WaitingRoomTimeout = 17 * 1000; //ms
         private const int WinPhaseTimeout = 40 * 1000;
 

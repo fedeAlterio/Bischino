@@ -19,6 +19,7 @@ using Bischino.Base.Security;
 using Bischino.Base.Service;
 using Bischino.Model;
 using Bischino.Settings;
+using Bischino.Skribble;
 
 namespace Bischino
 {
@@ -51,6 +52,9 @@ namespace Bischino
 
             var gameHandler = new GameHandler();
             services.AddSingleton<IGameHandler>(gameHandler);
+
+            var skribbleHandler = new SkribbleHandler();
+            services.AddSingleton<ISkribbleHandler>(skribbleHandler);
         }
 
         private void AddAuthService(IServiceCollection services, JwtSettings jwtSettings)

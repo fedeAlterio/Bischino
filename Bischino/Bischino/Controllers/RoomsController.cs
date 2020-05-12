@@ -10,6 +10,7 @@ using Bischino.Base.Controllers;
 using Bischino.Base.Controllers.Filters;
 using Bischino.Base.Security;
 using Bischino.Base.Service;
+using Bischino.Controllers;
 using Bischino.Model;
 using Bischino.Model.Exeptions;
 using Bischino.Test;
@@ -19,7 +20,7 @@ using MongoDB.Driver;
 
 namespace Bischino.Model
 {
-    public class RoomsController : ControllerBase
+    public class RoomsController : AbstractController
     {
         private readonly IGameHandler _gameHandler;
 
@@ -123,90 +124,5 @@ namespace Bischino.Model
 
         public IActionResult GetGameInfo([FromBody] RoomQuery roomQuery)
             => TryValuedOk(() => _gameHandler.GetGameInfo(roomQuery));
-
-
-
-
-        private IActionResult TryOk(Action action)
-        {
-            try
-            {
-                action.Invoke();
-                return Ok();
-            }
-            catch (GameException e)
-            {
-                return BadRequest(new ValuedResponse { Message = e.Message });
-            }
-            catch (Exception e)
-            {
-                return BadRequest(new ValuedResponse { Message = ErrorDefault });
-            }
-        }
-
-
-
-
-        private IActionResult TryValuedOk(Func<object> func)
-        {
-            try
-            {
-                var ret = func.Invoke();
-                return OkValued(ret);
-            }
-            catch (GameException e)
-            {
-                return BadRequest(new ValuedResponse { Message = e.Message });
-            }
-            catch (Exception e)
-            {
-                return BadRequest(new ValuedResponse { Message = ErrorDefault });
-            }
-        }
-
-
-
-        private async Task<IActionResult> TryOkAsync(Func<Task> action)
-        {
-            try
-            {
-                await action.Invoke();
-                return Ok();
-            }
-            catch (GameException e)
-            {
-                return BadRequest(new ValuedResponse { Message = e.Message });
-            }
-            catch (Exception e)
-            {
-                return BadRequest(new ValuedResponse { Message = ErrorDefault });
-            }
-        }
-
-
-
-
-        private async Task<IActionResult> TryValuedOkAsync<T>(Func<Task<T>> func)
-        {
-            try
-            {
-                var ret = await func.Invoke();
-                return OkValued(ret);
-            }
-            catch (GameException e)
-            {
-                return BadRequest(new ValuedResponse { Message = e.Message });
-            }
-            catch (Exception e)
-            {
-                return BadRequest(new ValuedResponse { Message = ErrorDefault });
-            }
-        }
-
-
-
-
-        private IActionResult OkValued(object obj) => Ok(new ValuedResponse(obj));
-        private const string ErrorDefault = "An error occurred";
     }
 }

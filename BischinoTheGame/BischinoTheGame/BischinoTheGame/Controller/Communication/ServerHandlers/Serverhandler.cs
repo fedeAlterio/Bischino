@@ -63,7 +63,7 @@ namespace BischinoTheGame.Controller.Communication.ServerHandlers
         {
             RestServerUri = new UriBuilder(@"http://89.34.16.77/plesk-site-preview/bischinocardgame.com/").Uri;
             // RestServerUri = new UriBuilder(@"https://bischino20200324045818.azurewebsites.net").Uri;
-           //RestServerUri = new UriBuilder(@"https://10.0.2.2:5001").Uri;
+          // RestServerUri = new UriBuilder(@"https://10.0.2.2:5001").Uri;
            // RestServerUri = new UriBuilder(@"http://192.168.1.67").Uri;
         }
             
@@ -213,7 +213,36 @@ namespace BischinoTheGame.Controller.Communication.ServerHandlers
             throw errorResponse == null ? new Exception($"Server error, status code {response.StatusCode}") : new HttpServerException(response.StatusCode, errorResponse.Message);
         }
 
-       
+
+
+        protected async Task<T> TryGet<T>(Func<Task<T>> func, int attempts = 2)
+        {
+            for (var i = 0; i < attempts; i++)
+                try
+                {
+                    return await func.Invoke();
+                }
+                catch (Exception e) when (!(e is ServerException) && i < attempts - 1) { }
+
+            throw new Exception("Impossible go here");
+        }
+
+        protected async Task TryPost(Func<Task> func, int attempts = 2)
+        {
+            for (var i = 0; i < attempts; i++)
+                try
+                {
+                    await func.Invoke();
+                    return;
+                }
+                catch (Exception e) when (!(e is ServerException) && i < attempts - 1) { }
+
+            throw new Exception("Impossible go here");
+        }
+
+
+
+
 
         /// <summary>
         /// Converts a method name to the full uri. This is used to make a rest call.

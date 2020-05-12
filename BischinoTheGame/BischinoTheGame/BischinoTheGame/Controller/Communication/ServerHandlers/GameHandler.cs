@@ -4,6 +4,7 @@ using System.Net.WebSockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using BischinoTheGame.Controller.Communication.Exceptions;
 using BischinoTheGame.Controller.Communication.Queries;
 using BischinoTheGame.Model;
 using BischinoTheGame.ViewModel.PageViewModels;
@@ -16,17 +17,15 @@ namespace BischinoTheGame.Controller.Communication.ServerHandlers
         private static GameHandler _roomHandler;
         public static GameHandler Instance => _roomHandler ??= new GameHandler();
         protected override string BaseUri { get; } = "rooms/";
-        private bool _matchSnapshotLost;
-        private MatchSnapshot LastSnapshot;
 
         public Task<Room> Create(Room room)
-            => Get<Room>(room);
+            => TryGet<Room>(() => Get<Room>(room), 2);
 
         public Task<IList<Room>> GetRooms(RoomSearchQuery query)
             => Get<IList<Room>>(query);
 
         public Task Join(RoomQuery roomQuery)
-            => Post(roomQuery);
+            => TryPost( () => Post(roomQuery), 2);
 
         public Task<Room> JoinPrivate(RoomQuery roomQuery)
             => Get<Room>(roomQuery);
