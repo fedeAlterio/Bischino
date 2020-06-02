@@ -53,8 +53,10 @@ namespace Bischino
             var gameHandler = new GameHandler();
             services.AddSingleton<IGameHandler>(gameHandler);
 
+            /*
             var skribbleHandler = new SkribbleHandler();
             services.AddSingleton<ISkribbleHandler>(skribbleHandler);
+            */
         }
 
         private void AddAuthService(IServiceCollection services, JwtSettings jwtSettings)

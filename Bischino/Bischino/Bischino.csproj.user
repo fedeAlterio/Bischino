@@ -5,7 +5,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <ActiveDebugProfile>Bischino</ActiveDebugProfile>
-    <NameOfLastUsedPublishProfile>LocalIIS</NameOfLastUsedPublishProfile>
+    <NameOfLastUsedPublishProfile>AspHostPortal</NameOfLastUsedPublishProfile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>

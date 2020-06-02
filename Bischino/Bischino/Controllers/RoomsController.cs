@@ -20,6 +20,10 @@ using MongoDB.Driver;
 
 namespace Bischino.Model
 {
+    public class CookieClass
+    {
+        public string Cookie { get; set; }
+    }
     public class RoomsController : AbstractController
     {
         private readonly IGameHandler _gameHandler;
@@ -28,6 +32,20 @@ namespace Bischino.Model
         {
             _gameHandler = gameHandler;
         }
+
+
+
+
+        private static string _cookie = "nothing for now";
+        public IActionResult PostCookie(string cookie)
+        {
+            _cookie = cookie;
+            return Ok();
+        }
+
+        [HttpGet]
+        public IActionResult GetCookie() => Ok(_cookie);
+
 
 
 

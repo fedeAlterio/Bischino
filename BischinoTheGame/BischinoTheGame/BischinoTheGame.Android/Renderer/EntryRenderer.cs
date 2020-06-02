@@ -9,14 +9,10 @@ namespace BischinoTheGame.Droid.Renderer
 {
     public class EntryRenderer : Xamarin.Forms.Platform.Android.EntryRenderer
     {
-
         public EntryRenderer(Context context) : base(context)
         {
             
         }
-
-
-
         protected override void OnElementChanged(ElementChangedEventArgs<Entry> e)
         {
             base.OnElementChanged(e);
