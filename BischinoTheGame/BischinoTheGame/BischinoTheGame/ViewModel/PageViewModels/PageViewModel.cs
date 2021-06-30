@@ -1,25 +1,44 @@
-﻿using System;
+﻿using BischinoTheGame.Controller;
+using BischinoTheGame.Navigation;
+using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
+using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace BischinoTheGame.ViewModel.PageViewModels
 {
     public abstract class PageViewModel : ViewModelBase
     {
-        protected const string ErrorDefault = "An error occurred, check your internet connection";
+        private readonly IAppNavigation _appNavigation;
+        protected const string ErrorDefault = "An error occurred";
         protected const string ErrorTitle = "Warning";
+
+
+        // Initialization
+        public PageViewModel()
+        {
+            _appNavigation = AppController.Navigation;
+        }
+
+        public PageViewModel(IAppNavigation appNavigation)
+        {
+            _appNavigation = appNavigation;
+        }
+
+
+
+
+
+        #region Bindable Properties        
 
         private bool _isPageEnabled = true;
         public bool IsPageEnabled
         {
             get => _isPageEnabled;
-            protected set
-            {
-                if (SetProperty(ref _isPageEnabled, value))
-                    if (!_isPageEnabled)
-                        DisablePage();
-            }
+            protected set => SetProperty(ref _isPageEnabled, value);
         }
+
 
         private bool _isBusy;
         public bool IsBusy
@@ -28,15 +47,32 @@ namespace BischinoTheGame.ViewModel.PageViewModels
             set => SetProperty(ref _isBusy, value);
         }
 
+        #endregion
 
-        private bool _isPageLoaded = true;
-        public bool IsPageLoaded
-        {
-            get => _isPageLoaded;
-            set => SetProperty(ref _isPageLoaded, value);
+
+
+
+
+        // Events
+        protected async void HandleException(Exception e)
+        {            
+            await _appNavigation.DisplayAlert(ErrorTitle, e.Message);
         }
 
 
-        protected virtual void DisablePage() { }
+
+
+        // Helpers
+        protected IAsyncCommand NewCommand(Func<Task> execute, Func<bool> canExectute = null, bool allowMultipleExecutions = false)
+            => new AsyncCommand(execute, canExectute ?? (() => true), HandleException, true, allowMultipleExecutions);
+
+        protected IAsyncCommand NewCommand(Action execute, Func<bool> canExectute = null, bool allowMultipleExecutions = false)
+        => new AsyncCommand(async () => execute(), canExectute ?? (() => true), HandleException, true, allowMultipleExecutions);
+
+        protected IAsyncCommand<T> NewCommand<T>(Func<T, Task> execute, Func<bool> canExecute = null, bool allowMultipleExecutions = false)
+            => new AsyncCommand<T>(execute, canExecute ?? (() => true), HandleException, true, allowMultipleExecutions);
+
+        protected IAsyncCommand<T> NewCommand<T>(Action<T> execute, Func<bool> canExecute = null, bool allowMultipleExecutions = false)
+           => new AsyncCommand<T>(async x => execute(x), canExecute ?? (() => true), HandleException, true, allowMultipleExecutions);
     }
 }

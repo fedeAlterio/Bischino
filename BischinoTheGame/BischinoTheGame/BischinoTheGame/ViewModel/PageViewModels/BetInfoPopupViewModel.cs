@@ -7,13 +7,7 @@ namespace BischinoTheGame.ViewModel.PageViewModels
 {
     public class BetInfoPopupViewModel : PageViewModel
     {
-        private string _infoQuestion;
-        public string InfoQuestion
-        {
-            get => _infoQuestion;
-            set => SetProperty(ref _infoQuestion, value);
-        }
-
+        public string InfoQuestion { get; } 
 
         public BetInfoPopupViewModel(int missingNumber)
         {

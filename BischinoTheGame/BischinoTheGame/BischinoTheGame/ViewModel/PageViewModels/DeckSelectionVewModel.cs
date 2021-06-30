@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
+using System.Threading.Tasks;
 using BischinoTheGame.Controller;
 using BischinoTheGame.Model.Settings;
 using Rooms.Controller;
+using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
 namespace BischinoTheGame.ViewModel.PageViewModels
@@ -15,7 +17,47 @@ namespace BischinoTheGame.ViewModel.PageViewModels
 
         public readonly ObservableCollection<IList<string>> Decks = new ObservableCollection<IList<string>>();
 
-        
+
+        // Initialization
+        public DeckSelectionVewModel()
+        {
+            Name = "dsadsa";
+            LoadDecks();
+            Deck1 = new ReadOnlyObservableCollection<string>(_deck1);
+            Deck2 = new ReadOnlyObservableCollection<string>(_deck2);
+            Deck3 = new ReadOnlyObservableCollection<string>(_deck3);
+        }
+
+        private void LoadDecks()
+        {
+            Decks.Clear();
+            foreach (var type in (DeckType[])Enum.GetValues(typeof(DeckType)))
+            {
+                var deck = new List<string>();
+                for (int i = 0; i < DeckSize; i++)
+                    deck.Add(AppController.Settings.GetCardIcon($"{i}", type));
+                Decks.Add(deck);
+            }
+
+            _deck1.AddRange(Decks[0]);
+            Deck1Command = NewCommand(async () => await ChooseDeck(DeckType.A));
+
+            _deck2.AddRange(Decks[0]);
+            Deck2Command = NewCommand(async () => await ChooseDeck(DeckType.B));
+
+            _deck3.AddRange(Decks[0]);
+            Deck3Command = NewCommand(async () => await ChooseDeck(DeckType.C));
+        }
+
+
+        // Commands
+        public IAsyncCommand Deck1Command { get; private set; }
+        public IAsyncCommand Deck2Command { get; private set; }
+        public IAsyncCommand Deck3Command { get; private set; }
+
+
+
+        // Properties
         private string _name;
         public string Name
         {
@@ -24,83 +66,19 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         }
 
 
-        private IList<string> _deck1;
-        public IList<string> Deck1
-        {
-            get => _deck1;
-            set => SetProperty(ref _deck1, value);
-        }
+        private ObservableRangeCollection<string> _deck1 = new ObservableRangeCollection<string>();
+        public ReadOnlyObservableCollection<string> Deck1 { get; }
+
+        private ObservableRangeCollection<string> _deck2 = new ObservableRangeCollection<string>();
+        public ReadOnlyObservableCollection<string> Deck2 { get; }
+
+        private ObservableRangeCollection<string> _deck3 = new ObservableRangeCollection<string>();
+        public ReadOnlyObservableCollection<string> Deck3 { get; }
 
 
-        private IList<string> _deck2;
-        public IList<string> Deck2
-        {
-            get => _deck2;
-            set => SetProperty(ref _deck2, value);
-        }
 
-
-        private IList<string> _deck3;
-        public IList<string> Deck3
-        {
-            get => _deck3;
-            set => SetProperty(ref _deck3, value);
-        }
-
-
-        private Command _deck1Command;
-        public Command Deck1Command
-        {
-            get => _deck1Command;
-            set => SetProperty(ref _deck1Command, value);
-        }
-
-
-        private Command _deck2Command;
-        public Command Deck2Command
-        {
-            get => _deck2Command;
-            set => SetProperty(ref _deck2Command, value);
-        }
-
-
-        private Command _deck3Command;
-        public Command Deck3Command
-        {
-            get => _deck3Command;
-            set => SetProperty(ref _deck3Command, value);
-        }
-
-
-        public DeckSelectionVewModel()
-        {
-            Name = "dsadsa";
-            LoadDecks();
-            
-        }
-
-        private void LoadDecks()
-        {
-            Decks.Clear();
-            foreach (var type in (DeckType[]) Enum.GetValues(typeof(DeckType)))
-            {
-                var deck = new List<string>();
-                for(int i=0; i < DeckSize; i++)
-                    deck.Add(AppController.Settings.GetCardIcon($"{i}", type));
-                Decks.Add(deck);
-            }
-
-            Deck1 = Decks[0];
-            Deck1Command = new Command(_ => ChooseDeck(DeckType.A));
-            
-            Deck2 = Decks[1];
-            Deck2Command = new Command(_ => ChooseDeck(DeckType.B));
-
-            Deck3 = Decks[2];
-            Deck3Command = new Command(_ => ChooseDeck(DeckType.C));
-        }
-
-        private async void ChooseDeck(DeckType type)
+        // Commands Handlers
+        private async Task ChooseDeck(DeckType type)
         {
             AppController.Settings.DeckType = type;
             await AppController.Navigation.DisplayAlert("Information", "Saved");

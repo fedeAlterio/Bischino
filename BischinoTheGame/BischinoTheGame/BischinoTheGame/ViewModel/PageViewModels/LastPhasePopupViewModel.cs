@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
+using System.Threading.Tasks;
 using BischinoTheGame.Controller;
 using BischinoTheGame.Controller.Communication.Queries;
 using BischinoTheGame.Model;
 using Rooms.Controller;
+using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
 namespace BischinoTheGame.ViewModel.PageViewModels
@@ -15,53 +17,30 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         private readonly string _roomName;
         private readonly string _playerName;
 
-        private LastPhaseViewModel _lastPhaseViewModel;
-        public LastPhaseViewModel LastPhaseViewModel
-        {
-            get => _lastPhaseViewModel;
-            set => SetProperty(ref _lastPhaseViewModel, value);
-        }
 
-
-        private Command _winBetCommand;
-        public Command WinBetCommand
-        {
-            get => _winBetCommand;
-            set => SetProperty(ref _winBetCommand, value);
-        }
-
-
-        private Command _loseBetCommand;
-        public Command LoseBetCommand
-        {
-            get => _loseBetCommand;
-            set => SetProperty(ref _loseBetCommand, value);
-        }
-
-
-
+        // Initialization
         public LastPhasePopupViewModel(string roomName, string playerName, LastPhaseViewModel lastPhaseVM)
         {
             (_roomName, _playerName, LastPhaseViewModel) = (roomName, playerName, lastPhaseVM);
 
-            WinBetCommand = new Command(_ => NotifyBet(true));
-            LoseBetCommand = new Command(_ => NotifyBet(false));
+            WinBetCommand = NewCommand(async () => await NotifyBet(true));
+            LoseBetCommand = NewCommand(async () => await NotifyBet(false));
         }
 
-        private async void NotifyBet(bool win)
+        // Commands
+        public IAsyncCommand WinBetCommand { get; }
+        public IAsyncCommand LoseBetCommand { get; }
+
+
+
+        // Properties
+        public LastPhaseViewModel LastPhaseViewModel { get; }
+
+        private async Task NotifyBet(bool win)
         {
-            IsPageEnabled = false;
-            try
-            {
-                var roomQuery = new RoomQuery<int> {RoomName = _roomName, PlayerName = _playerName, Data = win ? 1 : 0};
-                await AppController.GameHandler.MakeABet(roomQuery);
-                await AppController.Navigation.GameNavigation.NotifyLastPhaseCompleted();
-            }
-            catch (Exception e)
-            {
-                await AppController.Navigation.DisplayAlert(ErrorTitle, e.Message);
-            }
-            IsPageEnabled = true;
+            var roomQuery = new RoomQuery<int> {RoomName = _roomName, PlayerName = _playerName, Data = win ? 1 : 0};
+            await AppController.GameHandler.MakeABet(roomQuery);
+            await AppController.Navigation.GameNavigation.NotifyLastPhaseCompleted();
         }
     }
 }

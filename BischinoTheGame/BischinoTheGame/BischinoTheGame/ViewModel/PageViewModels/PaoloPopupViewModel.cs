@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using BischinoTheGame.Controller;
 using BischinoTheGame.Controller.Communication.Queries;
 using Rooms.Controller;
+using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
 namespace BischinoTheGame.ViewModel.PageViewModels
@@ -12,45 +14,29 @@ namespace BischinoTheGame.ViewModel.PageViewModels
     {
         private readonly string _roomName;
         private readonly string _playerName;
-        private Command _maxCommand;
-        public Command MaxCommand
-        {
-            get => _maxCommand;
-            set => SetProperty(ref _maxCommand, value);
-        }
 
 
-        private Command _minCommand;
-        public Command MinCommand
-        {
-            get => _minCommand;
-            set => SetProperty(ref _minCommand, value);
-        }
-
-
+        // Initialization
         public PaoloPopupViewModel(string roomName, string playerName)
         {
             _roomName = roomName;
             _playerName = playerName;
-            MaxCommand = new Command(_=>Notify(true));
-            MinCommand = new Command(_=>Notify(false));
+            MaxCommand = NewCommand(async () => await Notify(true));
+            MinCommand = new Command(async () => await Notify(false));
         }
 
-        private async void Notify(bool isMax)
-        {
-            IsPageEnabled = false;
-            try
-            {
-                var query = new RoomQuery<bool> {RoomName = _roomName, PlayerName = _playerName, Data = isMax};
-                await AppController.GameHandler.DropPaolo(query);
-                await AppController.Navigation.GameNavigation.NotifyPaoloSent();
-            }
-            catch (Exception e)
-            {
-                await AppController.Navigation.DisplayAlert(ErrorTitle, e.Message);
-            }
+        // Commands
+        public IAsyncCommand MaxCommand { get; }
+        public Command MinCommand { get; }
 
-            IsPageEnabled = true;
+
+
+        // Commands Handlers
+        private async Task Notify(bool isMax)
+        {
+            var query = new RoomQuery<bool> {RoomName = _roomName, PlayerName = _playerName, Data = isMax};
+            await AppController.GameHandler.DropPaolo(query);
+            await AppController.Navigation.GameNavigation.NotifyPaoloSent();
         }
     }
 }

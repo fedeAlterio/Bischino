@@ -29,6 +29,8 @@ namespace BischinoTheGame.Navigation.RoomNavigation
         private RoomsListViewModel _roomListVM;
 
         public Player LoggedPlayer { get; private set; }
+
+
         public async Task ToNameSelection()
         {
             var vm = new NameSelectionViewModel();
@@ -44,7 +46,7 @@ namespace BischinoTheGame.Navigation.RoomNavigation
             LoggedPlayer = player; 
             await PopupNavigation.Instance.PopAsync();
             await GetRoomListPage().StartAnimation();
-            _roomListVM.AsyncInitialization();
+            await _roomListVM.AsyncInitialization();
 
 
             if (!AppController.Settings.FirstRun)
@@ -74,8 +76,7 @@ namespace BischinoTheGame.Navigation.RoomNavigation
 
 
         public async Task NotifyRoomJoined(Room room)
-        {
-            await PopAllPopups();
+        {            
             var vm = new WaitingRoomViewModel(room);
             var page = new WaitingRoomPage {BindingContext = vm};
             await Navigation.PushAsync(page);
@@ -155,13 +156,11 @@ namespace BischinoTheGame.Navigation.RoomNavigation
 
 
         public async Task BackToRoomList(bool bannerOn = false)
-        {
-            await PopAllPopups();
+        {            
             await PushCorePage();
-            _roomListVM.AsyncInitialization();
+            await _roomListVM.AsyncInitialization();
             Navigation.RemovePage(Navigation.NavigationStack.First());
-            if (bannerOn)
-                ;//await AppController.AdHandler.ShowInterstitial1();
+            await PopupNavigation.Instance.PopAllAsync();
         }
 
 
@@ -228,8 +227,7 @@ namespace BischinoTheGame.Navigation.RoomNavigation
 
         public async Task StartChronology()
         {
-            _gameViewModel.StartChronology();
-            await PopAllPopups();
+            _gameViewModel.StartChronology();            
         }
 
         public async Task ToPrivateRoomLocker()
@@ -269,13 +267,6 @@ namespace BischinoTheGame.Navigation.RoomNavigation
         {
             var query = from page in _page.Children where page is RoomsListPage select (RoomsListPage)page;
             return query.FirstOrDefault();
-        }
-
-
-        private async Task PopAllPopups()
-        {
-            foreach (var popup in PopupNavigation.Instance.PopupStack)
-                /* await Rg.Popup issue when going background*/ PopupNavigation.Instance.PopAsync();
         }
     }
 }

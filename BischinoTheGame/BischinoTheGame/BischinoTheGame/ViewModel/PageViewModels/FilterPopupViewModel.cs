@@ -2,34 +2,29 @@
 using System.Collections.Generic;
 using System.Text;
 using BischinoTheGame.Controller.Communication.Queries;
+using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
 namespace BischinoTheGame.ViewModel.PageViewModels
 {
     public class FilterPopupViewModel : PageViewModel
     {
-        private Command _resetCommand;
-        public Command ResetCommand
-        {
-            get => _resetCommand;
-            set => SetProperty(ref _resetCommand, value);
-        }
-
-
-        private RoomSearchQuery _query;
-        public RoomSearchQuery Query
-        {
-            get => _query;
-            set => SetProperty(ref _query, value);
-        }
-
-
+        // Initialization
         public FilterPopupViewModel(RoomSearchQuery query)
         {
             Query = query;
-            ResetCommand = new Command(_ => Reset());
+            ResetCommand = NewCommand(Reset);
         }
 
+        // Commands
+        public IAsyncCommand ResetCommand { get; }
+
+
+        // Properties
+        public RoomSearchQuery Query { get; }
+
+
+        // Commands Handlers
         private void Reset()
         {
             Query.Model.Name = null;

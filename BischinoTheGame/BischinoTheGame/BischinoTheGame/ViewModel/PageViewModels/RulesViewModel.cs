@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
+using System.Threading.Tasks;
 using BischinoTheGame.Controller;
 using Rooms.Controller;
+using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
 namespace BischinoTheGame.ViewModel.PageViewModels
@@ -12,13 +14,22 @@ namespace BischinoTheGame.ViewModel.PageViewModels
     {
         private const int DeckSize = 40;
 
-
-        private ObservableCollection<string> _deck = new ObservableCollection<string>();
-        public ObservableCollection<string> Deck
+        // Initialization
+        public RulesViewModel()
         {
-            get => _deck;
-            set => SetProperty(ref _deck, value);
+            LoadDecks();
+            TutorialCommand = NewCommand(ToTutorial);
+            Deck = new ReadOnlyObservableCollection<string>(_deck);
         }
+
+
+        // Commands
+        public IAsyncCommand TutorialCommand { get; }
+
+
+        // Properties
+        private ObservableCollection<string> _deck = new ObservableCollection<string>();
+        public ReadOnlyObservableCollection<string> Deck { get; }
 
 
         private string _paolo;
@@ -29,23 +40,12 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         }
 
 
-        private Command _tutorialCommand;
-        public Command TutorialCommand
-        {
-            get => _tutorialCommand;
-            set => SetProperty(ref _tutorialCommand, value);
-        }
 
 
+       
 
-
-        public RulesViewModel()
-        {
-            LoadDecks();
-            TutorialCommand = new Command(_ => ToTutorial());
-        }
-
-        private async void ToTutorial()
+        // Commands Handlers
+        private async Task ToTutorial()
         {
             IsPageEnabled = false;
             await AppController.Navigation.TutorialNavigation.ToMainPage();
@@ -53,12 +53,13 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         }
 
 
+        // Helpers
         public void LoadDecks()
         {
-            Deck.Clear();
+            _deck.Clear();
             for (int i = 0; i < DeckSize; i++)
                 if(i != 30)
-                    Deck.Add(AppController.Settings.GetCardIcon($"{i}"));
+                    _deck.Add(AppController.Settings.GetCardIcon($"{i}"));
             Paolo = AppController.Settings.GetCardIcon("30");
         }
     }

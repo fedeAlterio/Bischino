@@ -9,53 +9,12 @@ namespace BischinoTheGame.ViewModel.PageViewModels
 {
     public class AudioPopupViewModel : PageViewModel
     {
-        private Command _audioOnCommand;
-        public Command AudioOnCommand
-        {
-            get => _audioOnCommand;
-            set => SetProperty(ref _audioOnCommand, value);
-        }
-
-
-        private Command _audioOffCommand;
-        public Command AudioOffCommand
-        {
-            get => _audioOffCommand;
-            set => SetProperty(ref _audioOffCommand, value);
-        }
-
-
-        private Command _nextTrackCommand;
-        public Command NextTrackCommand
-        {
-            get => _nextTrackCommand;
-            set => SetProperty(ref _nextTrackCommand, value);
-        }
-
-
-        private Command _previousTrackCommand;
-        public Command PreviousTrackCommand
-        {
-            get => _previousTrackCommand;
-            set => SetProperty(ref _previousTrackCommand, value);
-        }
-
-
-        private Command _soundEffectsOnCommand;
-        public Command SoundEffectsOnCommand
-        {
-            get => _soundEffectsOnCommand;
-            set => SetProperty(ref _soundEffectsOnCommand, value);
-        }
-
-
-        private Command _soundEffectsOffCommand;
-        public Command SoundEffectsOffCommand
-        {
-            get => _soundEffectsOffCommand;
-            set => SetProperty(ref _soundEffectsOffCommand, value);
-        }
-
+        public Command SoundEffectsOnCommand { get; }
+        public Command SoundEffectsOffCommand { get; }
+        public Command AudioOnCommand { get; }
+        public Command AudioOffCommand { get; }
+        public Command NextTrackCommand { get; }
+        public Command PreviousTrackCommand { get; }
 
         public AudioPopupViewModel()
         {

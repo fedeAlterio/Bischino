@@ -1,20 +1,20 @@
-﻿    using System;
+﻿using System;
 
 using Android.App;
 using Android.Content.PM;
-    using Android.Gms.Ads;
-    using Android.Runtime;
+using Android.Gms.Ads;
+using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
 using BischinoTheGame.View;
 using BischinoTheGame.View.Pages;
-    using BischinoTheGame.View.Pages.Tutorial;
-    using Lottie.Forms.Droid;
+using BischinoTheGame.View.Pages.Tutorial;
+using Lottie.Forms.Droid;
 using Xamarin.Forms;
-    using Application = Android.App.Application;
+using Application = Android.App.Application;
 
-    namespace BischinoTheGame.Droid
+namespace BischinoTheGame.Droid
 {
     [Activity(Label = "Bischino", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity, Android.Views.View.IOnSystemUiVisibilityChangeListener
@@ -26,12 +26,12 @@ using Xamarin.Forms;
             ToolbarResource = Resource.Layout.Toolbar;
 
             base.OnCreate(savedInstanceState);
-            Rg.Plugins.Popup.Popup.Init(this, savedInstanceState);
+            Rg.Plugins.Popup.Popup.Init(this);
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
-           
-            MobileAds.Initialize(Application.Context, "ca-app-pub-7000661273633463~4636561772");
+
+            //MobileAds.Initialize(Application.Context, "ca-app-pub-7000661273633463~4636561772");
 
             LoadApplication(new App());
             Initialize();
@@ -53,7 +53,7 @@ using Xamarin.Forms;
         private void Initialize()
         {
             OrientationSetup();
-           
+
         }
 
         private void OrientationSetup<T>() where T : class

@@ -18,6 +18,5 @@ namespace BischinoTheGame.Model
             get => _botCounter;
             set => SetProperty(ref _botCounter, value);
         }
-
     }
 }

@@ -1,47 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using BischinoTheGame.Controller;
 using Rooms.Controller;
+using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
 namespace BischinoTheGame.ViewModel.PageViewModels
 {
     public class SettingsViewModel : PageViewModel
     {
-        private Command _toDeckSelectionCommand;
-        public Command ToDeckSelectionCommand
-        {
-            get => _toDeckSelectionCommand;
-            set => SetProperty(ref _toDeckSelectionCommand, value);
-        }
-
-
-        private Command _audioSettingsCommand;
-        public Command AudioSettingsCommand
-        {
-            get => _audioSettingsCommand;
-            set => SetProperty(ref _audioSettingsCommand, value);
-        }
-
-
-        private Command _creditsCommand;
-        public Command CreditsCommand
-        {
-            get => _creditsCommand;
-            set => SetProperty(ref _creditsCommand, value);
-        }
-
-
-
+        // Initialization
         public SettingsViewModel()
         {
-            ToDeckSelectionCommand = new Command(_ => ToDeckSelection());
-            AudioSettingsCommand = new Command(_ => ToAudioSettings());
-            CreditsCommand = new Command(_ => ToCredits());
+            ToDeckSelectionCommand = NewCommand(ToDeckSelection);
+            AudioSettingsCommand = NewCommand(ToAudioSettings);
+            CreditsCommand = NewCommand(ToCredits);
         }
 
-        private async void ToCredits()
+
+        // Commands
+        public IAsyncCommand ToDeckSelectionCommand { get; }
+        public IAsyncCommand AudioSettingsCommand { get; }
+        public IAsyncCommand CreditsCommand { get; }
+
+
+
+
+
+        // Commands Handlers
+        private async Task ToCredits()
         {
             IsPageEnabled = false;
             await AppController.Navigation.GameNavigation.ToCredits();
@@ -49,14 +38,14 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         }
 
 
-        private async void ToAudioSettings()
+        private async Task ToAudioSettings()
         {
             IsPageEnabled = false;
             await AppController.Navigation.GameNavigation.ShowAudioPopup();
             IsPageEnabled = true;
         }
 
-        private async void ToDeckSelection()
+        private async Task ToDeckSelection()
         {
             IsPageEnabled = false;
             await AppController.Navigation.GameNavigation.ToDeckSelection();

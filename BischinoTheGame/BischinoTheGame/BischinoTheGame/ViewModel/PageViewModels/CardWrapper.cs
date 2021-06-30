@@ -46,6 +46,5 @@ namespace BischinoTheGame.ViewModel.PageViewModels
                     (_, val) => taskSource.SetResult(val));
             await taskSource.Task;
         }
-
     }
 }

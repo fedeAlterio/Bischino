@@ -2,33 +2,31 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using BischinoTheGame.Controller;
 using BischinoTheGame.Model;
 using Rooms.Controller;
+using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
 namespace BischinoTheGame.ViewModel.PageViewModels
 {
     public class NameSelectionViewModel : PageViewModel
     {
-        private Player _player;
-        public Player Player
+        // Initialization
+        public NameSelectionViewModel()
         {
-            get
-            {
-                NextCommand.ChangeCanExecute();
-                return _player;
-            }
-            set => SetProperty(ref _player, value);
+            Player = new Player();
+            NextCommand = NewCommand(Next, CanGoNext);
+            Player.PropertyChanged += (_, __) => NextCommand.RaiseCanExecuteChanged();
         }
 
+        // Commands
+        public IAsyncCommand NextCommand { get; }
 
-        private Command _nextCommand;
-        public Command NextCommand
-        {
-            get => _nextCommand;
-            set => SetProperty(ref _nextCommand, value);
-        }
+
+        // Properties
+        public Player Player { get; }
 
 
         private string _errorMessage;
@@ -40,32 +38,26 @@ namespace BischinoTheGame.ViewModel.PageViewModels
 
 
 
-        public NameSelectionViewModel()
+       
+        // Commands Handlers
+        private async Task Next()
         {
-            Player = new Player();
-            NextCommand = new Command(_=>Next(), _=>CanGoNext());
-        }
-
-        private async void Next()
-        {
-            IsPageEnabled = false;
-            await AppController.Navigation.GameNavigation.NotifyNameSelected(_player);
-            IsPageEnabled = true;
+            await AppController.Navigation.GameNavigation.NotifyNameSelected(Player);
         }
 
         private bool CanGoNext()
         {
-            if (string.IsNullOrWhiteSpace(_player.Name))
+            if (string.IsNullOrWhiteSpace(Player.Name))
             {
                 ErrorMessage = string.Empty;
                 return false;
             }
-            if (_player.Name.Any(char.IsWhiteSpace))
+            if (Player.Name.Any(char.IsWhiteSpace))
             {
                 ErrorMessage = "Make sure there are no spaces";
                 return false;
             }
-            if (_player.Name.Length > 16)
+            if (Player.Name.Length > 16)
             {
                 ErrorMessage = "Make sure the username is at least 16 character long";
                 return false;

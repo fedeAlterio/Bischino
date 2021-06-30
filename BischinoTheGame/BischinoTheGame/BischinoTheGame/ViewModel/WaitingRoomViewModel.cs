@@ -10,6 +10,7 @@ using BischinoTheGame.Controller.Communication.Queries;
 using BischinoTheGame.Model;
 using BischinoTheGame.ViewModel.PageViewModels;
 using Rooms.Controller;
+using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
 namespace BischinoTheGame.ViewModel
@@ -21,13 +22,42 @@ namespace BischinoTheGame.ViewModel
         private readonly CancellationTokenSource _pollTokenSource;
         private readonly Task _pollingTask;
 
+
+
+
+        // Initialization
+        public WaitingRoomViewModel(Room room)
+        {
+            Room = room;
+            _player = AppController.Navigation.GameNavigation.LoggedPlayer;
+            _roomQuery = new RoomQuery { PlayerName = _player.Name, RoomName = Room.Name };
+            _pollTokenSource = new CancellationTokenSource();
+            _pollingTask = PollingAsync(_pollTokenSource.Token);
+
+            RemoveABotCommand = NewCommand(RemoveABot, CanRemoveABot);
+            AddBotCommand = NewCommand(AddBot, CanAddBot);
+            UnJoinCommand = NewCommand(UnJoin);
+            StartMatchCommand = NewCommand(StartMatch, CanStartCommandCheck);
+
+            JoinedPlayers = new(_joinedPlayers);
+        }
+
+
+        // Commands
+        public IAsyncCommand RemoveABotCommand { get; }
+        public IAsyncCommand AddBotCommand { get; }
+        public IAsyncCommand UnJoinCommand { get; }
+        public IAsyncCommand StartMatchCommand { get; }
+
+
         
+        // Properties
         public bool IsUnjoined { get; set; }
         public bool IsMatchStarted { get; private set; }
 
 
-
-        public ObservableCollection<JoinedPlayer> JoinedPlayers { get; } = new ObservableCollection<JoinedPlayer>();
+        private readonly ObservableCollection<JoinedPlayer> _joinedPlayers = new();
+        public ReadOnlyObservableCollection<JoinedPlayer> JoinedPlayers { get; }
 
 
         private WaitingRoomInfo _waitingRoomInfo;
@@ -38,80 +68,43 @@ namespace BischinoTheGame.ViewModel
         }
 
 
+        public Room Room { get; }
 
-        public Command AddBotCommand {get;}
-        private async void AddBot()
+        private bool _isHost;
+        public bool IsHost
         {
-            IsPageEnabled = false;
-            try
-            {
-                await AppController.GameHandler.AddBot(_roomQuery);
-            }
-            catch (ServerException e)
-            {
-                await AppController.Navigation.DisplayAlert(ErrorTitle, e.Message);
-            }
-            catch
-            {
-                await AppController.Navigation.DisplayAlert(ErrorTitle, ErrorDefault);
-            }
-            IsPageEnabled = true;
+            get => _isHost;
+            set => SetProperty(ref _isHost, value);
         }
 
-        private bool CanAddBot() => _waitingRoomInfo?.NotBotPlayers != null && WaitingRoomInfo.BotCounter + WaitingRoomInfo.NotBotPlayers.Count < _room.MaxPlayers;
 
 
-
-        public Command RemoveABotCommand { get; } 
-        private async void RemoveABot()
+        private bool _canStart;
+        public bool CanStart
         {
-            IsPageEnabled = false;
-            try
-            {
-                await AppController.GameHandler.RemoveABot(_roomQuery);
-            }
-            catch (ServerException e)
-            {
-                await AppController.Navigation.DisplayAlert(ErrorTitle, e.Message);
-            }
-            catch
-            {
-                await AppController.Navigation.DisplayAlert(ErrorTitle, ErrorDefault);
-            }
-            IsPageEnabled = true;
+            get => _canStart;
+            set => SetProperty(ref _canStart, value);
         }
+
+
+
+        public string RoomName => $"{Room.Name} ({Room.RoomNumber})";
+
+
+
+        // Commands Handlers
+        private Task AddBot() => AppController.GameHandler.AddBot(_roomQuery);
+        private bool CanAddBot() => _waitingRoomInfo?.NotBotPlayers != null && WaitingRoomInfo.BotCounter + WaitingRoomInfo.NotBotPlayers.Count < Room.MaxPlayers;
+
+        private Task RemoveABot() => AppController.GameHandler.RemoveABot(_roomQuery);
         private bool CanRemoveABot() => _waitingRoomInfo != null && _waitingRoomInfo.BotCounter > 0;
         
 
-
-        private Room _room;
-        public Room Room
-        {
-            get => _room;
-            set => SetProperty(ref _room, value);
-        }
+        private Task StartMatch() => AppController.GameHandler.Start(Room.Name);
+        private bool CanStartCommandCheck() => CanStart = IsHost && JoinedPlayers.Count >= Room.MinPlayers;
 
 
 
-        public Command StartMatchCommand { get; } 
-        private async void StartMatch()
-        {
-            IsPageEnabled = false;
-            try
-            {
-                await AppController.GameHandler.Start(_room.Name);
-            }
-            catch (Exception e)
-            {
-                await AppController.Navigation.DisplayAlert(ErrorTitle, e.Message);
-                IsPageEnabled = true;
-            }
-        }
-        private bool CanStartCommandCheck() => CanStart = IsHost && JoinedPlayers.Count >= _room.MinPlayers;
-
-
-
-        public Command UnJoinCommand { get; }
         public async Task UnJoin()
         {
             if (IsUnjoined)
@@ -138,71 +131,14 @@ namespace BischinoTheGame.ViewModel
 
 
 
-        private bool _isHost;
-        public bool IsHost
-        {
-            get => _isHost;
-            set => SetProperty(ref _isHost, value);
-        }
-
-
-
-        private bool _canStart;
-        public bool CanStart
-        {
-            get => _canStart;
-            set => SetProperty(ref _canStart, value);
-        }
-
-
-
-        public string RoomName => $"{Room.Name} ({Room.RoomNumber})";
-
-
-
-
-        public WaitingRoomViewModel(Room room)
-        {
-            Room = room;
-            _player = AppController.Navigation.GameNavigation.LoggedPlayer;
-            _roomQuery = new RoomQuery {PlayerName = _player.Name, RoomName = _room.Name};
-            _pollTokenSource = new CancellationTokenSource();
-            _pollingTask = PollingAsync(_pollTokenSource.Token);
-
-            RemoveABotCommand = new Command(_ => RemoveABot(), _ => CanRemoveABot());
-            AddBotCommand = new Command(_ => AddBot(), _ => CanAddBot());
-            UnJoinCommand = new Command(async _ => await UnJoin());
-            StartMatchCommand = new Command(_ => StartMatch(), _ => CanStartCommandCheck());
-        }
-
-
-
-        private async Task PollingAsync(CancellationToken token)
-        {
-            while (!IsMatchStarted && !token.IsCancellationRequested)
-            {
-                try
-                {
-                    await LoadPlayers();
-                    IsMatchStarted = await AppController.GameHandler.IsMatchStarted(_room.Name);
-                    await Task.Delay(500, token);
-                }
-                catch (Exception e)
-                {
-
-                }
-            }
-            if(IsMatchStarted)
-                    OnMatchStarted();
-        }
-
-        private async void OnMatchStarted()
+        // Events
+        private async Task OnMatchStarted()
         {
             for(var i=0; i < 3; i++)
                 try
                 {
                     var roomInfo = await AppController.GameHandler.GetGameInfo(_roomQuery);
-                    await AppController.Navigation.GameNavigation.NotifyMatchStarted(_room, roomInfo);
+                    await AppController.Navigation.GameNavigation.NotifyMatchStarted(Room, roomInfo);
                     return;
                 }
                 catch (Exception e)
@@ -213,6 +149,27 @@ namespace BischinoTheGame.ViewModel
             await AppController.Navigation.GameNavigation.BackToRoomList();
         }
 
+
+
+        // Helpers
+        private async Task PollingAsync(CancellationToken token)
+        {
+            while (!IsMatchStarted && !token.IsCancellationRequested)
+            {
+                try
+                {
+                    await LoadPlayers();
+                    IsMatchStarted = await AppController.GameHandler.IsMatchStarted(Room.Name);
+                    await Task.Delay(500, token);
+                }
+                catch (Exception e)
+                {
+
+                }
+            }
+            if (IsMatchStarted)
+                await OnMatchStarted();
+        }
 
 
         private async Task LoadPlayers()
@@ -226,26 +183,24 @@ namespace BischinoTheGame.ViewModel
                     await UnJoin();
                 }
 
-                JoinedPlayers.Clear();
+                _joinedPlayers.Clear();
                 WaitingRoomInfo = waitingRoomInfo;
                 IsHost = _player.Name == _waitingRoomInfo.NotBotPlayers[0];
 
                 UpdateJoinedPlayers();
                 UpdateBots();
 
-                AddBotCommand.ChangeCanExecute();
-                RemoveABotCommand.ChangeCanExecute();
-                StartMatchCommand.ChangeCanExecute();
+                AddBotCommand.RaiseCanExecuteChanged();
+                RemoveABotCommand.RaiseCanExecuteChanged();
+                StartMatchCommand.RaiseCanExecuteChanged();
             }
-            catch (Exception e)
-            {
-            }
+            catch { }
         }
 
         private void UpdateJoinedPlayers()
         {
             foreach (var player in _waitingRoomInfo.NotBotPlayers)
-                JoinedPlayers.Add(new JoinedPlayer
+                _joinedPlayers.Add(new JoinedPlayer
                 {
                     Name = player,
                     IconName = player == _waitingRoomInfo.NotBotPlayers[0] ? "host_user" : "standard_user"
@@ -255,7 +210,7 @@ namespace BischinoTheGame.ViewModel
         private void UpdateBots()
         {
             for (int i = 0; i < _waitingRoomInfo.BotCounter; i++)
-                JoinedPlayers.Add(new JoinedPlayer
+                _joinedPlayers.Add(new JoinedPlayer
                 {
                     Name = $"bot{i}",
                     IconName = "bot"
