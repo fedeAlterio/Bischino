@@ -128,15 +128,15 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         private bool CanCreateRoom()
         {
             // if is not null, there is an error. (empty is stil an error)
-            ErrorMessage = this switch
+            ErrorMessage = Room switch
             {
-                _ when string.IsNullOrWhiteSpace(_room.Name) => string.Empty,
-                _ when _room.Name.Any(char.IsWhiteSpace) => "Make sure there are not spaces",
-                _ when _room.Name.Length > 16 => "The name can be only 16 character long",
-                _ when _room.MinPlayers is null || _room.MaxPlayers is null => string.Empty,
-                _ when _room.MinPlayers < 2 || _room.MinPlayers > 6 => "The field min players should be greater or equal to 2, and less or equal to 6",
-                _ when _room.MaxPlayers < 2 || _room.MaxPlayers > 6 => "The field max players should be greater or equal to 2, and less or equal to 6",
-                _ when _room.MinPlayers > _room.MaxPlayers => "The field max players should be greater than min players",
+                var x when string.IsNullOrWhiteSpace(x.Name) => string.Empty,
+                var x when x.Name.Any(char.IsWhiteSpace) => "Make sure there are not spaces",
+                { Name: {Length: > 16 } } => "The name can be only 16 character long",
+                { MinPlayers: null } or { MaxPlayers: null } => string.Empty,                
+                { MinPlayers: < 2 or > 6 } => "The field min players should be greater or equal to 2, and less or equal to 6",
+                { MaxPlayers: < 2 or > 6 } => "The field max players should be greater or equal to 2, and less or equal to 6",
+                var x when x.MinPlayers > x.MaxPlayers => "The field max players should be greater than min players",
                 _ => null
             };
             return ErrorMessage is null;

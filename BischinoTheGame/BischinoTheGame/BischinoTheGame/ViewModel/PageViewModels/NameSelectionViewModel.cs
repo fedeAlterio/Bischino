@@ -47,11 +47,11 @@ namespace BischinoTheGame.ViewModel.PageViewModels
 
         private bool CanGoNext()
         {
-            ErrorMessage = this switch
+            ErrorMessage = Player switch
             {
-                _ when string.IsNullOrWhiteSpace(Player.Name) => string.Empty,
-                _ when Player.Name.Any(char.IsWhiteSpace) => "Make sure there are no spaces",
-                _ when Player.Name.Length > 16 => "Make sure the username is at least 16 character long",
+                var p when string.IsNullOrWhiteSpace(p.Name) => string.Empty,
+                var p when Player.Name.Any(char.IsWhiteSpace) => "Make sure there are no spaces",
+                {Name: {Length: > 16 } } => "Make sure the username is at least 16 character long",
                 _ => null
             };
             return ErrorMessage is null;
