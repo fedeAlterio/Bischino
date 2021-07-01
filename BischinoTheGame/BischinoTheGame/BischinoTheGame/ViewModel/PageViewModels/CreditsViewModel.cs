@@ -20,6 +20,7 @@ namespace BischinoTheGame.ViewModel.PageViewModels
             FireWorksAnimationCommand = NewCommand(async () => await OpenUri(new Uri("https://lottiefiles.com/user/61955")));
         }
 
+        // Comands
         public IAsyncCommand MusicCreditsCommand { get; }
         public IAsyncCommand PlayAnimationCommand { get; }
         public IAsyncCommand BouncingCoinAnimationCommand { get; }
@@ -29,9 +30,7 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         // Commands Handlers
         private async Task OpenUri(Uri uri)
         {
-            IsPageEnabled = false;
             await Launcher.OpenAsync(uri);
-            IsPageEnabled = true;
         }
     }
 }

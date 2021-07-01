@@ -25,7 +25,7 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         public RoomCreationViewModel()
         {
             var user = AppController.Navigation.GameNavigation.LoggedPlayer;
-            Room = new Room { Host = user.Name };
+            Room = new() { Host = user.Name };
             CreateRoomCommand = NewCommand(CreateRoom, CanCreateRoom);
             var minColors = from val in new List<int> { 2, 3, 4, 5, 6 }
                             select new ColorWrapper<int> { Color = NotSelectedColor, Model = val };
@@ -33,11 +33,11 @@ namespace BischinoTheGame.ViewModel.PageViewModels
             var maxColors = from val in new List<int> { 2, 3, 4, 5, 6 }
                             select new ColorWrapper<int> { Color = NotSelectedColor, Model = val };
 
-            _possibleMinPlayers = new ObservableCollection<ColorWrapper<int>>(minColors);
-            PossibleMinPlayers = new ReadOnlyObservableCollection<ColorWrapper<int>>(_possibleMinPlayers);
+            _possibleMinPlayers = new(minColors);
+            PossibleMinPlayers = new (_possibleMinPlayers);
 
-            _possibleMaxPlayers = new ObservableCollection<ColorWrapper<int>>(maxColors);
-            PossibleMaxPlayers = new ReadOnlyObservableCollection<ColorWrapper<int>>(_possibleMaxPlayers);
+            _possibleMaxPlayers = new(maxColors);
+            PossibleMaxPlayers = new (_possibleMaxPlayers);
         }
 
 
@@ -69,14 +69,11 @@ namespace BischinoTheGame.ViewModel.PageViewModels
 
 
         private ObservableCollection<ColorWrapper<int>> _possibleMinPlayers;
-        public ReadOnlyObservableCollection<ColorWrapper<int>> PossibleMinPlayers { get; }        
-
+        public ReadOnlyObservableCollection<ColorWrapper<int>> PossibleMinPlayers { get; }
 
 
         private ObservableCollection<ColorWrapper<int>> _possibleMaxPlayers;
         public ReadOnlyObservableCollection<ColorWrapper<int>> PossibleMaxPlayers { get; }       
-
-
 
 
         private ColorWrapper<int> _selectedMinPlayer;
@@ -99,8 +96,6 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         }
 
 
-
-
         private ColorWrapper<int> _selectedMaxPlayer;
         public ColorWrapper<int> SelectedMaxPlayer
         {
@@ -118,8 +113,6 @@ namespace BischinoTheGame.ViewModel.PageViewModels
                 SetProperty(ref _selectedMaxPlayer, value);
             }
         }
-
-
 
 
         // Commands Handlers

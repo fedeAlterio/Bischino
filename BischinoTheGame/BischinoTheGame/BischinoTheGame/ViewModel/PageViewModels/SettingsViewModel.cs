@@ -32,24 +32,18 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         // Commands Handlers
         private async Task ToCredits()
         {
-            IsPageEnabled = false;
             await AppController.Navigation.GameNavigation.ToCredits();
-            IsPageEnabled = true;
         }
 
 
         private async Task ToAudioSettings()
         {
-            IsPageEnabled = false;
             await AppController.Navigation.GameNavigation.ShowAudioPopup();
-            IsPageEnabled = true;
         }
 
         private async Task ToDeckSelection()
         {
-            IsPageEnabled = false;
             await AppController.Navigation.GameNavigation.ToDeckSelection();
-            IsPageEnabled = true;
         }
     }
 }

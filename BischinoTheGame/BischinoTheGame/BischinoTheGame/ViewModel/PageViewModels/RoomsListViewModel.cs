@@ -34,6 +34,11 @@ namespace BischinoTheGame.ViewModel.PageViewModels
             ToPrivateRoomLockerCommand = NewCommand(ToPrivateRoomLocker);
         }
 
+        public async Task AsyncInitialization()
+        {
+            await GetRooms();
+        }
+
 
         // Commands
         public IAsyncCommand RefreshCommand { get; }
@@ -73,31 +78,19 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         // Commands Handlers
         private async Task ToPrivateRoomLocker()
         {
-            IsPageEnabled = false;
             await AppController.Navigation.GameNavigation.ToPrivateRoomLocker();
-            IsPageEnabled = true;
         }
 
 
         private async Task CreateRoom()
         {
-            IsPageEnabled = false;
             await AppController.Navigation.GameNavigation.ShowRoomCreationPopup();
-            IsPageEnabled = true;
-        }
-
-
-        public async Task AsyncInitialization()
-        {
-            await GetRooms();
         }
 
 
         private async Task ShowFilters()
         {
-            IsPageEnabled = false;
             await AppController.Navigation.GameNavigation.ToFilterPopup(Query);
-            IsPageEnabled = true;
         }
 
 
@@ -127,6 +120,8 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         }
 
 
+
+        // Helpers
         private async Task GetRooms()
         {
             if (IsUpdatingList)

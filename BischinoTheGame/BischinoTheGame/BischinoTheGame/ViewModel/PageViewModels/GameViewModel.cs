@@ -50,10 +50,12 @@ namespace BischinoTheGame.ViewModel.PageViewModels
             NextSnapshotCommand = NewCommand(NextSnapshot);
             PreviousSnapshotCommand = NewCommand(PreviousSnapshot);
             GoToSnapshotCommand = NewCommand<string>(GoToSnapshot);
+            ToLastPhaseCommand = NewCommand(ToLastPhase);
+            ToBetPhaseCommand = NewCommand(ToBetPhase);
 
-            PlayerCards = new ReadOnlyObservableCollection<Card>(_playerCards);
-            DroppedCards = new ReadOnlyObservableCollection<CardWrapper>(_droppedCards);
-            PrivatePlayers = new ReadOnlyObservableCollection<PrivatePlayerWrapper>(_privatePlayers);
+            PlayerCards = new (_playerCards);
+            DroppedCards = new (_droppedCards);
+            PrivatePlayers = new (_privatePlayers);
         }
 
 
@@ -65,6 +67,8 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         public IAsyncCommand NextSnapshotCommand { get; }
         public IAsyncCommand PreviousSnapshotCommand { get; }
         public IAsyncCommand<string> GoToSnapshotCommand { get; }
+        public IAsyncCommand ToLastPhaseCommand { get; }
+        public IAsyncCommand ToBetPhaseCommand { get; }
 
 
         // Properties        
@@ -103,16 +107,12 @@ namespace BischinoTheGame.ViewModel.PageViewModels
             }
         }
 
-
-
         private bool _isDropPhase;
         public bool IsDropPhase
         {
             get => _isDropPhase;
             set => SetProperty(ref _isDropPhase, value);
         }
-
-
 
         private bool _isBetPhase;
         public bool IsBetPhase
@@ -121,10 +121,9 @@ namespace BischinoTheGame.ViewModel.PageViewModels
             set
             {
                 if (SetProperty(ref _isBetPhase, value) && value)
-                    ToBetPhase();
+                    ToBetPhaseCommand.Execute(null);
             }
         }
-
 
 
         private bool _isLastPhase;
@@ -134,12 +133,9 @@ namespace BischinoTheGame.ViewModel.PageViewModels
             set
             {
                 if (SetProperty(ref _isLastPhase, value) && value)
-                    ToLastPhase();
+                    ToLastPhaseCommand.Execute(null);
             }
         }
-
-
-
 
         private bool _isChronologyStarted;
         public bool IsChronologyStarted
@@ -241,32 +237,6 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         private bool CanDrop() => IsDropPhase;
 
 
-        private async Task HandleSnapshot(MatchSnapshot matchSnapshot)
-        {
-            if (matchSnapshot is null || MatchSnapshot != null && matchSnapshot.Version <= MatchSnapshot.Version)
-                return;
-
-            MatchSnapshot = matchSnapshot;
-
-            await HandleDisconnectedPlayers();
-            await NewMatchSnapshot.Invoke(_matchSnapshot);
-            await UpdateDroppedCards();
-            UpdatePrivatePlayers();
-            UpdatePlayerCards();
-
-            IsBetPhase = matchSnapshot.Player.BetViewModel is { };
-            IsDropPhase = matchSnapshot.Player.DropCardViewModel is { };
-            IsLastPhase = matchSnapshot.Player.LastPhaseViewModel is { };
-            DropCommand.RaiseCanExecuteChanged();
-
-            if (matchSnapshot.Winners is { })
-            {
-                await OnWinnersPhase();
-                return;
-            }
-
-            HandleTurn(matchSnapshot.PlayerTurn);
-        }
 
 
         private async Task ToAudioSettings()
@@ -280,11 +250,6 @@ namespace BischinoTheGame.ViewModel.PageViewModels
             await StopPolling();
             await AppController.Navigation.GameNavigation.BackToRoomList(true);
         }
-
-
-
-       
-
         
         private async Task<int> GetVersionNumber(CancellationToken token)
         {
@@ -298,9 +263,6 @@ namespace BischinoTheGame.ViewModel.PageViewModels
                     await Task.Delay(500);
                 }
         }
-
-
-
 
 
 
@@ -330,6 +292,36 @@ namespace BischinoTheGame.ViewModel.PageViewModels
 
 
         // Helpers
+        private async Task HandleSnapshot(MatchSnapshot matchSnapshot)
+        {
+            if (matchSnapshot is null || MatchSnapshot != null && matchSnapshot.Version <= MatchSnapshot.Version)
+                return;
+
+            MatchSnapshot = matchSnapshot;
+
+            await HandleDisconnectedPlayers();
+            await NewMatchSnapshot.Invoke(_matchSnapshot);
+            await UpdateDroppedCards();
+            UpdatePrivatePlayers();
+            UpdatePlayerCards();
+
+            IsBetPhase = matchSnapshot.Player.BetViewModel is { };
+            IsDropPhase = matchSnapshot.Player.DropCardViewModel is { };
+            IsLastPhase = matchSnapshot.Player.LastPhaseViewModel is { };
+            DropCommand.RaiseCanExecuteChanged();
+
+            if (matchSnapshot.Winners is { })
+            {
+                await OnWinnersPhase();
+                return;
+            }
+
+            HandleTurn(matchSnapshot.PlayerTurn);
+        }
+
+
+
+
         private async Task LongPolling(CancellationToken token)
         {
             var isUpdated = false;

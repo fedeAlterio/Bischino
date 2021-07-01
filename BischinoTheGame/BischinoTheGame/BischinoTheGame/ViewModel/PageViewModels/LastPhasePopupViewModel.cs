@@ -27,6 +27,7 @@ namespace BischinoTheGame.ViewModel.PageViewModels
             LoseBetCommand = NewCommand(async () => await NotifyBet(false));
         }
 
+
         // Commands
         public IAsyncCommand WinBetCommand { get; }
         public IAsyncCommand LoseBetCommand { get; }
@@ -36,6 +37,8 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         // Properties
         public LastPhaseViewModel LastPhaseViewModel { get; }
 
+
+        // Commands Handlers
         private async Task NotifyBet(bool win)
         {
             var roomQuery = new RoomQuery<int> {RoomName = _roomName, PlayerName = _playerName, Data = win ? 1 : 0};

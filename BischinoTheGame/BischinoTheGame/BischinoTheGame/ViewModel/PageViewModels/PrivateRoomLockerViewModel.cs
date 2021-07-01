@@ -20,20 +20,20 @@ namespace BischinoTheGame.ViewModel.PageViewModels
 
             // Keyboard commands
             int i = 0;
-            IAsyncCommand KeyCommand()
+            IAsyncCommand NextKeyCommand()
             {
                 var num = i+++1;
                 return NewCommand(() => Pressed(num));
             }
-            OneCommand = KeyCommand();
-            TwoCommand = KeyCommand();
-            ThreeCommand = KeyCommand();
-            FourCommand = KeyCommand();
-            FiveCommand = KeyCommand();
-            SixCommand = KeyCommand();
-            SevenCommand = KeyCommand();
-            EightCommand = KeyCommand();
-            NineCommand = KeyCommand();
+            OneCommand = NextKeyCommand();
+            TwoCommand = NextKeyCommand();
+            ThreeCommand = NextKeyCommand();
+            FourCommand = NextKeyCommand();
+            FiveCommand = NextKeyCommand();
+            SixCommand = NextKeyCommand();
+            SevenCommand = NextKeyCommand();
+            EightCommand = NextKeyCommand();
+            NineCommand = NextKeyCommand();
         }
 
 

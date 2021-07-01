@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using BischinoTheGame.Helpers;
 using BischinoTheGame.Model;
 using Xamarin.Forms;
 
@@ -12,8 +13,16 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         private static int _instanceCounter;
         private int _counter;
 
+        // Initialization
+        public CardWrapper(Card card)
+        {
+            Card = card;
+            Scale = 1;
+            _counter = _instanceCounter++;
+        }
 
-
+        
+        // Properties
         private Card _card;
         public Card Card
         {
@@ -29,22 +38,11 @@ namespace BischinoTheGame.ViewModel.PageViewModels
             set => SetProperty(ref _scale, value);
         }
 
+      
 
-
-        public CardWrapper(Card card)
+        public Task ScaleTo(double finalZoom)
         {
-            Card = card;
-            Scale = 1;
-            _counter = _instanceCounter++;
-        }
-
-        public async Task ScaleTo(double finalZoom)
-        {
-            var taskSource = new TaskCompletionSource<bool>();
-            new Animation(val => Scale = val, Scale, finalZoom)
-                .Commit(Application.Current.MainPage, $"{nameof(CardWrapper)}{_counter++}", 32, 400, Easing.Linear,
-                    (_, val) => taskSource.SetResult(val));
-            await taskSource.Task;
+            return AnimationManager.AsyncAnimation(Scale, finalZoom, val => Scale = val, 32, 450, Easing.Linear);
         }
     }
 }

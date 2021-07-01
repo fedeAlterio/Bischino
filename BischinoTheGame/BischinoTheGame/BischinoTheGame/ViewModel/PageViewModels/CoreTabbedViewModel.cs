@@ -13,7 +13,6 @@ namespace BischinoTheGame.ViewModel.PageViewModels
 
 
         // Properties
-
         public RoomsListViewModel RoomListViewModel { get; }
         public SettingsViewModel SettingsViewModel { get; }
         public RulesViewModel RulesViewModel { get; }

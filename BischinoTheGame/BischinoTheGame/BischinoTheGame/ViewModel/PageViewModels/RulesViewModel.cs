@@ -19,7 +19,7 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         {
             LoadDecks();
             TutorialCommand = NewCommand(ToTutorial);
-            Deck = new ReadOnlyObservableCollection<string>(_deck);
+            Deck = new(_deck);
         }
 
 
@@ -28,7 +28,7 @@ namespace BischinoTheGame.ViewModel.PageViewModels
 
 
         // Properties
-        private ObservableCollection<string> _deck = new ObservableCollection<string>();
+        private ObservableCollection<string> _deck = new();
         public ReadOnlyObservableCollection<string> Deck { get; }
 
 
@@ -47,9 +47,7 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         // Commands Handlers
         private async Task ToTutorial()
         {
-            IsPageEnabled = false;
             await AppController.Navigation.TutorialNavigation.ToMainPage();
-            IsPageEnabled = true;
         }
 
 

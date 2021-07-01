@@ -33,16 +33,12 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         // Commands Handlers
         private async Task StartChronology()
         {
-            IsPageEnabled = false;
             await AppController.Navigation.GameNavigation.StartChronology();
-            IsPageEnabled = true;
         }
 
         private async Task Ok()
         {
-            IsPageEnabled = false;
             await AppController.Navigation.GameNavigation.BackToRoomList(true);
-            IsPageEnabled = true;
         }
     }
 }

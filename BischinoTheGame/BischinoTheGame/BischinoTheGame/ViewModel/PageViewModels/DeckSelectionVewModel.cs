@@ -14,8 +14,7 @@ namespace BischinoTheGame.ViewModel.PageViewModels
     public class DeckSelectionVewModel : PageViewModel
     {
         private const int DeckSize = 40;
-
-        public readonly ObservableCollection<IList<string>> Decks = new ObservableCollection<IList<string>>();
+        private readonly ObservableCollection<IList<string>> _decks = new();
 
 
         // Initialization
@@ -23,30 +22,31 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         {
             Name = "dsadsa";
             LoadDecks();
-            Deck1 = new ReadOnlyObservableCollection<string>(_deck1);
-            Deck2 = new ReadOnlyObservableCollection<string>(_deck2);
-            Deck3 = new ReadOnlyObservableCollection<string>(_deck3);
+            Deck1 = new (_deck1);
+            Deck2 = new (_deck2);
+            Deck3 = new  (_deck3);
         }
 
         private void LoadDecks()
         {
-            Decks.Clear();
+            _decks.Clear();
             foreach (var type in (DeckType[])Enum.GetValues(typeof(DeckType)))
             {
                 var deck = new List<string>();
                 for (int i = 0; i < DeckSize; i++)
                     deck.Add(AppController.Settings.GetCardIcon($"{i}", type));
-                Decks.Add(deck);
+                _decks.Add(deck);
             }
 
-            _deck1.AddRange(Decks[0]);
-            Deck1Command = NewCommand(async () => await ChooseDeck(DeckType.A));
+            IAsyncCommand ChooseDeckCommand(DeckType deckType) => NewCommand(async () => await ChooseDeck(deckType));
+            _deck1.AddRange(_decks[0]);
+            Deck1Command = ChooseDeckCommand(DeckType.A);
 
-            _deck2.AddRange(Decks[0]);
-            Deck2Command = NewCommand(async () => await ChooseDeck(DeckType.B));
+            _deck2.AddRange(_decks[0]);
+            Deck2Command = ChooseDeckCommand(DeckType.B);
 
-            _deck3.AddRange(Decks[0]);
-            Deck3Command = NewCommand(async () => await ChooseDeck(DeckType.C));
+            _deck3.AddRange(_decks[0]);
+            Deck3Command = ChooseDeckCommand(DeckType.C);
         }
 
 
@@ -66,13 +66,13 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         }
 
 
-        private ObservableRangeCollection<string> _deck1 = new ObservableRangeCollection<string>();
+        private ObservableRangeCollection<string> _deck1 = new();
         public ReadOnlyObservableCollection<string> Deck1 { get; }
 
-        private ObservableRangeCollection<string> _deck2 = new ObservableRangeCollection<string>();
+        private ObservableRangeCollection<string> _deck2 = new();
         public ReadOnlyObservableCollection<string> Deck2 { get; }
 
-        private ObservableRangeCollection<string> _deck3 = new ObservableRangeCollection<string>();
+        private ObservableRangeCollection<string> _deck3 = new();
         public ReadOnlyObservableCollection<string> Deck3 { get; }
 
 

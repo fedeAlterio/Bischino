@@ -6,12 +6,12 @@ using BischinoTheGame.Controller;
 namespace BischinoTheGame.ViewModel.PageViewModels
 {
     public class BetInfoPopupViewModel : PageViewModel
-    {
-        public string InfoQuestion { get; } 
-
+    {        
         public BetInfoPopupViewModel(int missingNumber)
         {
             InfoQuestion = $"Why can you not bet {missingNumber}?";
         }
+
+        public string InfoQuestion { get; } 
     }
 }

@@ -227,7 +227,8 @@ namespace BischinoTheGame.Navigation.RoomNavigation
 
         public async Task StartChronology()
         {
-            _gameViewModel.StartChronology();            
+            _gameViewModel.StartChronology();
+            await PopupNavigation.Instance.PopAllAsync();
         }
 
         public async Task ToPrivateRoomLocker()
