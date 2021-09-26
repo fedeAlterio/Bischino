@@ -25,7 +25,7 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         public RoomCreationViewModel()
         {
             var user = AppController.Navigation.GameNavigation.LoggedPlayer;
-            Room = new() { Host = user.Name };
+            Room = new() { Host = user.Name, Name = $"{user.Name}" };
             CreateRoomCommand = NewCommand(CreateRoom, CanCreateRoom);
             var minColors = from val in new List<int> { 2, 3, 4, 5, 6 }
                             select new ColorWrapper<int> { Color = NotSelectedColor, Model = val };
@@ -34,10 +34,10 @@ namespace BischinoTheGame.ViewModel.PageViewModels
                             select new ColorWrapper<int> { Color = NotSelectedColor, Model = val };
 
             _possibleMinPlayers = new(minColors);
-            PossibleMinPlayers = new (_possibleMinPlayers);
+            PossibleMinPlayers = new(_possibleMinPlayers);
 
             _possibleMaxPlayers = new(maxColors);
-            PossibleMaxPlayers = new (_possibleMaxPlayers);
+            PossibleMaxPlayers = new(_possibleMaxPlayers);            
         }
 
 
@@ -128,7 +128,7 @@ namespace BischinoTheGame.ViewModel.PageViewModels
         private bool CanCreateRoom()
         {
             // if is not null, there is an error. (empty is stil an error)
-            ErrorMessage = Room switch
+            ErrorMessage = _room switch
             {
                 var x when string.IsNullOrWhiteSpace(x.Name) => string.Empty,
                 var x when x.Name.Any(char.IsWhiteSpace) => "Make sure there are not spaces",

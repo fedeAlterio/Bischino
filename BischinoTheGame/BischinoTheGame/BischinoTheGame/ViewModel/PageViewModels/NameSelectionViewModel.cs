@@ -51,7 +51,7 @@ namespace BischinoTheGame.ViewModel.PageViewModels
             {
                 var p when string.IsNullOrWhiteSpace(p.Name) => string.Empty,
                 var p when Player.Name.Any(char.IsWhiteSpace) => "Make sure there are no spaces",
-                {Name: {Length: > 16 } } => "Make sure the username is at least 16 character long",
+                { Name: {Length: > 16 } } => "Make sure the username is at least 16 character long",
                 _ => null
             };
             return ErrorMessage is null;

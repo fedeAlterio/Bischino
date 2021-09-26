@@ -7,6 +7,6 @@ modificando il file MSBuild. Per altre informazioni su questo argomento, vedere 
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
     <_PublishTargetUrl>C:\Sites\BischinoFrameworkDependent</_PublishTargetUrl>
-    <History>True|2021-06-30T18:50:46.8130985Z;True|2021-06-30T20:48:38.9723381+02:00;</History>
+    <History>True|2021-09-21T09:05:20.4217676Z;True|2021-06-30T20:50:46.8130985+02:00;True|2021-06-30T20:48:38.9723381+02:00;</History>
   </PropertyGroup>
 </Project>

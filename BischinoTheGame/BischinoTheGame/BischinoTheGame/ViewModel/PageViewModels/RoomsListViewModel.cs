@@ -84,7 +84,7 @@ namespace BischinoTheGame.ViewModel.PageViewModels
 
         private async Task CreateRoom()
         {
-            await AppController.Navigation.GameNavigation.ShowRoomCreationPopup();
+           await AppController.Navigation.GameNavigation.ShowRoomCreationPopup();
         }
 
 

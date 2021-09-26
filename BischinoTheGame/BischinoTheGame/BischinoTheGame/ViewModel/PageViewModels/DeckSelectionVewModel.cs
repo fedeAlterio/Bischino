@@ -42,10 +42,10 @@ namespace BischinoTheGame.ViewModel.PageViewModels
             _deck1.AddRange(_decks[0]);
             Deck1Command = ChooseDeckCommand(DeckType.A);
 
-            _deck2.AddRange(_decks[0]);
+            _deck2.AddRange(_decks[1]);
             Deck2Command = ChooseDeckCommand(DeckType.B);
 
-            _deck3.AddRange(_decks[0]);
+            _deck3.AddRange(_decks[2]);
             Deck3Command = ChooseDeckCommand(DeckType.C);
         }
 
