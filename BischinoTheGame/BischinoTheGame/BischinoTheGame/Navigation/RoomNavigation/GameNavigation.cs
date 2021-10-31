@@ -157,7 +157,8 @@ namespace BischinoTheGame.Navigation.RoomNavigation
 
         public async Task BackToRoomList(bool bannerOn = false)
         {            
-            await PopupNavigation.Instance.PopAllAsync();
+            if(PopupNavigation.Instance.PopupStack.Any())
+                await PopupNavigation.Instance.PopAllAsync();
             await PushCorePage();
             await _roomListVM.AsyncInitialization();
             Navigation.RemovePage(Navigation.NavigationStack.First());            
