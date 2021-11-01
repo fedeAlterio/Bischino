@@ -377,7 +377,7 @@ namespace BischinoTheGame.ViewModel.PageViewModels.Tutorial
         {
             await WriteAndAwait("Okay, but how can you lose one of your lives?", 2000);
             await WriteAndAwait("Well, when all the players play all their 5 cards", 3000);
-            await WriteAndAwait("The game compares your bet and the number of points you won", 1000);
+            await WriteAndAwait("The game compares your guess and the number of points you won", 1000);
             await _tutorial.PredictionWinComparison();
             CurrentWin = 3;
             await Task.Delay(5000);
@@ -405,7 +405,7 @@ namespace BischinoTheGame.ViewModel.PageViewModels.Tutorial
             Card2 = AppController.Settings.GetCardIcon("10");
             Card3 = AppController.Settings.GetCardIcon("31");
             await WriteAndAwait("You are now ready for the next round", 2000);
-            await WriteText("The deck is shuffled, you have 4 cards in your hand, and you have to make another bet");
+            await WriteText("The deck is shuffled, you have 4 cards in your hand, and you have to make another guess");
             CurrentWin = 0;
             Bet = null;
             await _tutorial.AnimateRound2();
@@ -416,7 +416,7 @@ namespace BischinoTheGame.ViewModel.PageViewModels.Tutorial
             await WriteAndAwait("One last thing", 2000);
             await WriteAndAwait("The one-card hand has different rules", 2000);
             await WriteAndAwait("You can't see your card, but you can see the cards of all other players", 3000);
-            await WriteAndAwait("Your bet will be based on the cards you see in your opponents' hands", 3000);
+            await WriteAndAwait("Your guess will be based on the cards you see in your opponents' hands", 3000);
         }
         private async Task EndTutorial()
         {

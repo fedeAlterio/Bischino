@@ -1,33 +1,72 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms" 
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
-             mc:Ignorable="d"
-             x:Class="BischinoTheGame.View.Pages.BetPopup" 
-             IsEnabled="{Binding IsPageEnabled}">
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<pages:PopupPage
+    x:Class="BischinoTheGame.View.Pages.BetPopup"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+    IsEnabled="{Binding IsPageEnabled}"
+    mc:Ignorable="d">
 
-    <StackLayout Spacing="30" BackgroundColor="Transparent" VerticalOptions="Center" HorizontalOptions="Center" >
-        <Frame Opacity="0.88" CornerRadius="10" Padding="12" HorizontalOptions="Center" VerticalOptions="Start" BackgroundColor="{StaticResource GoodGray}">
-           <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="10">
-                <Label TextColor="White" FontSize="20" VerticalOptions="Center"
-                       Text="Make a bet"/>
-                <ImageButton x:Name="InfoButton" IsVisible="{Binding IsInfoVisible}" BackgroundColor="{StaticResource GoodGray}" CornerRadius="30" HeightRequest="35" VerticalOptions="Center"
-                    Source="info" Command="{Binding InfoCommand}"/>
-           </StackLayout>
+    <StackLayout
+        BackgroundColor="Transparent"
+        HorizontalOptions="Center"
+        Spacing="30"
+        VerticalOptions="Center">
+        <Frame
+            Padding="12"
+            BackgroundColor="{StaticResource GoodGray}"
+            CornerRadius="10"
+            HorizontalOptions="Center"
+            Opacity="0.88"
+            VerticalOptions="Start">
+            <StackLayout
+                HorizontalOptions="Center"
+                Orientation="Horizontal"
+                Spacing="10">
+                <Label
+                    FontSize="20"
+                    Text="Make a guess"
+                    TextColor="White"
+                    VerticalOptions="Center" />
+                <ImageButton
+                    x:Name="InfoButton"
+                    BackgroundColor="{StaticResource GoodGray}"
+                    Command="{Binding InfoCommand}"
+                    CornerRadius="30"
+                    HeightRequest="35"
+                    IsVisible="{Binding IsInfoVisible}"
+                    Source="info"
+                    VerticalOptions="Center" />
+            </StackLayout>
         </Frame>
-        <CollectionView x:Name="BetCollectionView" IsEnabled="{Binding IsPageEnabled}" WidthRequest="300" HeightRequest="60" ItemsSource="{Binding BetViewModel.PossibleBets}" HorizontalOptions="Center" VerticalOptions="EndAndExpand">
+        <CollectionView
+            x:Name="BetCollectionView"
+            HeightRequest="60"
+            HorizontalOptions="Center"
+            IsEnabled="{Binding IsPageEnabled}"
+            ItemsSource="{Binding BetViewModel.PossibleBets}"
+            VerticalOptions="EndAndExpand"
+            WidthRequest="300">
             <CollectionView.ItemsLayout>
-                <GridItemsLayout Span="1"
-                                 VerticalItemSpacing="15" 
-                                 Orientation="Horizontal"
-                                 HorizontalItemSpacing="10"/>
+                <GridItemsLayout
+                    HorizontalItemSpacing="10"
+                    Orientation="Horizontal"
+                    Span="1"
+                    VerticalItemSpacing="15" />
             </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Button TextColor="White" BackgroundColor="{Binding Converter={StaticResource RandomColorConverter}}" WidthRequest="60" CornerRadius="100" FontSize="30"
-                            Text="{Binding}" Command="{Binding BindingContext.BetCommand, Source={x:Reference BetCollectionView}}" CommandParameter="{Binding}"/>
+                    <Button
+                        BackgroundColor="{Binding Converter={StaticResource RandomColorConverter}}"
+                        Command="{Binding BindingContext.BetCommand, Source={x:Reference BetCollectionView}}"
+                        CommandParameter="{Binding}"
+                        CornerRadius="100"
+                        FontSize="30"
+                        Text="{Binding}"
+                        TextColor="White"
+                        WidthRequest="60" />
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>

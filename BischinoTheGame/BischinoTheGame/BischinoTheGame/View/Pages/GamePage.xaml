@@ -28,7 +28,7 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        
+
         <Grid x:Name="AudioGrid"  Grid.Row="1" Grid.Column="0" HorizontalOptions="Start" VerticalOptions="Start" Margin="10,-5,0,0">
             <ImageButton IsVisible="{Binding AudioOn, Source={x:Static controller:AppController.AudioManager}, Converter={StaticResource NegationConverter}}" Grid.Column="0" HorizontalOptions="Start" VerticalOptions="Start" HeightRequest="25" BackgroundColor="Transparent" Margin="25,5,0,0"
                          Source="audio_off" Command="{Binding AudioSettingsCommand}"/>
@@ -136,24 +136,24 @@
 
         <CollectionView x:Name="PlayerCollectionView" Grid.Row="2" Grid.Column="1" HorizontalOptions="Center" WidthRequest="0" VerticalOptions="End" Margin="15,0,0,0"
                         ItemsSource="{Binding PlayerCards}">
-                <CollectionView.ItemsLayout>
-                    <GridItemsLayout Span="1" 
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Span="1" 
                                      Orientation="Horizontal"
                                      HorizontalItemSpacing="2"/>
-                </CollectionView.ItemsLayout>
-                <CollectionView.ItemTemplate>
-                    <DataTemplate >
-                        <Frame HorizontalOptions="FillAndExpand" Padding="0" Margin="0" BackgroundColor="Transparent">
-                            <ImageButton  HeightRequest="120" BackgroundColor="Transparent" Opacity="1" Clicked="ImageButton_OnClicked"
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate >
+                    <Frame HorizontalOptions="FillAndExpand" Padding="0" Margin="0" BackgroundColor="Transparent">
+                        <ImageButton  HeightRequest="120" BackgroundColor="Transparent" Opacity="1" Clicked="ImageButton_OnClicked"
                                 Source="{Binding IconName}" IsEnabled="{Binding BindingContext.IsDropPhase, Source={x:Reference PlayerCollectionView}}"
                                 HorizontalOptions="FillAndExpand"
                                 Command="{Binding BindingContext.DropCommand, Source={x:Reference PlayerCollectionView}}"
                                 CommandParameter="{Binding}" />
-                        </Frame>
-                        
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+                    </Frame>
+
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
 
 
         <Grid x:Name="YourTurnContentView" IsVisible="False" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Grid.RowSpan="3" Margin="-10,-10, -10,0">
