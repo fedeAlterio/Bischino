@@ -62,8 +62,8 @@ namespace BischinoTheGame.Controller.Communication.ServerHandlers
         static ServerHandler()
         {
             //RestServerUri = new UriBuilder(@"http://89.34.16.77/plesk-site-preview/bischinocardgame.com/").Uri;
-            RestServerUri = new UriBuilder(@"http://bischinocardgame.somee.com").Uri;
-            //RestServerUri = new UriBuilder(@"http://10.0.2.2:5001").Uri;
+            RestServerUri = new UriBuilder(@"http://eqweqw.somee.com/").Uri;
+            RestServerUri = new UriBuilder(@"http://10.0.2.2:5000").Uri;
             // RestServerUri = new UriBuilder(@"http://192.168.1.67").Uri;
         }
             

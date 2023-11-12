@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="11" android:versionName="1.5" package="com.fedefexcompany.bischino" android:installLocation="auto">
-	<uses-sdk android:minSdkVersion="16" android:targetSdkVersion="30" />
-	<application android:label="Bischino" android:icon="@drawable/app_icon">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="22" android:versionName="1.5" package="com.fedefexcompany.bischino" android:installLocation="auto">
+	<uses-sdk android:minSdkVersion="20" android:targetSdkVersion="33" />
+	<application android:label="Bischino" android:icon="@drawable/app_icon" android:debuggable="false">
 		<meta-data android:name="com.google.android.gms.ads.APPLICATION_ID" android:value="ca-app-pub-7000661273633463~4636561772" />
 	</application>
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
